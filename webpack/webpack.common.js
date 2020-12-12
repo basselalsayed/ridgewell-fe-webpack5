@@ -6,7 +6,7 @@ const Dotenv = require('dotenv-webpack');
 const paths = require('./paths');
 
 module.exports = {
-  entry: paths.src + '/index.js',
+  entry: `${paths.src}/index.js`,
   output: {
     path: paths.build,
     filename: '[name].bundle.js',
@@ -33,7 +33,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Ridgewell House',
       // favicon: paths.src + '/images/favicon.png',
-      template: paths.src + '/template.html',
+      template: `${paths.src}/template.html`,
       filename: 'index.html',
     }),
   ],
@@ -59,35 +59,6 @@ module.exports = {
       {
         test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
         type: 'asset/inline',
-      },
-      // CSS, PostCSS, and Sass
-      {
-        test: /\.(scss|css)$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              esModule: true,
-              modules: {
-                namedExport: true,
-              },
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              esModule: true,
-              sourceMap: true,
-              importLoaders: 1,
-              modules: {
-                auto: true,
-                namedExport: true,
-              },
-            },
-          },
-          { loader: 'postcss-loader', options: { sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } },
-        ],
       },
     ],
   },

@@ -1,8 +1,9 @@
-const paths = require('./paths');
 const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const { merge } = require('webpack-merge');
+const paths = require('./paths');
+const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -25,10 +26,10 @@ module.exports = merge(common, {
     // Only update what has changed on hot reload
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
+    // new ESLintPlugin(),
   ],
   module: {
     rules: [
-      // javascript
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -37,6 +38,44 @@ module.exports = merge(common, {
             loader: 'babel-loader',
             options: {
               plugins: ['react-refresh/babel'],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              importLoaders: 1,
+              esModule: true,
+              modules: {
+                auto: true,
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
             },
           },
         ],

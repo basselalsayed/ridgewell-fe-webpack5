@@ -24,14 +24,24 @@ module.exports = merge(common, {
       {
         test: /\.(scss|css)$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
           {
             loader: 'css-loader',
             options: {
               sourceMap: false,
               importLoaders: 2,
               esModule: true,
-              modules: { auto: true, namedExport: true },
+              modules: {
+                namedExport: true,
+              },
             },
           },
           'postcss-loader',
