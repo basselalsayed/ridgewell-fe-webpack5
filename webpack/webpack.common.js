@@ -31,7 +31,7 @@ module.exports = {
       ],
     }),
     new HtmlWebpackPlugin({
-      title: 'RidgeWell House',
+      title: 'Ridgewell House',
       // favicon: paths.src + '/images/favicon.png',
       template: paths.src + '/template.html',
       filename: 'index.html',
@@ -64,7 +64,15 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: [
-          'style-loader',
+          {
+            loader: 'style-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
           {
             loader: 'css-loader',
             options: {
