@@ -1,11 +1,11 @@
 import { Form, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { CountdownCancel, NegativeButton, SuccessButton } from './';
-import { CenteredSpinner } from '../';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { CenteredSpinner } from "..";
+import { CountdownCancel, NegativeButton, SuccessButton } from ".";
 
 import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
@@ -65,7 +65,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
           setStatus(`${err.response.statusText}: ${err.response.data.message}`);
         }
       }}
-      validateOnMount={true}
+      validateOnMount
       initialValues={{
         from,
         until,
@@ -145,9 +145,9 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               <CountdownCancel />
             ) : submitCount < 1 ? (
               <>
-                <SuccessButton title={'Submit'} errors={errors} />
+                <SuccessButton title="Submit" errors={errors} />
                 {id && (
-                  <NegativeButton title={'Delete Holiday'} holidayId={id} />
+                  <NegativeButton title="Delete Holiday" holidayId={id} />
                 )}
               </>
             ) : null}

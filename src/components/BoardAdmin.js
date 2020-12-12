@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
-import { Holidays, Requests, Users } from './';
-
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Holidays, Requests, Users } from ".";
+
 
 import { tabBtn } from './index.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
 
-  let { holidays, requests, users } = useSelector(
+  const { holidays, requests, users } = useSelector(
     state => state.contentReducer,
   );
 

@@ -36,7 +36,7 @@ decryptorInstance.interceptors.response.use(res => {
 });
 
 const usersInstance = axios.create({
-  baseURL: API_URL + 'users',
+  baseURL: `${API_URL  }users`,
   headers: authHeader(),
   timeout: 4000,
 });

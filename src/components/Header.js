@@ -1,7 +1,7 @@
 import { Navbar, Nav } from 'react-bootstrap';
 
-import { logOut } from '../store/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from '../store/actions';
 import { isAdmin } from '../helpers';
 
 const Header = () => {
@@ -10,19 +10,19 @@ const Header = () => {
 
   const showAdminBoard = user && isAdmin(user);
 
-  const adminNavigation = <Nav.Link href={'/admin'}>Admin Board</Nav.Link>;
+  const adminNavigation = <Nav.Link href="/admin">Admin Board</Nav.Link>;
 
   const leftNavigation = user && (
     <>
       {showAdminBoard && adminNavigation}
-      <Nav.Link href={'/user'}>User</Nav.Link>
+      <Nav.Link href="/user">User</Nav.Link>
     </>
   );
 
   const auth = user && (
     <>
-      <Nav.Link href={'/profile'}>{user.username}</Nav.Link>
-      <Nav.Link href={'/login'} onClick={() => dispatch(logOut())}>
+      <Nav.Link href="/profile">{user.username}</Nav.Link>
+      <Nav.Link href="/login" onClick={() => dispatch(logOut())}>
         Log Out
       </Nav.Link>
     </>
@@ -30,8 +30,8 @@ const Header = () => {
 
   const noAuth = (
     <>
-      <Nav.Link href={'/login'}>Login</Nav.Link>
-      <Nav.Link href={'/register'}>Sign Up</Nav.Link>
+      <Nav.Link href="/login">Login</Nav.Link>
+      <Nav.Link href="/register">Sign Up</Nav.Link>
     </>
   );
 

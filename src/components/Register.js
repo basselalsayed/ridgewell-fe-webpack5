@@ -2,10 +2,10 @@ import { Card, Form } from 'react-bootstrap';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import { parseError } from '../helpers';
 import { CountdownCancel, Status, SuccessButton } from './forms';
 import { CenteredSpinner } from './Spinner';
-import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../store/actions';
 
 const Register = ({ history }) => {
@@ -149,7 +149,7 @@ const Register = ({ history }) => {
                   <CountdownCancel />
                 ) : (
                   status !== 'Success' && (
-                    <SuccessButton title={'Submit'} errors={errors} />
+                    <SuccessButton title="Submit" errors={errors} />
                   )
                 )}
               </Form.Row>

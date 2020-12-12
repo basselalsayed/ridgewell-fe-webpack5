@@ -11,7 +11,7 @@ const eventStyleGetter = (
   end,
   isSelected,
 ) => {
-  let style = {
+  const style = {
     backgroundColor: hasPending('delete', holidayRequests)
       ? colors.hasDelete
       : hasPending('update', holidayRequests)
@@ -56,8 +56,8 @@ const holidayEvents = holidays =>
       userId,
       get title() {
         return annualLeave
-          ? username + ': Annual Leave'
-          : username + ': Sick Leave';
+          ? `${username}: Annual Leave`
+          : `${username}: Sick Leave`;
       },
       start: new Date(from),
       end: new Date(until),

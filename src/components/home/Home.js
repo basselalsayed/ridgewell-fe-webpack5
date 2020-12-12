@@ -4,10 +4,10 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
 import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
 import { Event } from './event';
 
-import { useSelector, useDispatch } from 'react-redux';
 import { getHolidays } from '../../store/actions';
 import { EventModal } from './event/components';
 
@@ -28,7 +28,7 @@ const Home = () => {
     dispatch(getHolidays());
   }, [dispatch]);
 
-  let events = useMemo(
+  const events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],
     [holidays],
   );

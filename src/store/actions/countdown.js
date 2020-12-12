@@ -1,6 +1,6 @@
 const startConfirmCountdown = id => ({
   type: 'SET_CONFIRM_COUNTDOWN_SHOW',
-  id: id,
+  id,
 });
 const startDeleteCountdown = id => ({
   type: 'SET_DELETE_COUNTDOWN_SHOW',

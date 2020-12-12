@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import { EventModal, RequestsTable } from './components';
 import { useSelector } from 'react-redux';
+import { EventModal, RequestsTable } from './components';
 import { hasEditAcces } from '../../../helpers';
 
 const Event = ({
@@ -39,7 +39,7 @@ const Event = ({
   const withTooltip = (
     <OverlayTrigger
       trigger={['hover', 'focus']}
-      placement={'top'}
+      placement="top"
       overlay={
         <Popover id={`hol-${id}-popover`}>
           <Popover.Content>

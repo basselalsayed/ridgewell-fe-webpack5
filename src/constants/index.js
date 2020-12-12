@@ -15,7 +15,7 @@ const formats = {
   panelTime: 'do LLL y, hh:mm aaaa',
 };
 
-let today = new Date();
+const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 export { API_URL, colors, formats, today };

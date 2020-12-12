@@ -1,4 +1,5 @@
 import { Spinner } from 'react-bootstrap';
+
 const CenteredSpinner = () => (
   <Spinner
     style={{

@@ -89,7 +89,7 @@ const Login = ({ history }) => {
           <div className='form-group'>
             <button className='btn btn-primary btn-block' disabled={loading}>
               {loading && (
-                <span className='spinner-border spinner-border-sm'></span>
+                <span className='spinner-border spinner-border-sm' />
               )}
               <span>Login</span>
             </button>

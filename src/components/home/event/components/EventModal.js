@@ -1,9 +1,9 @@
 import { Modal, Col, Row } from 'react-bootstrap';
 
-import { RequestForm } from '../../../.';
+import { useDispatch } from 'react-redux';
+import { RequestForm } from "../../..";
 import { formatted } from '../../../../helpers';
 
-import { useDispatch } from 'react-redux';
 import { endCountdown } from '../../../../store/actions/countdown';
 
 const EventModal = ({

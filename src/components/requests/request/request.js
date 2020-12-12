@@ -1,15 +1,15 @@
 import { Card, Row, Col, Form } from 'react-bootstrap';
-import { capitalize, formatted, isAdmin } from '../../../helpers';
 
+import { Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import {
   CountdownCancel,
   NegativeButton,
   Status,
   SuccessButton,
 } from '../../forms';
-import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import { capitalize, formatted, isAdmin } from '../../../helpers';
 import { getAll } from '../../../store/actions';
 import { CenteredSpinner } from '../../Spinner';
 
@@ -46,10 +46,10 @@ const FormBase = ({ id }) => {
             ) : (
               <>
                 <Col>
-                  <NegativeButton id={id} title={'Deny Request'} />
+                  <NegativeButton id={id} title="Deny Request" />
                 </Col>
                 <Col>
-                  <SuccessButton id={id} title={'Confirm Request'} />
+                  <SuccessButton id={id} title="Confirm Request" />
                 </Col>
               </>
             )}

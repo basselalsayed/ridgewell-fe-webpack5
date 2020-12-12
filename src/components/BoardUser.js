@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-import { Holidays, Notifications, Requests } from './';
-
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Holidays, Notifications, Requests } from ".";
+
 
 import { tabBtn } from './index.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
 import { setError } from '../store/actions/response';
 import { useSession } from './hooks';
@@ -24,7 +24,7 @@ const BoardUser = () => {
     getData();
   }, [dispatch, loggedIn, user.id]);
 
-  let { holidays, notifications, requests } = useSelector(
+  const { holidays, notifications, requests } = useSelector(
     state => state.contentReducer,
   );
 

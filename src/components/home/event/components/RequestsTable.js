@@ -5,8 +5,8 @@ const RequestRow = ({ from, index, type, until }) => (
   <tr>
     <td>{index + 1}</td>
     <td>{type && capitalize(type)}</td>
-    {<td>{from && formatted(from, 'popover')}</td>}
-    {<td>{until && formatted(until, 'popover')}</td>}
+    <td>{from && formatted(from, 'popover')}</td>
+    <td>{until && formatted(until, 'popover')}</td>
   </tr>
 );
 
