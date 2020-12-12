@@ -4,7 +4,6 @@ import contentReducer from './content';
 import countdownReducer from './countdown';
 import responseReducer from './response';
 
-
 export default combineReducers({
   authReducer,
   contentReducer,

@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Holidays, Notifications, Requests } from ".";
-
+import { Holidays, Notifications, Requests } from '.';
 
 import { tabBtn } from './index.module.css';
 import { getAll } from '../store/actions';
@@ -11,7 +10,7 @@ import { setError } from '../store/actions/response';
 import { useSession } from './hooks';
 
 const BoardUser = () => {
-  const { error } = useSelector(state => state.responseReducer);
+  const { error } = useSelector((state) => state.responseReducer);
   const { loggedIn, user } = useSession();
   const dispatch = useDispatch();
 
@@ -25,7 +24,7 @@ const BoardUser = () => {
   }, [dispatch, loggedIn, user.id]);
 
   const { holidays, notifications, requests } = useSelector(
-    state => state.contentReducer,
+    (state) => state.contentReducer
   );
 
   //  <div className='container'>
@@ -37,20 +36,20 @@ const BoardUser = () => {
           <ListGroup.Item
             action
             className={tabBtn}
-            href='#requests'
-            children='Requests'
+            href="#requests"
+            children="Requests"
           />
           <ListGroup.Item
             action
             className={tabBtn}
-            href='#holidays'
-            children='Holidays'
+            href="#holidays"
+            children="Holidays"
           />
           <ListGroup.Item
             action
             className={tabBtn}
-            href='#notifications'
-            children='Notifications'
+            href="#notifications"
+            children="Notifications"
           />
         </ListGroup>
       </Col>
@@ -62,13 +61,13 @@ const BoardUser = () => {
       <Col>
         {error ? null : holidays && requests && notifications ? (
           <Tab.Content>
-            <Tab.Pane eventKey='#requests'>
+            <Tab.Pane eventKey="#requests">
               <Requests requests={requests} />
             </Tab.Pane>
-            <Tab.Pane eventKey='#holidays'>
+            <Tab.Pane eventKey="#holidays">
               <Holidays holidays={holidays} />
             </Tab.Pane>
-            <Tab.Pane eventKey='#notifications'>
+            <Tab.Pane eventKey="#notifications">
               <Notifications notifications={notifications} />
             </Tab.Pane>
           </Tab.Content>
@@ -82,7 +81,7 @@ const BoardUser = () => {
               marginLeft: '-1rem',
               marginTop: '1rem',
             }}
-            animation='border'
+            animation="border"
           />
         )}
       </Col>
@@ -90,7 +89,7 @@ const BoardUser = () => {
   );
 
   return (
-    <Tab.Container id='user-dash' defaultActiveKey='#requests'>
+    <Tab.Container id="user-dash" defaultActiveKey="#requests">
       {tabButtons}
       {tabContent}
     </Tab.Container>

@@ -25,10 +25,10 @@ const Login = ({ history }) => {
             email: loginCred.toLocaleLowerCase(),
             username: loginCred.toLocaleLowerCase(),
             password,
-          }),
+          })
         )
           .then(() => history.push('/profile'))
-          .catch(error => setStatus(parseError(error)))
+          .catch((error) => setStatus(parseError(error)))
       }
       initialValues={{
         login: '',
@@ -43,42 +43,42 @@ const Login = ({ history }) => {
         status,
         touched,
       }) => (
-        <div className='col-md-12'>
-          <Card className='card-container'>
+        <div className="col-md-12">
+          <Card className="card-container">
             <img
-              src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
-              alt='profile-img'
-              className='profile-img-card'
+              src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+              alt="profile-img"
+              className="profile-img-card"
             />
 
             <Form onSubmit={handleSubmit}>
-              <Form.Group controlId='formLogin'>
+              <Form.Group controlId="formLogin">
                 <Form.Control
-                  name='login'
-                  type='text'
-                  autoComplete='username'
-                  placeholder='Enter username or email'
+                  name="login"
+                  type="text"
+                  autoComplete="username"
+                  placeholder="Enter username or email"
                   onChange={handleChange}
                   isValid={touched.login && !errors.login}
                   isInvalid={errors.login}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.login}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId='formPassword'>
+              <Form.Group controlId="formPassword">
                 <Form.Control
-                  name='password'
-                  autoComplete='current-password'
-                  type='password'
-                  placeholder='Enter password'
+                  name="password"
+                  autoComplete="current-password"
+                  type="password"
+                  placeholder="Enter password"
                   onChange={handleChange}
                   isValid={touched.password && !errors.password}
                   isInvalid={errors.password}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.password}
                 </Form.Control.Feedback>
               </Form.Group>
@@ -86,7 +86,7 @@ const Login = ({ history }) => {
                 {isSubmitting ? (
                   <CenteredSpinner />
                 ) : (
-                  <button className={successBtn} type='submit'>
+                  <button className={successBtn} type="submit">
                     Submit
                   </button>
                 )}

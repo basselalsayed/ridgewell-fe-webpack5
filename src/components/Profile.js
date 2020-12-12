@@ -3,10 +3,10 @@ import { useSession } from './hooks/useSession';
 const Profile = () => {
   const { user } = useSession();
   return (
-    <div className='container'>
+    <div className="container">
       {user && (
         <>
-          <header className='jumbotron'>
+          <header className="jumbotron">
             <h3>
               <strong>{user.username}</strong> Profile
             </h3>

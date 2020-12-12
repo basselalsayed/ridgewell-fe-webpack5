@@ -21,7 +21,7 @@ const Home = () => {
     show && setDate(null);
   };
 
-  const { holidays } = useSelector(state => state.contentReducer);
+  const { holidays } = useSelector((state) => state.contentReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Home = () => {
 
   const events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],
-    [holidays],
+    [holidays]
   );
 
   const handleSelect = ({ start, end }) => {

@@ -1,7 +1,7 @@
 import { colors } from '../constants';
 
 const filterRequests = (type, reqs) =>
-  reqs ? reqs.filter(hol => hol.type === type) : [];
+  reqs ? reqs.filter((hol) => hol.type === type) : [];
 
 const hasPending = (type, reqs) => filterRequests(type, reqs).length;
 
@@ -9,7 +9,7 @@ const eventStyleGetter = (
   { confirmed, holidayRequests },
   start,
   end,
-  isSelected,
+  isSelected
 ) => {
   const style = {
     backgroundColor: hasPending('delete', holidayRequests)
@@ -30,7 +30,7 @@ const eventStyleGetter = (
   };
 };
 
-const requestHandler = holReqs =>
+const requestHandler = (holReqs) =>
   filterRequests('update', holReqs).map(({ type, from, resolved, until }) => ({
     title: `${type}, Resolved: ${resolved}`,
     start: from && new Date(from),
@@ -38,7 +38,7 @@ const requestHandler = holReqs =>
     resolved,
   }));
 
-const holidayEvents = holidays =>
+const holidayEvents = (holidays) =>
   holidays.map(
     ({
       annualLeave,
@@ -62,15 +62,15 @@ const holidayEvents = holidays =>
       start: new Date(from),
       end: new Date(until),
       // style: { backgroundColor: 'orange' },
-    }),
+    })
   );
 
-const requestEvents = holidays => {
+const requestEvents = (holidays) => {
   let array = [];
 
   holidays.forEach(
     ({ holidayRequests }) =>
-      (array = [...array, ...requestHandler(holidayRequests)]),
+      (array = [...array, ...requestHandler(holidayRequests)])
   );
   return array;
 };

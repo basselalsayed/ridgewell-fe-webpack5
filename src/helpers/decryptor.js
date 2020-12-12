@@ -10,7 +10,7 @@ const [algorithm, hex, iv, key, utf8] = [
   'utf-8',
 ];
 
-const decrypt = encrypted => {
+const decrypt = (encrypted) => {
   const decipher = crypto.createDecipheriv(algorithm, key, iv);
 
   let decrypted = decipher.update(encrypted, hex, utf8);
@@ -19,7 +19,7 @@ const decrypt = encrypted => {
   return decrypted;
 };
 
-const decryptUser = user => ({
+const decryptUser = (user) => ({
   ...user,
   email: decrypt(user.email),
   username: decrypt(user.username),

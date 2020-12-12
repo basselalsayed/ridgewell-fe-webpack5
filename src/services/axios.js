@@ -9,8 +9,8 @@ const decryptorInstance = axios.create({
   timeout: 4000,
 });
 
-const decryptManagerId = array =>
-  array.length > 0 ? array.map(managerObj => decryptUser(managerObj)) : array;
+const decryptManagerId = (array) =>
+  array.length > 0 ? array.map((managerObj) => decryptUser(managerObj)) : array;
 
 function decryptNestedHolidays(obj) {
   for (const property in obj) {
@@ -28,21 +28,21 @@ function decryptNestedHolidays(obj) {
   }
 }
 
-decryptorInstance.interceptors.response.use(res => {
-  res.data.forEach(holiday => {
+decryptorInstance.interceptors.response.use((res) => {
+  res.data.forEach((holiday) => {
     decryptNestedHolidays(holiday);
   });
   return res;
 });
 
 const usersInstance = axios.create({
-  baseURL: `${API_URL  }users`,
+  baseURL: `${API_URL}users`,
   headers: authHeader(),
   timeout: 4000,
 });
 
-usersInstance.interceptors.response.use(res => {
-  res.data = res.data.map(user => decryptUser(user));
+usersInstance.interceptors.response.use((res) => {
+  res.data = res.data.map((user) => decryptUser(user));
   return res;
 });
 

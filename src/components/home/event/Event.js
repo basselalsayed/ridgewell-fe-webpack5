@@ -9,7 +9,7 @@ const Event = ({
   title,
 }) => {
   const [show, setShow] = useState(false);
-  const { user } = useSelector(state => state.authReducer);
+  const { user } = useSelector((state) => state.authReducer);
 
   const handleShow = () => hasEditAcces(user, userId) && setShow(!show);
 
@@ -31,7 +31,7 @@ const Event = ({
   );
 
   const noAuthToolTip = (
-    <Popover.Title as='h3'>
+    <Popover.Title as="h3">
       Only owners and managers can make update requests.
     </Popover.Title>
   );
@@ -45,7 +45,7 @@ const Event = ({
           <Popover.Content>
             {hasEditAcces(user, userId) ? (
               <>
-                <Popover.Title as='h3'>Pending Requests</Popover.Title>
+                <Popover.Title as="h3">Pending Requests</Popover.Title>
                 <RequestsTable requests={holidayRequests} />
               </>
             ) : (

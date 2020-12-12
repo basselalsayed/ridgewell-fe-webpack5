@@ -27,7 +27,7 @@ const Notifications = ({ notifications }) => {
         overflow: 'auto',
       }}
     >
-      <Table striped bordered hover size='sm'>
+      <Table striped bordered hover size="sm">
         {headerRow}
         <tbody>{notificationRows}</tbody>
       </Table>

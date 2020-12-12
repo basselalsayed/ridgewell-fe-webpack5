@@ -19,14 +19,14 @@ const App = () => (
     <Header />
     <Alert />
     <div>
-      <div className='container mt-3'>
+      <div className="container mt-3">
         <Switch>
           <PrivateRoute exact path={['/', '/home']} component={Home} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
-          <PrivateRoute exact path='/profile' component={Profile} />
-          <PrivateRoute path='/user' component={BoardUser} />
-          <PrivateRoute path='/admin' component={BoardAdmin} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute path="/user" component={BoardUser} />
+          <PrivateRoute path="/admin" component={BoardAdmin} />
         </Switch>
       </div>
     </div>

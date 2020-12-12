@@ -14,9 +14,9 @@
   border: none;
   background-color: inherit;
 }
-.countdownBtn:focus { 
-  outline: none
- }
+.countdownBtn:focus {
+  outline: none;
+}
 .countdownTxt {
   font-weight: bold;
   color: inherit;

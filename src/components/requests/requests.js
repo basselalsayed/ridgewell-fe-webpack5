@@ -8,7 +8,7 @@ const Requests = ({ requests }) =>
         overflow: 'auto',
       }}
     >
-      {requests.map(req => (
+      {requests.map((req) => (
         <Request key={req.id} {...req} />
       ))}
     </div>

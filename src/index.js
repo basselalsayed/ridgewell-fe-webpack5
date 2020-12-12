@@ -24,7 +24,7 @@ ReactDOM.render(
       </Provider>
     </BrowserRouter>
   </StrictMode>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );
 
 serviceWorker.unregister();

@@ -3,9 +3,9 @@ import { formats, today } from '../constants';
 
 const formatted = (date, type) => format(new Date(date), formats[type]);
 
-const plusTwoMonths = date => addMonths(new Date(date), 2);
+const plusTwoMonths = (date) => addMonths(new Date(date), 2);
 
-const plusTwoDays = date => addDays(new Date(date), 2);
+const plusTwoDays = (date) => addDays(new Date(date), 2);
 
 const getMin = (annualLeave, update) =>
   !update && annualLeave

@@ -1,4 +1,4 @@
-const parseError = error => {
+const parseError = (error) => {
   let errorText = '';
   if (error.response) {
     const { response } = error;

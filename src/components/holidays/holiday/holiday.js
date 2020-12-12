@@ -1,6 +1,5 @@
 import { Card } from 'react-bootstrap';
-import { formatted , capitalize } from '../../../helpers';
-
+import { formatted, capitalize } from '../../../helpers';
 
 const Holiday = ({
   confirmed,
@@ -29,8 +28,8 @@ const Holiday = ({
       <Card.Footer>{`Confirmed: ${capitalize(confirmed)}`}</Card.Footer>
       {approvedBy && approvedDate && (
         <Card.Footer>
-          Confirmed by: <strong>{`${approvedBy  } `}</strong> on
-          <strong>{` ${  formatted(approvedDate, 'panelTime')}`}</strong>
+          Confirmed by: <strong>{`${approvedBy} `}</strong> on
+          <strong>{` ${formatted(approvedDate, 'panelTime')}`}</strong>
         </Card.Footer>
       )}
     </Card>

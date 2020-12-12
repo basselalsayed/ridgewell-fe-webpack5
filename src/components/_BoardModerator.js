@@ -7,10 +7,10 @@ const BoardModerator = () => {
 
   useEffect(() => {
     UserService.getModeratorBoard().then(
-      response => {
+      (response) => {
         setContent(response.data);
       },
-      error => {
+      (error) => {
         const _content =
           (error.response &&
             error.response.data &&
@@ -19,13 +19,13 @@ const BoardModerator = () => {
           error.toString();
 
         setContent(_content);
-      },
+      }
     );
   }, []);
 
   return (
-    <div className='container'>
-      <header className='jumbotron'>
+    <div className="container">
+      <header className="jumbotron">
         <h3>{content}</h3>
       </header>
     </div>

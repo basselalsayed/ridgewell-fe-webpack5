@@ -9,7 +9,7 @@ import { CenteredSpinner } from './Spinner';
 import { signUp } from '../store/actions';
 
 const Register = ({ history }) => {
-  const { isPlaying } = useSelector(state => state.countdownReducer);
+  const { isPlaying } = useSelector((state) => state.countdownReducer);
   const dispatch = useDispatch();
   const schema = yup.object({
     username: yup
@@ -40,7 +40,7 @@ const Register = ({ history }) => {
       validationSchema={schema}
       onSubmit={async (
         { username, email, password },
-        { setStatus, validateForm },
+        { setStatus, validateForm }
       ) => {
         validateForm();
         dispatch(
@@ -48,10 +48,10 @@ const Register = ({ history }) => {
             username: username.toLocaleLowerCase(),
             email: email.toLocaleLowerCase(),
             password,
-          }),
+          })
         )
           .then(() => history.push('/profile'))
-          .catch(error => setStatus(parseError(error)));
+          .catch((error) => setStatus(parseError(error)));
       }}
       initialValues={{
         email: '',
@@ -68,69 +68,69 @@ const Register = ({ history }) => {
         status,
         touched,
       }) => (
-        <div className='col-md-12'>
-          <Card className='card-container'>
+        <div className="col-md-12">
+          <Card className="card-container">
             <Card.Header>
               <img
-                src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
-                alt='profile-img'
-                className='profile-img-card'
+                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                alt="profile-img"
+                className="profile-img-card"
               />
             </Card.Header>
 
             <Form onSubmit={handleSubmit}>
-              <Form.Group controlId='formUsername'>
+              <Form.Group controlId="formUsername">
                 <Form.Control
-                  name='username'
-                  type='text'
-                  autoComplete='new_username'
-                  placeholder='Enter username'
+                  name="username"
+                  type="text"
+                  autoComplete="new_username"
+                  placeholder="Enter username"
                   onChange={handleChange}
                   isValid={touched.username && !errors.username}
                   isInvalid={errors.username}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.username}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId='formEmail'>
+              <Form.Group controlId="formEmail">
                 <Form.Control
-                  name='email'
-                  type='email'
-                  autoComplete='email'
-                  placeholder='Enter email'
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Enter email"
                   onChange={handleChange}
                   isValid={touched.email && !errors.email}
                   isInvalid={errors.email}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.email}
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId='formPassword'>
+              <Form.Group controlId="formPassword">
                 <Form.Control
-                  name='password'
-                  type='password'
-                  autoComplete='new_password'
-                  placeholder='Password'
+                  name="password"
+                  type="password"
+                  autoComplete="new_password"
+                  placeholder="Password"
                   onChange={handleChange}
                   isValid={touched.password && !errors.password}
                   isInvalid={errors.password}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.password}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId='formPasswordConfirmation'>
+              <Form.Group controlId="formPasswordConfirmation">
                 <Form.Control
-                  name='passwordConfirmation'
-                  type='password'
-                  autoComplete='new_password'
-                  placeholder='Confirm Password'
+                  name="passwordConfirmation"
+                  type="password"
+                  autoComplete="new_password"
+                  placeholder="Confirm Password"
                   onChange={handleChange}
                   isValid={
                     touched.passwordConfirmation && !errors.passwordConfirmation
@@ -138,7 +138,7 @@ const Register = ({ history }) => {
                   isInvalid={errors.passwordConfirmation}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.passwordConfirmation}
                 </Form.Control.Feedback>
               </Form.Group>

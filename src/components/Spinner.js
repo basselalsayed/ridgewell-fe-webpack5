@@ -10,7 +10,7 @@ const CenteredSpinner = () => (
       marginLeft: '-1rem',
       marginTop: '-1rem',
     }}
-    animation='border'
+    animation="border"
   />
 );
 

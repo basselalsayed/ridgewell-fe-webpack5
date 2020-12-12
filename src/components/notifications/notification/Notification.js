@@ -1,4 +1,4 @@
-import { NotificationReadButton } from ".";
+import { NotificationReadButton } from '.';
 import { formatted } from '../../../helpers';
 
 const Notification = ({ id, createdAt, message, read, index }) => (

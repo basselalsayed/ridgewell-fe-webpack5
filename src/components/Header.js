@@ -5,7 +5,7 @@ import { logOut } from '../store/actions';
 import { isAdmin } from '../helpers';
 
 const Header = () => {
-  const { user } = useSelector(state => state.authReducer);
+  const { user } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   const showAdminBoard = user && isAdmin(user);
@@ -38,12 +38,12 @@ const Header = () => {
   const rightNavigation = user ? auth : noAuth;
 
   return (
-    <Navbar bg='dark' variant='dark' expand='lg'>
-      <Navbar.Brand href='/'>Ridgewell House</Navbar.Brand>
-      <Navbar.Toggle aria-controls='basic-navbar-nav' />
-      <Navbar.Collapse id='basic-navbar-nav'>
-        <Nav className='mr-auto'>{leftNavigation}</Nav>
-        <Nav className='ml-auto'>{rightNavigation}</Nav>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar.Brand href="/">Ridgewell House</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">{leftNavigation}</Nav>
+        <Nav className="ml-auto">{rightNavigation}</Nav>
       </Navbar.Collapse>
     </Navbar>
   );

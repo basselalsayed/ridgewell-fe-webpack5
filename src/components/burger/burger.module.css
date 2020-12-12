@@ -13,7 +13,7 @@
   width: 80px;
   height: 80px;
   cursor: pointer;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   /* border: 3px solid rgb(97, 95, 95); */
 }
 
@@ -22,8 +22,8 @@
   height: 6px;
   background: rgb(97, 95, 95);
   border-radius: 5px;
-  box-shadow: 0 2px rgba(255, 101, 47, .2);
-  transition: all .5s ease-in-out;
+  box-shadow: 0 2px rgba(255, 101, 47, 0.2);
+  transition: all 0.5s ease-in-out;
 }
 
 .menuBtnBurger::before,
@@ -34,8 +34,8 @@
   height: 6px;
   background: rgb(97, 95, 95);
   border-radius: 5px;
-  box-shadow: 0 2px rgba(255, 101, 47, .2);
-  transition: all .5s ease-in-out;
+  box-shadow: 0 2px rgba(255, 101, 47, 0.2);
+  transition: all 0.5s ease-in-out;
 }
 
 .menuBtnBurger::before {

@@ -8,7 +8,7 @@ const Users = ({ users }) =>
         overflow: 'auto',
       }}
     >
-      {users.map(user => (
+      {users.map((user) => (
         <User key={user.id} {...user} />
       ))}
     </div>

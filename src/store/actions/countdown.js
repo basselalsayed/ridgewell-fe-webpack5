@@ -1,8 +1,8 @@
-const startConfirmCountdown = id => ({
+const startConfirmCountdown = (id) => ({
   type: 'SET_CONFIRM_COUNTDOWN_SHOW',
   id,
 });
-const startDeleteCountdown = id => ({
+const startDeleteCountdown = (id) => ({
   type: 'SET_DELETE_COUNTDOWN_SHOW',
   id,
 });

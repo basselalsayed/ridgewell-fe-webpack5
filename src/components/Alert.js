@@ -4,7 +4,9 @@ import { hideAlert } from '../store/actions/response';
 
 const Alert = () => {
   const dispatch = useDispatch();
-  const { error, show, success } = useSelector(state => state.responseReducer);
+  const { error, show, success } = useSelector(
+    (state) => state.responseReducer
+  );
 
   return (
     (success || error) && (
@@ -23,7 +25,7 @@ const Alert = () => {
         autohide
       >
         <Toast.Header>
-          <strong className='mr-auto'>{error ? 'Error' : 'Success'}</strong>
+          <strong className="mr-auto">{error ? 'Error' : 'Success'}</strong>
         </Toast.Header>
         <Toast.Body>{error || success}</Toast.Body>
       </Toast>

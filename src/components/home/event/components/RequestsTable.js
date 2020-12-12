@@ -29,7 +29,7 @@ const RequestsTable = ({ requests }) => {
     ));
 
   return (
-    <Table striped bordered hover size='sm'>
+    <Table striped bordered hover size="sm">
       {headerRow}
       <tbody>{requestRows}</tbody>
     </Table>

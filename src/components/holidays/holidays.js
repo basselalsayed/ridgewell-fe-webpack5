@@ -8,7 +8,7 @@ const Holidays = ({ holidays }) =>
         overflow: 'auto',
       }}
     >
-      {holidays.map(hol => (
+      {holidays.map((hol) => (
         <Holiday key={hol.id} {...hol} />
       ))}
     </div>

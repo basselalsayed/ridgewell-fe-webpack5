@@ -26,7 +26,7 @@ const NotificationReadButton = ({ id, read }) => {
         top: '50%',
         marginTop: '0.5rem',
       }}
-      animation='border'
+      animation="border"
     />
   ) : (
     <Button onClick={handleSubmit}>{read ? 'Unread' : 'Read'}</Button>

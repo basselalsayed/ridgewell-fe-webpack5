@@ -14,11 +14,15 @@ const CountdownCancel = ({ id }) => {
   const dispatch = useDispatch();
   const { submitForm } = useFormikContext();
   const { id: reduxId, isPlaying } = useSelector(
-    state => state.countdownReducer,
+    (state) => state.countdownReducer
   );
 
   const cancelButton = (
-    <button className={countdownBtn} onClick={() => dispatch(endCountdown())}>
+    <button
+      type="button"
+      className={countdownBtn}
+      onClick={() => dispatch(endCountdown())}
+    >
       <div className={countdownTxt}>Cancel</div>
     </button>
   );
@@ -27,7 +31,6 @@ const CountdownCancel = ({ id }) => {
     id === reduxId && (
       <div className={countdownWrp}>
         <CountdownCircleTimer
-          children={cancelButton}
           isPlaying={isPlaying}
           duration={5}
           size={90}
@@ -37,7 +40,9 @@ const CountdownCancel = ({ id }) => {
             submitForm();
             dispatch(endCountdown());
           }}
-        />
+        >
+          {cancelButton}
+        </CountdownCircleTimer>
       </div>
     )
   );

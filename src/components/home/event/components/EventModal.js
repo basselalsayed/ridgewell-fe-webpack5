@@ -1,7 +1,7 @@
 import { Modal, Col, Row } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
-import { RequestForm } from "../../..";
+import { RequestForm } from '../../..';
 import { formatted } from '../../../../helpers';
 
 import { endCountdown } from '../../../../store/actions/countdown';

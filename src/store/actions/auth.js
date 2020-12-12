@@ -2,22 +2,22 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 import { decryptUser } from '../../helpers';
 
-const setUser = payload => ({ type: 'SET_USER', payload });
+const setUser = (payload) => ({ type: 'SET_USER', payload });
 
 const logOut = () => ({ type: 'LOG_OUT' });
 
 // Methods
 
-const signUp = userInfo => async dispatch => {
-  await axios.post(`${API_URL  }users`, userInfo).then(({ data: { user } }) => {
+const signUp = (userInfo) => async (dispatch) => {
+  await axios.post(`${API_URL}users`, userInfo).then(({ data: { user } }) => {
     user.accessToken && localStorage.setItem('user', JSON.stringify(user));
 
     dispatch(setUser(decryptUser(user)));
   });
 };
 
-const login = userInfo => async dispatch => {
-  await axios.post(`${API_URL  }session`, userInfo).then(({ data: { user } }) => {
+const login = (userInfo) => async (dispatch) => {
+  await axios.post(`${API_URL}session`, userInfo).then(({ data: { user } }) => {
     user.accessToken && localStorage.setItem('user', JSON.stringify(user));
 
     dispatch(setUser(decryptUser(user)));

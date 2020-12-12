@@ -14,7 +14,9 @@ import { getAll } from '../../../store/actions';
 import { CenteredSpinner } from '../../Spinner';
 
 const FormBase = ({ id }) => {
-  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useSelector(
+    (state) => state.countdownReducer
+  );
   const dispatch = useDispatch();
 
   return (
@@ -23,14 +25,14 @@ const FormBase = ({ id }) => {
       onSubmit={async (_, { setStatus }) =>
         await axios
           .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
-          .then(res => {
+          .then((res) => {
             res && setStatus(res.data.message);
             dispatch(getAll());
           })
-          .catch(err =>
+          .catch((err) =>
             setStatus(
-              `${err.response.statusText}: ${err.response.data.message}`,
-            ),
+              `${err.response.statusText}: ${err.response.data.message}`
+            )
           )
       }
     >
@@ -71,7 +73,7 @@ const Request = ({
   until,
   User: { email, id: userId, username },
 }) => {
-  const { user } = useSelector(state => state.authReducer);
+  const { user } = useSelector((state) => state.authReducer);
 
   return (
     <Card border={resolved ? 'success' : 'warning'}>

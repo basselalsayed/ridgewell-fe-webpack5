@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { CenteredSpinner } from "..";
-import { CountdownCancel, NegativeButton, SuccessButton } from ".";
+import { CenteredSpinner } from '..';
+import { CountdownCancel, NegativeButton, SuccessButton } from '.';
 
 import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
@@ -15,7 +15,9 @@ import { today } from '../../constants';
 import { Status } from './Status';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
-  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useSelector(
+    (state) => state.countdownReducer
+  );
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -27,20 +29,20 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         !update && annualLeave
           ? schema.min(
               plusTwoMonths(today),
-              'Annual Leave must start two months in advance',
+              'Annual Leave must start two months in advance'
             )
-          : schema.min(today, 'Date cannot be in the past'),
+          : schema.min(today, 'Date cannot be in the past')
       ),
     until: yup
       .date()
       .required('Required')
       .when('from', (from, schema) =>
-        schema.min(from, 'Date cannot be behind start'),
+        schema.min(from, 'Date cannot be behind start')
       )
       .when(['annualLeave', 'from'], (annualLeave, from, schema) =>
         !annualLeave
           ? schema.max(plusTwoDays(from), 'Maximum sick leave is two days')
-          : schema,
+          : schema
       ),
   });
   const ENDPOINT = update ? 'requests' : 'holidays';
@@ -55,7 +57,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             ? await axios.post('requests', { holidayId: id, type: 'delete' })
             : await axios.post(
                 ENDPOINT,
-                update ? { ...data, ...updateData } : data,
+                update ? { ...data, ...updateData } : data
               );
 
           response && setStatus('Success');
@@ -86,11 +88,11 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Row>
             {!update && (
-              <Form.Group as={Col} controlId='validationFormik03'>
+              <Form.Group as={Col} controlId="validationFormik03">
                 <Form.Switch
-                  id='annualLeave-switch'
-                  label='Annual Leave'
-                  name='annualLeave'
+                  id="annualLeave-switch"
+                  label="Annual Leave"
+                  name="annualLeave"
                   checked={values.annualLeave}
                   onChange={() => {
                     setFieldValue('annualLeave', !values.annualLeave);
@@ -101,11 +103,11 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             )}
           </Form.Row>
           <Form.Row>
-            <Form.Group as={Col} controlId='validationFormik01'>
+            <Form.Group as={Col} controlId="validationFormik01">
               <Form.Label>From</Form.Label>
               <Form.Control
-                type='date'
-                name='from'
+                type="date"
+                name="from"
                 min={getMin(values.annualLeave, update)}
                 value={values.from}
                 onChange={handleChange}
@@ -114,15 +116,15 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 disabled={isPlaying || isSubmitting || submitCount > 0}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type='invalid'>
+              <Form.Control.Feedback type="invalid">
                 {errors.from}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} controlId='validationFormik02'>
+            <Form.Group as={Col} controlId="validationFormik02">
               <Form.Label>Until</Form.Label>
               <Form.Control
-                type='date'
-                name='until'
+                type="date"
+                name="until"
                 min={values.from}
                 max={getMax(values.annualLeave, values.from)}
                 value={values.until}
@@ -132,7 +134,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 disabled={isPlaying || isSubmitting || submitCount > 0}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type='invalid'>
+              <Form.Control.Feedback type="invalid">
                 {errors.until}
               </Form.Control.Feedback>
             </Form.Group>
@@ -146,9 +148,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             ) : submitCount < 1 ? (
               <>
                 <SuccessButton title="Submit" errors={errors} />
-                {id && (
-                  <NegativeButton title="Delete Holiday" holidayId={id} />
-                )}
+                {id && <NegativeButton title="Delete Holiday" holidayId={id} />}
               </>
             ) : null}
           </Form.Row>
