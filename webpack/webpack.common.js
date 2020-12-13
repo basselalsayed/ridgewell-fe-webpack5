@@ -38,6 +38,11 @@ module.exports = {
     }),
   ],
   resolve: {
+    alias: {
+      Components: `${paths.src}/components`,
+      Actions: `${paths.src}/store/actions`,
+      Helpers: `${paths.src}/helpers`,
+    },
     fallback: {
       stream: 'stream-browserify',
     },
