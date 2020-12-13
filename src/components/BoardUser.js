@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Holidays, Notifications, Requests } from '.';
+import { getAll, setError } from 'Actions';
+import { Holidays, Notifications, Requests } from 'Components';
 
 import { tabBtn } from './index.module.css';
-import { getAll } from '../store/actions';
-import { setError } from '../store/actions/response';
 import { useSession } from './hooks';
 
 const BoardUser = () => {
-  const { error } = useSelector((state) => state.responseReducer);
+  const { error } = useSelector(state => state.responseReducer);
   const { loggedIn, user } = useSession();
   const dispatch = useDispatch();
 
@@ -24,7 +23,7 @@ const BoardUser = () => {
   }, [dispatch, loggedIn, user.id]);
 
   const { holidays, notifications, requests } = useSelector(
-    (state) => state.contentReducer
+    state => state.contentReducer
   );
 
   //  <div className='container'>

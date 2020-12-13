@@ -1,5 +1,5 @@
+import { formatted } from 'Helpers';
 import { NotificationReadButton } from '.';
-import { formatted } from '../../../helpers';
 
 const Notification = ({ id, createdAt, message, read, index }) => (
   <tr style={{ backgroundColor: read ? 'gray' : 'white' }}>

@@ -1,4 +1,4 @@
-import { decryptUser } from '../../helpers';
+import { decryptUser } from 'Helpers';
 
 const initialState = {
   get user() {

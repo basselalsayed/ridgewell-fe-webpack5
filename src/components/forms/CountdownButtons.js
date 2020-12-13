@@ -1,10 +1,7 @@
 import { Button } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
-import {
-  startConfirmCountdown,
-  startDeleteCountdown,
-} from '../../store/actions';
+import { startConfirmCountdown, startDeleteCountdown } from 'Actions';
 import { dangerBtn, successBtn } from '../index.module.css';
 
 const SuccessButton = ({ errors, id, title }) => {

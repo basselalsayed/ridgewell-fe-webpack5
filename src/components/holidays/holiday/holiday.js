@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap';
-import { formatted, capitalize } from '../../../helpers';
+import { formatted, capitalize } from 'Helpers';
 
 const Holiday = ({
   confirmed,

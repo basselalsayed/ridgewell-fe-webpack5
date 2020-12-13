@@ -6,9 +6,9 @@ import { isEmail } from 'validator';
 import { useDispatch } from 'react-redux';
 
 import { Card } from 'react-bootstrap';
-import { signUp } from '../store/actions';
+import { signUp } from 'Actions';
 
-const required = (value) => {
+const required = value => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -18,7 +18,7 @@ const required = (value) => {
   }
 };
 
-const validEmail = (value) => {
+const validEmail = value => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -28,7 +28,7 @@ const validEmail = (value) => {
   }
 };
 
-const vusername = (value) => {
+const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -38,7 +38,7 @@ const vusername = (value) => {
   }
 };
 
-const vpassword = (value) => {
+const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -59,22 +59,22 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [successful, setSuccessful] = useState(false);
 
-  const onChangeUsername = (e) => {
+  const onChangeUsername = e => {
     const username = e.target.value;
     setUsername(username);
   };
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = e => {
     const email = e.target.value;
     setEmail(email);
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = e => {
     const password = e.target.value;
     setPassword(password);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = e => {
     e.preventDefault();
 
     setMessage('');

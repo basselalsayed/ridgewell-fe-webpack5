@@ -5,9 +5,9 @@ import CheckButton from 'react-validation/build/button';
 
 import { Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/actions';
+import { login } from 'Actions';
 
-const required = (value) =>
+const required = value =>
   !value && (
     <div className="alert alert-danger" role="alert">
       This field is required!
@@ -25,17 +25,17 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  const onChangeUsername = (e) => {
+  const onChangeUsername = e => {
     const username = e.target.value;
     setUsername(username);
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = e => {
     const password = e.target.value;
     setPassword(password);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = e => {
     e.preventDefault();
 
     setMessage('');

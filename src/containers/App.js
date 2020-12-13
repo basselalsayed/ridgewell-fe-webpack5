@@ -12,7 +12,7 @@ import {
   Header,
   Alert,
   PrivateRoute,
-} from '../components';
+} from 'Components';
 
 const App = () => (
   <Router>

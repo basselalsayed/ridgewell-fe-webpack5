@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap';
-import { formatted } from '../../../helpers';
+import { formatted } from 'Helpers';
 import { RequestsTable } from '../../home/event/components';
 
 const User = ({ email, updatedAt, username, owner: requests }) => {

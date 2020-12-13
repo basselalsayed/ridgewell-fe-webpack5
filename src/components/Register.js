@@ -3,13 +3,13 @@ import { Card, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { parseError } from '../helpers';
+import { parseError } from 'Helpers';
+import { signUp } from 'Actions';
 import { CountdownCancel, Status, SuccessButton } from './forms';
 import { CenteredSpinner } from './Spinner';
-import { signUp } from '../store/actions';
 
 const Register = ({ history }) => {
-  const { isPlaying } = useSelector((state) => state.countdownReducer);
+  const { isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
   const schema = yup.object({
     username: yup
@@ -51,7 +51,7 @@ const Register = ({ history }) => {
           })
         )
           .then(() => history.push('/profile'))
-          .catch((error) => setStatus(parseError(error)));
+          .catch(error => setStatus(parseError(error)));
       }}
       initialValues={{
         email: '',

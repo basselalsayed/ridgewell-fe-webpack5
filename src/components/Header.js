@@ -1,11 +1,11 @@
 import { Navbar, Nav } from 'react-bootstrap';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { logOut } from '../store/actions';
-import { isAdmin } from '../helpers';
+import { logOut } from 'Actions';
+import { isAdmin } from 'Helpers';
 
 const Header = () => {
-  const { user } = useSelector((state) => state.authReducer);
+  const { user } = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
   const showAdminBoard = user && isAdmin(user);

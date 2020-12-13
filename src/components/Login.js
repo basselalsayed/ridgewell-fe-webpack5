@@ -2,8 +2,8 @@ import * as yup from 'yup';
 import { Card, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
-import { login } from '../store/actions';
-import { parseError } from '../helpers';
+import { login } from 'Actions';
+import { parseError } from 'Helpers';
 import { Status } from './forms';
 import { CenteredSpinner } from './Spinner';
 import { successBtn } from './index.module.css';
@@ -12,7 +12,10 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
 
   const schema = yup.object({
-    login: yup.string().required('Required').trim(),
+    login: yup
+      .string()
+      .required('Required')
+      .trim(),
     password: yup.string().required('Required'),
   });
 
@@ -28,7 +31,7 @@ const Login = ({ history }) => {
           })
         )
           .then(() => history.push('/profile'))
-          .catch((error) => setStatus(parseError(error)))
+          .catch(error => setStatus(parseError(error)))
       }
       initialValues={{
         login: '',

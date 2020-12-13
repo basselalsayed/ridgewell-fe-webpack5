@@ -4,20 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { getMin, getMax, plusTwoMonths, plusTwoDays } from 'Helpers';
+import { getHolidays } from 'Actions';
 import { CenteredSpinner } from '..';
 import { CountdownCancel, NegativeButton, SuccessButton } from '.';
 
-import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
-import { getHolidays } from '../../store/actions';
 
 import { today } from '../../constants';
 import { Status } from './Status';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
-  const { isDelete, isPlaying } = useSelector(
-    (state) => state.countdownReducer
-  );
+  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
   const schema = yup.object({

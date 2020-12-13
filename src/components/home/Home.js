@@ -5,10 +5,10 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
-import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
+import { eventStyleGetter, holidayEvents, requestEvents } from 'Helpers';
+import { getHolidays } from 'Actions';
 import { Event } from './event';
 
-import { getHolidays } from '../../store/actions';
 import { EventModal } from './event/components';
 
 const localizer = momentLocalizer(moment);
@@ -21,7 +21,7 @@ const Home = () => {
     show && setDate(null);
   };
 
-  const { holidays } = useSelector((state) => state.contentReducer);
+  const { holidays } = useSelector(state => state.contentReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {

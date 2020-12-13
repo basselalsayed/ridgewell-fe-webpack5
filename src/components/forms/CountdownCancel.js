@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { endCountdown } from '../../store/actions';
+import { endCountdown } from 'Actions';
 import {
   countdownWrp,
   countdownBtn,
@@ -14,7 +14,7 @@ const CountdownCancel = ({ id }) => {
   const dispatch = useDispatch();
   const { submitForm } = useFormikContext();
   const { id: reduxId, isPlaying } = useSelector(
-    (state) => state.countdownReducer
+    state => state.countdownReducer
   );
 
   const cancelButton = (

@@ -1,12 +1,10 @@
 import { Toast } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideAlert } from '../store/actions/response';
+import { hideAlert } from 'Actions';
 
 const Alert = () => {
   const dispatch = useDispatch();
-  const { error, show, success } = useSelector(
-    (state) => state.responseReducer
-  );
+  const { error, show, success } = useSelector(state => state.responseReducer);
 
   return (
     (success || error) && (

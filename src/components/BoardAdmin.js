@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Holidays, Requests, Users } from '.';
+import { getAll } from 'Actions';
+import { Holidays, Requests, Users } from 'Components';
 
 import { tabBtn } from './index.module.css';
-import { getAll } from '../store/actions';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
 
   const { holidays, requests, users } = useSelector(
-    (state) => state.contentReducer
+    state => state.contentReducer
   );
 
   useEffect(() => {

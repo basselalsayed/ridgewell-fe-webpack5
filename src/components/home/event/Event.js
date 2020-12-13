@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { hasEditAcces } from 'Helpers';
 import { EventModal, RequestsTable } from './components';
-import { hasEditAcces } from '../../../helpers';
 
 const Event = ({
   event: { annualLeave, end, holidayRequests, id, start, style, userId },
   title,
 }) => {
   const [show, setShow] = useState(false);
-  const { user } = useSelector((state) => state.authReducer);
+  const { user } = useSelector(state => state.authReducer);
 
   const handleShow = () => hasEditAcces(user, userId) && setShow(!show);
 

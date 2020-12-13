@@ -1,10 +1,10 @@
 import { Modal, Col, Row } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
-import { RequestForm } from '../../..';
-import { formatted } from '../../../../helpers';
+import { formatted } from 'Helpers';
 
-import { endCountdown } from '../../../../store/actions/countdown';
+import { endCountdown } from 'Actions';
+import { RequestForm } from '../../..';
 
 const EventModal = ({
   annualLeave,
