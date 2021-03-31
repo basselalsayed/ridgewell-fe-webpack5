@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAll } from 'Actions';
-import { Holidays, Requests, Users } from 'Components';
-
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getAll } from 'store/modules';
+import { Holidays, Requests, Users } from 'components';
 import { tabBtn } from './index.module.css';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
 
   const { holidays, requests, users } = useSelector(
-    state => state.contentReducer
+    (state) => state.contentReducer,
+    shallowEqual
   );
 
   useEffect(() => {

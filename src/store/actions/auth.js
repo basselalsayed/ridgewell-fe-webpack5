@@ -1,29 +1,40 @@
 import axios from 'axios';
-import { decryptUser } from 'Helpers';
-import { API_URL } from '../../constants';
+import { decryptUser } from 'helpers';
+import { decryptorInstance, usersInstance } from 'services/axios';
+import { API_URL } from 'constants';
 
-const setUser = payload => ({ type: 'SET_USER', payload });
+const setUser = (payload) => ({ type: 'SET_USER', payload });
 
 const logOut = () => ({ type: 'LOG_OUT' });
 
 // Methods
+const handleUser = (user) => {
+  axios.defaults.headers = { 'x-access-token': user.accessToken };
+  decryptorInstance.defaults.headers = { 'x-access-token': user.accessToken };
+  usersInstance.defaults.headers = { 'x-access-token': user.accessToken };
 
-const signUp = userInfo => async dispatch => {
-  await axios.post(`${API_URL}users`, userInfo).then(({ data: { user } }) => {
-    user.accessToken && localStorage.setItem('user', JSON.stringify(user));
-
-    dispatch(setUser(decryptUser(user)));
-  });
+  try {
+    localStorage.setItem('user', JSON.stringify(user));
+  } catch (error) {
+    console.error("user couldn't be saved to local storage");
+  }
 };
 
-const login = userInfo => async dispatch => {
-  await axios.post(`${API_URL}session`, userInfo).then(({ data: { user } }) => {
-    user.accessToken && localStorage.setItem('user', JSON.stringify(user));
-
-    dispatch(setUser(decryptUser(user)));
+const signUp = (userInfo) => (dispatch) =>
+  axios.post(`${API_URL}users`, userInfo).then(({ data: { user } }) => {
+    if (user && user.accessToken) {
+      handleUser(user);
+      dispatch(setUser(decryptUser(user)));
+    }
   });
-};
 
+const login = (userInfo) => (dispatch) =>
+  axios.post(`${API_URL}session`, userInfo).then(({ data: { user } }) => {
+    if (user && user.accessToken) {
+      handleUser(user);
+      dispatch(setUser(decryptUser(user)));
+    }
+  });
 // export const autoLogin = () => dispatch => {
 //   fetch(`http://localhost:4000/auto_login`, {
 //     headers: {

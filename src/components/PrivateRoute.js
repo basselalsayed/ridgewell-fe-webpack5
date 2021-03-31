@@ -1,8 +1,8 @@
 import { Redirect, Route } from 'react-router-dom';
-import { useSession } from './hooks';
+import { useAuth } from 'hooks';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { loggedIn } = useSession();
+  const { loggedIn } = useAuth();
   return (
     <Route
       {...rest}

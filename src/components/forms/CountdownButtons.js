@@ -1,18 +1,16 @@
+import { useCountdown } from 'hooks';
 import { Button } from 'react-bootstrap';
 
-import { useDispatch } from 'react-redux';
-import { startConfirmCountdown, startDeleteCountdown } from 'Actions';
 import { dangerBtn, successBtn } from '../index.module.css';
 
 const SuccessButton = ({ errors, id, title }) => {
-  const dispatch = useDispatch();
-
+  const { startConfirmCountdown } = useCountdown();
   return (
     <Button
       onClick={() =>
         errors
           ? !errors.from && !errors.until && dispatch(startConfirmCountdown(id))
-          : dispatch(startConfirmCountdown(id))
+          : startConfirmCountdown(id)
       }
       className={successBtn}
       children={title}
@@ -21,11 +19,11 @@ const SuccessButton = ({ errors, id, title }) => {
 };
 
 const NegativeButton = ({ id, title }) => {
-  const dispatch = useDispatch();
+  const { startDeleteCountdown } = useCountdown();
 
   return (
     <Button
-      onClick={() => dispatch(startDeleteCountdown(id))}
+      onClick={() => startDeleteCountdown(id)}
       className={dangerBtn}
       children={title}
     />

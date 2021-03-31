@@ -1,7 +1,7 @@
-import { useSession } from './hooks/useSession';
+import { useAuth } from 'hooks';
 
 const Profile = () => {
-  const { user } = useSession();
+  const { user } = useAuth();
   return (
     <div className="container">
       {user && (

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import authReducer from './auth';
-import contentReducer from './content';
+import contentReducer from './modules/content';
 import countdownReducer from './countdown';
 import responseReducer from './response';
 

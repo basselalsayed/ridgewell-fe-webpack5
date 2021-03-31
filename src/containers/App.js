@@ -1,36 +1,32 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-import {
-  Login,
-  Register,
-  Home,
-  Profile,
-  BoardUser,
-  BoardAdmin,
-  Header,
-  Alert,
-  PrivateRoute,
-} from 'Components';
+import { Header, Alert } from 'components';
+import { useEffect } from 'react';
+import { Routes } from '../Routes';
 
-const App = () => (
-  <Router>
-    <Header />
-    <Alert />
-    <div>
-      <div className="container mt-3">
-        <Switch>
-          <PrivateRoute exact path={['/', '/home']} component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <PrivateRoute exact path="/profile" component={Profile} />
-          <PrivateRoute path="/user" component={BoardUser} />
-          <PrivateRoute path="/admin" component={BoardAdmin} />
-        </Switch>
+const App = () => {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js');
+      });
+    }
+  }, []);
+
+  return (
+    <Router>
+      <Header />
+      <Alert />
+      <div>
+        <div className="container mt-3">
+          <Routes />
+        </div>
       </div>
-    </div>
-  </Router>
-);
+    </Router>
+  );
+};
 
 export { App };

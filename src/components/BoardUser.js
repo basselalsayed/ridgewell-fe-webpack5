@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAll, setError } from 'Actions';
-import { Holidays, Notifications, Requests } from 'Components';
-
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getAll } from 'store/modules';
+import { setError } from 'store/actions';
+import { Holidays, Notifications, Requests } from 'components';
+import { useAuth } from 'hooks';
 import { tabBtn } from './index.module.css';
-import { useSession } from './hooks';
 
 const BoardUser = () => {
-  const { error } = useSelector(state => state.responseReducer);
-  const { loggedIn, user } = useSession();
+  const { error } = useSelector((state) => state.responseReducer, shallowEqual);
+  const { loggedIn, user } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,7 +22,8 @@ const BoardUser = () => {
   }, [dispatch, loggedIn, user.id]);
 
   const { holidays, notifications, requests } = useSelector(
-    state => state.contentReducer
+    (state) => state.contentReducer,
+    shallowEqual
   );
 
   //  <div className='container'>

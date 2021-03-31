@@ -1,10 +1,8 @@
+import { useCountdown } from 'hooks';
 import { Modal, Col, Row } from 'react-bootstrap';
 
-import { useDispatch } from 'react-redux';
-import { formatted } from 'Helpers';
-
-import { endCountdown } from 'Actions';
-import { RequestForm } from '../../..';
+import { formatted } from 'helpers';
+import { RequestForm } from 'components';
 
 const EventModal = ({
   annualLeave,
@@ -16,14 +14,14 @@ const EventModal = ({
   title,
   update,
 }) => {
-  const dispatch = useDispatch();
+  const { endCountdown } = useCountdown();
 
   return (
     <Modal
       show={show}
       onHide={() => {
         handleShow();
-        dispatch(endCountdown());
+        endCountdown();
       }}
       centered
     >

@@ -4,12 +4,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { useSelector, useDispatch } from 'react-redux';
-import { eventStyleGetter, holidayEvents, requestEvents } from 'Helpers';
-import { getHolidays } from 'Actions';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { eventStyleGetter, holidayEvents, requestEvents } from 'helpers';
+import { getHolidays } from 'store/modules';
 import { Event } from './event';
 
 import { EventModal } from './event/components';
+import { useAuth } from 'hooks/useAuth';
 
 const localizer = momentLocalizer(moment);
 
@@ -17,16 +18,20 @@ const Home = () => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
   const handleShow = () => {
-    setShow(!show);
-    show && setDate(null);
+    return setShow(!show, () => show && setDate(null));
+    // return show && setDate(null);
   };
 
-  const { holidays } = useSelector(state => state.contentReducer);
+  const { holidays } = useSelector(
+    (state) => state.contentReducer,
+    shallowEqual
+  );
   const dispatch = useDispatch();
 
+  const { loggedIn } = useAuth();
   useEffect(() => {
-    dispatch(getHolidays());
-  }, [dispatch]);
+    if (loggedIn) dispatch(getHolidays());
+  }, [dispatch, loggedIn]);
 
   const events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],

@@ -1,10 +1,10 @@
 import { Card, Row, Col, Form } from 'react-bootstrap';
 
 import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { capitalize, formatted, isAdmin } from 'Helpers';
-import { getAll } from 'Actions';
+import { capitalize, formatted, isAdmin } from 'helpers';
+import { getAll } from 'store/modules';
 import {
   CountdownCancel,
   NegativeButton,
@@ -12,9 +12,10 @@ import {
   SuccessButton,
 } from '../../forms';
 import { CenteredSpinner } from '../../Spinner';
+import { useAuth, useCountdown } from 'hooks';
 
 const FormBase = ({ id }) => {
-  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useCountdown();
   const dispatch = useDispatch();
 
   return (
@@ -23,11 +24,11 @@ const FormBase = ({ id }) => {
       onSubmit={async (_, { setStatus }) =>
         await axios
           .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
-          .then(res => {
+          .then((res) => {
             res && setStatus(res.data.message);
             dispatch(getAll());
           })
-          .catch(err =>
+          .catch((err) =>
             setStatus(
               `${err.response.statusText}: ${err.response.data.message}`
             )
@@ -71,7 +72,7 @@ const Request = ({
   until,
   User: { email, id: userId, username },
 }) => {
-  const { user } = useSelector(state => state.authReducer);
+  const { user } = useAuth();
 
   return (
     <Card border={resolved ? 'success' : 'warning'}>

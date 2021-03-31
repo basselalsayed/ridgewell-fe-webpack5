@@ -22,7 +22,8 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.(scss|css)$/,
+        // test: /\.(scss|css)$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -40,6 +41,7 @@ module.exports = merge(common, {
               importLoaders: 2,
               esModule: true,
               modules: {
+                auto: true,
                 namedExport: true,
               },
             },
@@ -55,6 +57,9 @@ module.exports = merge(common, {
     minimizer: [new CssMinimizerPlugin(), '...'],
     runtimeChunk: {
       name: 'runtime',
+    },
+    splitChunks: {
+      chunks: 'all',
     },
   },
   performance: {

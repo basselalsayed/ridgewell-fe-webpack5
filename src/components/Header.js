@@ -1,13 +1,10 @@
+import { useAuth } from 'hooks/useAuth';
+import { isAdmin } from 'helpers';
+
 import { Navbar, Nav } from 'react-bootstrap';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { logOut } from 'Actions';
-import { isAdmin } from 'Helpers';
-
 const Header = () => {
-  const { user } = useSelector(state => state.authReducer);
-  const dispatch = useDispatch();
-
+  const { user, logOut } = useAuth();
   const showAdminBoard = user && isAdmin(user);
 
   const adminNavigation = <Nav.Link href="/admin">Admin Board</Nav.Link>;
@@ -22,9 +19,7 @@ const Header = () => {
   const auth = user && (
     <>
       <Nav.Link href="/profile">{user.username}</Nav.Link>
-      <Nav.Link href="/login" onClick={() => dispatch(logOut())}>
-        Log Out
-      </Nav.Link>
+      <Nav.Link onClick={logOut}>Log Out</Nav.Link>
     </>
   );
 

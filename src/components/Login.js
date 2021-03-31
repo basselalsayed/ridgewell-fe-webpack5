@@ -1,38 +1,45 @@
 import * as yup from 'yup';
 import { Card, Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+
 import { Formik } from 'formik';
-import { login } from 'Actions';
-import { parseError } from 'Helpers';
-import { Status } from './forms';
+
+import { parseError } from 'helpers';
+import { useAuth } from 'hooks';
+import { Status } from 'components/forms';
 import { CenteredSpinner } from './Spinner';
 import { successBtn } from './index.module.css';
 
 const Login = ({ history }) => {
-  const dispatch = useDispatch();
+  const { login } = useAuth();
 
   const schema = yup.object({
-    login: yup
+    login: yup.string().required('Required').trim(),
+    password: yup
       .string()
-      .required('Required')
-      .trim(),
-    password: yup.string().required('Required'),
+      .min(6, 'Password must be at least 6 characters')
+      .required('Required'),
   });
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={async ({ login: loginCred, password }, { setStatus }) =>
-        dispatch(
-          login({
-            email: loginCred.toLocaleLowerCase(),
-            username: loginCred.toLocaleLowerCase(),
-            password,
+      onSubmit={(
+        { login: loginCred, password },
+        { setStatus, setSubmitting }
+      ) => {
+        login({
+          email: loginCred.toLocaleLowerCase(),
+          username: loginCred.toLocaleLowerCase(),
+          password,
+        })
+          .then(() => {
+            setStatus('Success');
+            setTimeout(() => history.push('/'), 500);
           })
-        )
-          .then(() => history.push('/profile'))
-          .catch(error => setStatus(parseError(error)))
-      }
+          .catch(
+            (error) => (setStatus(parseError(error)), setSubmitting(false))
+          );
+      }}
       initialValues={{
         login: '',
         password: '',

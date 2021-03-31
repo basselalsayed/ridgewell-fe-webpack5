@@ -2,17 +2,35 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const Dotenv = require('dotenv-webpack');
 const paths = require('./paths');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-  entry: `${paths.src}/index.js`,
+  entry: {
+    // page: [`${paths.src}/index.js`, `${paths.src}/components/home/home.js`],
+    index: `${paths.src}/index.js`,
+  },
+  // entry: {
+  //   index: {
+  //     import: `${paths.src}/index.js`,
+  //     dependOn: 'shared',
+  //   },
+  //   calendar: {
+  //     import: `${paths.src}/components/home/home.js`,
+  //     dependOn: 'shared',
+  //   },
+  //   shared: ['react', 'react-bootstrap'],
+  // },
   output: {
     path: paths.build,
     filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     publicPath: '/',
   },
   plugins: [
+    new WebpackBar(),
     new Dotenv({ path: paths.env, safe: true }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
@@ -36,13 +54,10 @@ module.exports = {
       template: `${paths.src}/template.html`,
       filename: 'index.html',
     }),
+    new WorkboxPlugin.GenerateSW(),
   ],
   resolve: {
-    alias: {
-      Components: `${paths.src}/components`,
-      Actions: `${paths.src}/store/actions`,
-      Helpers: `${paths.src}/helpers`,
-    },
+    modules: [paths.src, 'node_modules'],
     fallback: {
       stream: 'stream-browserify',
     },
@@ -66,5 +81,11 @@ module.exports = {
         type: 'asset/inline',
       },
     ],
+  },
+  optimization: {
+    // runtimeChunk: 'single',
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
   },
 };

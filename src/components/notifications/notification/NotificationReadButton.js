@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { getNotifications, updateNotification } from 'Actions';
+import { getNotifications, updateNotification } from 'store/modules';
 
 const NotificationReadButton = ({ id, read }) => {
   const [submitting, setSubmitting] = useState(false);

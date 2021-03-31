@@ -1,5 +1,5 @@
 import { Table } from 'react-bootstrap';
-import { capitalize, formatted } from 'Helpers';
+import { capitalize, formatted } from 'helpers';
 
 const RequestRow = ({ from, index, type, until }) => (
   <tr>

@@ -1,21 +1,24 @@
 import { Form, Col } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { getMin, getMax, plusTwoMonths, plusTwoDays } from 'Helpers';
-import { getHolidays } from 'Actions';
-import { CenteredSpinner } from '..';
-import { CountdownCancel, NegativeButton, SuccessButton } from '.';
+import { getMin, getMax, plusTwoMonths, plusTwoDays } from 'helpers';
+import { getHolidays } from 'store/modules';
+import {
+  CountdownCancel,
+  NegativeButton,
+  SuccessButton,
+  Status,
+  CenteredSpinner,
+} from 'components';
 
-
-
-import { today } from '../../constants';
-import { Status } from './Status';
+import { today } from 'constants';
+import { useCountdown } from 'hooks';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
-  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useCountdown();
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -58,9 +61,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 update ? { ...data, ...updateData } : data
               );
 
-          response && setStatus('Success');
-
-          dispatch(getHolidays());
+          return response && (setStatus('Success'), dispatch(getHolidays()));
         } catch (err) {
           setStatus(`${err.response.statusText}: ${err.response.data.message}`);
         }

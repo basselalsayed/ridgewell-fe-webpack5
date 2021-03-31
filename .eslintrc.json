@@ -18,6 +18,9 @@
   },
   "plugins": ["react"],
   "rules": {
+    "no-nested-ternary": "off",
+    "no-sequences": ["error", { "allowInParentheses": true }],
+    "import/no-cycle": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
@@ -29,7 +32,8 @@
     ],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off"
   },
   "settings": {
     "import/resolver": {
