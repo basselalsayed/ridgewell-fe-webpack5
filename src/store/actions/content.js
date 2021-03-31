@@ -49,7 +49,5 @@ export {
   getHolidays,
   getNotifications,
   getRequests,
-  postHolidays,
-  postRequests,
   updateNotification,
 };
