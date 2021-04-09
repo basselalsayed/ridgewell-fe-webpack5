@@ -9,7 +9,7 @@ const SuccessButton = ({ errors, id, title }) => {
     <Button
       onClick={() =>
         errors
-          ? !errors.from && !errors.until && dispatch(startConfirmCountdown(id))
+          ? !errors.from && !errors.until && startConfirmCountdown(id)
           : startConfirmCountdown(id)
       }
       className={successBtn}
