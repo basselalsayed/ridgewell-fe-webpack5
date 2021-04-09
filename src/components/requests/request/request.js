@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { capitalize, formatted, isAdmin } from 'helpers';
 import { getAll } from 'store/modules';
+import { useAuth, useCountdown } from 'hooks';
 import {
   CountdownCancel,
   NegativeButton,
@@ -12,7 +13,6 @@ import {
   SuccessButton,
 } from '../../forms';
 import { CenteredSpinner } from '../../Spinner';
-import { useAuth, useCountdown } from 'hooks';
 
 const FormBase = ({ id }) => {
   const { isDelete, isPlaying } = useCountdown();
@@ -21,13 +21,12 @@ const FormBase = ({ id }) => {
   return (
     <Formik
       initialValues={{ null: null }}
-      onSubmit={async (_, { setStatus }) =>
-        await axios
+      onSubmit={(_, { setStatus }) =>
+        axios
           .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
-          .then((res) => {
-            res && setStatus(res.data.message);
-            dispatch(getAll());
-          })
+          .then(
+            (res) => (res && setStatus(res.data.message), dispatch(getAll()))
+          )
           .catch((err) =>
             setStatus(
               `${err.response.statusText}: ${err.response.data.message}`
@@ -55,7 +54,7 @@ const FormBase = ({ id }) => {
               </>
             )}
           </Form.Group>
-          {status && <Status status={status} />}
+          {status && <Status {...{ status }} />}
         </Form>
       )}
     </Formik>
@@ -72,7 +71,7 @@ const Request = ({
   until,
   User: { email, id: userId, username },
 }) => {
-  const { user } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   return (
     <Card border={resolved ? 'success' : 'warning'}>
@@ -97,7 +96,7 @@ const Request = ({
         <p>Resolved: {capitalize(resolved)}</p>
       </Card.Body>
 
-      {isAdmin(user) && (
+      {loggedIn && isAdmin(user) && (
         <Card.Footer>
           <FormBase id={id} />
         </Card.Footer>

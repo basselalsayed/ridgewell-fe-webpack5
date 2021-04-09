@@ -5,12 +5,18 @@ import { decryptorInstance, usersInstance } from '../../services/axios';
 
 const SET_USERS = 'CONTENT/SET_USERS';
 const SET_HOLIDAYS = 'CONTENT/SET_HOLIDAYS';
+const SET_HOLIDAYS_LOADING = 'CONTENT/SET_HOLIDAYS_LOADING';
+const SET_HOLIDAYS_LOADED = 'CONTENT/SET_HOLIDAYS_LOADED';
 const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
 const SET_NOTIFICATIONS = 'CONTENT/SET_NOTIFICATIONS';
 
 const initialState = {
   users: null,
-  holidays: null,
+  holidays: {
+    loaded: null,
+    loading: null,
+    holidays: [],
+  },
   requests: null,
   notifications: null,
 };
@@ -20,7 +26,14 @@ const contentReducer = (state = initialState, { type, payload }) => {
     case SET_USERS:
       return { ...state, users: payload };
     case SET_HOLIDAYS:
-      return { ...state, holidays: payload };
+      return { ...state, holidays: { holidays: payload } };
+    case SET_HOLIDAYS_LOADING:
+      return { ...state, holidays: { loading: true } };
+    case SET_HOLIDAYS_LOADED:
+      return {
+        ...state,
+        holidays: { loading: false, loaded: true, holidays: payload },
+      };
     case SET_REQUESTS:
       return { ...state, requests: payload };
     case SET_NOTIFICATIONS:
@@ -39,13 +52,19 @@ const getUsers = () => (dispatch) =>
     .then(({ data }) => dispatch(setContent(SET_USERS, data)))
     .catch((error) => dispatch(setError(parseError(error))));
 
-const getHolidays = (userId) => (dispatch) =>
-  decryptorInstance
-    .get(userId ? `holidays?userId=${userId}` : 'holidays')
-    .then(({ data }) => dispatch(setContent(SET_HOLIDAYS, data)))
-    .catch((error) => dispatch(setError(parseError(error))));
+const getHolidays = (userId = null) => async (dispatch) => {
+  dispatch(setContent(SET_HOLIDAYS_LOADING));
 
-const getRequests = (userId) => (dispatch) =>
+  await decryptorInstance
+    .get(userId ? `holidays?userId=${userId}` : 'holidays')
+    .then(({ data }) => {
+      console.log('data', data);
+      dispatch(setContent(SET_HOLIDAYS_LOADED, data));
+    })
+    .catch((error) => dispatch(setError(parseError(error))));
+};
+
+const getRequests = (userId = null) => (dispatch) =>
   decryptorInstance
     .get(userId ? `requests?userId=${userId}` : 'requests')
     .then(({ data }) => dispatch(setContent(SET_REQUESTS, data)))

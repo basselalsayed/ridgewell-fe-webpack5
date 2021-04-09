@@ -1,12 +1,17 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth';
-import contentReducer from '../modules/content';
-import countdownReducer from './countdown';
-import responseReducer from './response';
+import { reducer as reduxAsyncConnect } from 'redux-connect';
+import { connectRouter } from 'connected-react-router';
+import auth from './auth';
+import content from '../modules/content';
+import countdown from './countdown';
+import response from './response';
 
-export default combineReducers({
-  authReducer,
-  contentReducer,
-  countdownReducer,
-  responseReducer,
-});
+export default (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    reduxAsyncConnect,
+    auth,
+    content,
+    countdown,
+    response,
+  });

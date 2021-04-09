@@ -22,10 +22,7 @@ const Home = () => {
     // return show && setDate(null);
   };
 
-  const { holidays } = useSelector(
-    (state) => state.contentReducer,
-    shallowEqual
-  );
+  const { holidays } = useSelector((state) => state.content, shallowEqual);
   const dispatch = useDispatch();
 
   const { loggedIn } = useAuth();
@@ -75,3 +72,4 @@ const Home = () => {
 // </header>
 
 export { Home };
+export default Home;

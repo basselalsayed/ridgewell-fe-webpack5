@@ -5,7 +5,7 @@ import { hideAlert } from 'store/actions';
 const Alert = () => {
   const dispatch = useDispatch();
   const { error, show, success } = useSelector(
-    (state) => state.responseReducer,
+    (state) => state.response,
     shallowEqual
   );
 

@@ -10,7 +10,7 @@ const useCountdown = () => {
   const dispatch = useDispatch();
 
   const { id: reduxId, isDelete, isPlaying } = useSelector(
-    (state) => state.countdownReducer,
+    (state) => state.countdown,
     shallowEqual
   );
 
