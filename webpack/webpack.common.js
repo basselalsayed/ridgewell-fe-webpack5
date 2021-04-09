@@ -4,10 +4,11 @@ const loaders = require('./loaders');
 const plugins = require('./plugins');
 
 module.exports = {
-  entry: {
-    // page: [`${paths.src}/index.js`, `${paths.src}/components/home/home.js`],
-    index: `${paths.src}/index.js`,
-  },
+  // entry: {
+  //   // page: [`${paths.src}/index.js`, `${paths.src}/components/home/home.js`],
+  //   index: `${paths.src}/index.js`,
+  // },
+  entry: `${paths.client}`,
   // entry: {
   //   index: {
   //     import: `${paths.src}/index.js`,
