@@ -5,13 +5,14 @@ import { Formik } from 'formik';
 
 import { parseError } from 'helpers';
 import { useAuth } from 'hooks';
-import { Status } from 'components/forms';
-import { CenteredSpinner } from './Spinner';
-import { successBtn } from './index.module.css';
+// import { Status } from 'components/forms';
+import { useHistory } from 'react-router-dom';
+import { Status, CenteredSpinner } from 'components';
+import { successBtn } from 'components/index.module.css';
 
-const Login = ({ history }) => {
+const Login = () => {
   const { login } = useAuth();
-
+  const history = useHistory();
   const schema = yup.object({
     login: yup.string().required('Required').trim(),
     password: yup
@@ -26,7 +27,7 @@ const Login = ({ history }) => {
       onSubmit={(
         { login: loginCred, password },
         { setStatus, setSubmitting }
-      ) => {
+      ) =>
         login({
           email: loginCred.toLocaleLowerCase(),
           username: loginCred.toLocaleLowerCase(),
@@ -36,10 +37,12 @@ const Login = ({ history }) => {
             setStatus('Success');
             setTimeout(() => history.push('/'), 500);
           })
-          .catch(
-            (error) => (setStatus(parseError(error)), setSubmitting(false))
-          );
-      }}
+          .catch((error) => {
+            console.trace(error);
+            setStatus(parseError(error));
+            setSubmitting(false);
+          })
+      }
       initialValues={{
         login: '',
         password: '',

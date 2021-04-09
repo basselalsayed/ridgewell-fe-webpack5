@@ -2,8 +2,13 @@ import { Card, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { parseError } from 'helpers';
-import { CountdownCancel, Status, SuccessButton } from './forms';
-import { CenteredSpinner } from './Spinner';
+import {
+  CenteredSpinner,
+  CountdownCancel,
+  Status,
+  SuccessButton,
+} from 'components';
+// import { CenteredSpinner } from 'components/Spinner';
 import { useAuth, useCountdown } from 'hooks';
 
 const Register = ({ history }) => {

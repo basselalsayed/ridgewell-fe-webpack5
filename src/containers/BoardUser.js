@@ -5,10 +5,10 @@ import { getAll } from 'store/modules';
 import { setError } from 'store/actions';
 import { Holidays, Notifications, Requests } from 'components';
 import { useAuth } from 'hooks';
-import { tabBtn } from './index.module.css';
+import { tabBtn } from 'components/index.module.css';
 
 const BoardUser = () => {
-  const { error } = useSelector((state) => state.responseReducer, shallowEqual);
+  const { error } = useSelector((state) => state.response, shallowEqual);
   const { loggedIn, user } = useAuth();
   const dispatch = useDispatch();
 
@@ -21,10 +21,11 @@ const BoardUser = () => {
     getData();
   }, [dispatch, loggedIn, user.id]);
 
-  const { holidays, notifications, requests } = useSelector(
-    (state) => state.contentReducer,
-    shallowEqual
-  );
+  const {
+    holidays: { holidays },
+    notifications,
+    requests,
+  } = useSelector((state) => state.content, shallowEqual);
 
   //  <div className='container'>
   // <header className='jumbotron'>
