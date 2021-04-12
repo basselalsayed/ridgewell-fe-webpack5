@@ -44,7 +44,7 @@ const contentReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-const setContent = (type, payload) => ({ type, payload });
+const setContent = (type, payload, ...rest) => ({ type, payload, ...rest });
 
 const getUsers = () => (dispatch) =>
   usersInstance
@@ -57,10 +57,7 @@ const getHolidays = (userId = null) => async (dispatch) => {
 
   await decryptorInstance
     .get(userId ? `holidays?userId=${userId}` : 'holidays')
-    .then(({ data }) => {
-      console.log('data', data);
-      dispatch(setContent(SET_HOLIDAYS_LOADED, data));
-    })
+    .then(({ data }) => dispatch(setContent(SET_HOLIDAYS_LOADED, data)))
     .catch((error) => dispatch(setError(parseError(error))));
 };
 
@@ -77,17 +74,20 @@ const getNotifications = () => (dispatch) =>
     .catch((error) => dispatch(setError(parseError(error))));
 
 const getAll = (userId) => (dispatch) =>
-  Promise.all([
-    dispatch(getRequests(userId)),
-    dispatch(getHolidays(userId)),
-    !userId && dispatch(getUsers()),
-    dispatch(getNotifications()),
-  ]);
+  Promise.all(
+    [
+      dispatch(getRequests(userId)),
+      dispatch(getHolidays(userId)),
+      !userId && dispatch(getUsers()),
+      dispatch(getNotifications()),
+    ].filter(Boolean)
+  );
 
 const updateNotification = (id, read) => (dispatch) =>
   axios
     .put(`/notifications/${id}`, { read: !read })
     .then(({ data: { message } }) => dispatch(setSuccess(message)))
+    .finally(() => dispatch(getNotifications()))
     .catch((error) => dispatch(setError(parseError(error))));
 
 export {

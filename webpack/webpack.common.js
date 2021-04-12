@@ -21,7 +21,7 @@ module.exports = {
   //   shared: ['react', 'react-bootstrap'],
   // },
   output: {
-    path: paths.build,
+    path: paths.buildClient,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
     publicPath: '/',

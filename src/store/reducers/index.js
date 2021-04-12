@@ -5,6 +5,7 @@ import auth from './auth';
 import content from '../modules/content';
 import countdown from './countdown';
 import response from './response';
+import network from '../modules/network';
 
 export default (history) =>
   combineReducers({
@@ -13,5 +14,6 @@ export default (history) =>
     auth,
     content,
     countdown,
+    network,
     response,
   });

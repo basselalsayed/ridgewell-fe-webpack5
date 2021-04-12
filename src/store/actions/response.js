@@ -6,6 +6,6 @@ const setError = (error) => (dispatch) =>
 const setSuccess = (success) => (dispatch) =>
   dispatch(setContent('SET_SUCCESS', success));
 
-const hideAlert = () => (dispatch) => dispatch(setContent('HIDE_ALERT'));
+const hideAlert = () => setContent('HIDE_ALERT');
 
 export { hideAlert, setError, setSuccess };
