@@ -1,6 +1,6 @@
 import { Toast } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { hideAlert } from 'store/actions';
+import { hideAlert } from 'store/modules/response';
 
 const Alert = () => {
   const dispatch = useDispatch();

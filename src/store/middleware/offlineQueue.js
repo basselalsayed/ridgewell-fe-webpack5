@@ -1,9 +1,16 @@
-import { setError, setSuccess } from 'store/actions';
 import { SET_OFFLINE, SET_ONLINE, SET_QUEUE } from 'store/modules/network';
+import { setError, setSuccess } from 'store/modules/response';
 
 const ASYNC_PAYLOAD_FIELDS = ['queueIfOffline'];
 
 const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
+  const handleAction = (_action, _next = false) =>
+    typeof _action === 'function'
+      ? _action(dispatch, getState)
+      : _next
+      ? next(_action)
+      : dispatch(_action);
+
   const {
     network: { isOnline, queue },
   } = getState();
@@ -24,11 +31,7 @@ const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
         "You're back online, any changes you've made will now be synced"
       )
     );
-    queue.forEach((queueItem) =>
-      typeof queueItem === 'function'
-        ? queueItem(dispatch, getState)
-        : dispatch(queueItem)
-    );
+    queue.forEach((queueItem) => handleAction(queueItem));
     if (queue.length > 0) next(setSuccess('Your changes have been synced'));
     return result;
   }
@@ -39,7 +42,7 @@ const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
 
   // check if we don't need to queue the action
   if (isOnline || !shouldQueue) {
-    return isFunction ? action(dispatch, getState) : next(action);
+    return handleAction(action, true);
   }
 
   const actionToQueue = isFunction

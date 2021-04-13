@@ -10,12 +10,14 @@ import { ReduxAsyncConnect } from 'redux-connect';
 import routes from 'Routes';
 // import * as serviceWorker from './serviceWorker';
 
+import { enableAllPlugins } from 'immer';
 import configureStore from '../store';
 
 import { authHeaderFromStore } from '../services/auth-header';
 import { API_URL } from '../constants';
 import { decryptorInstance, usersInstance } from '../services/axios';
 
+enableAllPlugins();
 const { history, store } = configureStore();
 axios.defaults.baseURL = API_URL;
 const headers = authHeaderFromStore(store);

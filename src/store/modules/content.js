@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { parseError } from 'helpers';
-import { setError, setSuccess } from 'store/actions/response';
+
 import { decryptorInstance, usersInstance } from '../../services/axios';
+import { setError, setSuccess } from './response';
 
 const SET_USERS = 'CONTENT/SET_USERS';
 const SET_HOLIDAYS = 'CONTENT/SET_HOLIDAYS';

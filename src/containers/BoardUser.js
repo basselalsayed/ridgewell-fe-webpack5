@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getAll } from 'store/modules';
-import { setError } from 'store/actions';
+import { setError } from 'store/modules/response';
 import { Holidays, Notifications, Requests } from 'components';
 import { useAuth } from 'hooks';
 import { tabBtn } from 'components/index.module.css';
