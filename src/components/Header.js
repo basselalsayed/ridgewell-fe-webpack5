@@ -1,4 +1,4 @@
-import { useAuth } from 'hooks/useAuth';
+import { useAuth } from 'hooks';
 import { isAdmin } from 'helpers';
 
 import { Navbar, Nav } from 'react-bootstrap';

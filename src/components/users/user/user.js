@@ -1,6 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { formatted } from 'helpers';
-import { RequestsTable } from '../../home/event/components';
+import { RequestsTable } from '../../calendar/event/components';
 
 const User = ({ email, updatedAt, username, owner: requests }) => (
   <Card>

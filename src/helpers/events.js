@@ -1,17 +1,17 @@
 import { colors } from '../constants';
 
 const filterRequests = (type, reqs) =>
-  reqs ? reqs.filter((hol) => hol.type === type) : [];
+  reqs ? reqs.filter((req) => req.type === type) : [];
 
-const hasPending = (type, reqs) => filterRequests(type, reqs).length;
+const hasPending = (type, reqs) => filterRequests(type, reqs).length > 0;
 
 const eventStyleGetter = (
   { confirmed, holidayRequests },
   start,
   end,
   isSelected
-) => {
-  const style = {
+) => ({
+  style: {
     backgroundColor: hasPending('delete', holidayRequests)
       ? colors.hasDelete
       : hasPending('update', holidayRequests)
@@ -24,11 +24,8 @@ const eventStyleGetter = (
     color: 'black',
     border: '0px',
     display: 'block',
-  };
-  return {
-    style,
-  };
-};
+  },
+});
 
 const requestHandler = (holReqs) =>
   filterRequests('update', holReqs).map(({ type, from, resolved, until }) => ({
@@ -65,13 +62,29 @@ const holidayEvents = (holidays) =>
     })
   );
 
-const requestEvents = (holidays) => {
+const requestEvents3 = (holidays) => {
   let array = [];
 
   holidays.forEach(
     ({ holidayRequests }) =>
       (array = [...array, ...requestHandler(holidayRequests)])
   );
+  return array;
+};
+
+const requestEvents = (holidays) => {
+  const array = holidays.reduce(
+    (events, { holidayRequests }) =>
+      events.concat(requestHandler(holidayRequests)),
+    []
+  );
+
+  let array2 = [];
+  holidays.forEach(
+    ({ holidayRequests }) =>
+      (array2 = [...array2, ...requestHandler(holidayRequests)])
+  );
+
   return array;
 };
 
