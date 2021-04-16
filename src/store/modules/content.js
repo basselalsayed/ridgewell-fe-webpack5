@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { parseError } from 'helpers';
+import produce from 'immer';
 
 import { decryptorInstance, usersInstance } from '../../services/axios';
+import { getRequests } from './requests';
 import { setError, setSuccess } from './response';
 
 const SET_USERS = 'CONTENT/SET_USERS';
 const SET_HOLIDAYS = 'CONTENT/SET_HOLIDAYS';
 const SET_HOLIDAYS_LOADING = 'CONTENT/SET_HOLIDAYS_LOADING';
 const SET_HOLIDAYS_LOADED = 'CONTENT/SET_HOLIDAYS_LOADED';
-const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
 const SET_NOTIFICATIONS = 'CONTENT/SET_NOTIFICATIONS';
 
 const initialState = {
@@ -18,32 +19,31 @@ const initialState = {
     loading: null,
     holidays: [],
   },
-  requests: null,
   notifications: null,
 };
 
-const contentReducer = (state = initialState, { type, payload }) => {
+const contentReducer = produce((state, { type, payload }) => {
   switch (type) {
     case SET_USERS:
-      return { ...state, users: payload };
+      state.users = payload;
+      break;
     case SET_HOLIDAYS:
-      return { ...state, holidays: { holidays: payload } };
+      state.holidays.holidays = payload;
+      break;
     case SET_HOLIDAYS_LOADING:
-      return { ...state, holidays: { loading: true } };
+      state.holidays.loading = true;
+      break;
     case SET_HOLIDAYS_LOADED:
-      return {
-        ...state,
-        holidays: { loading: false, loaded: true, holidays: payload },
-      };
-    case SET_REQUESTS:
-      return { ...state, requests: payload };
+      state.holidays.loading = false;
+      state.holidays.loaded = true;
+      state.holidays.holidays = payload;
+      break;
     case SET_NOTIFICATIONS:
-      return { ...state, notifications: payload };
-
-    default:
-      return state;
+      state.notifications = payload;
+      break;
+    // no default
   }
-};
+}, initialState);
 
 const setContent = (type, payload, ...rest) => ({ type, payload, ...rest });
 
@@ -61,12 +61,6 @@ const getHolidays = (userId = null) => async (dispatch) => {
     .then(({ data }) => dispatch(setContent(SET_HOLIDAYS_LOADED, data)))
     .catch((error) => dispatch(setError(parseError(error))));
 };
-
-const getRequests = (userId = null) => (dispatch) =>
-  decryptorInstance
-    .get(userId ? `requests?userId=${userId}` : 'requests')
-    .then(({ data }) => dispatch(setContent(SET_REQUESTS, data)))
-    .catch((error) => dispatch(setError(parseError(error))));
 
 const getNotifications = () => (dispatch) =>
   decryptorInstance
@@ -97,7 +91,6 @@ export {
   getUsers,
   getHolidays,
   getNotifications,
-  getRequests,
   updateNotification,
 };
 
