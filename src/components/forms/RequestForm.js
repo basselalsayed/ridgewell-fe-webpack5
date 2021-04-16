@@ -1,11 +1,10 @@
 import { Form, Col } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
+
 import { getMin, getMax, plusTwoMonths, plusTwoDays } from 'helpers';
-import { getHolidays } from 'store/modules';
+
 import {
   CountdownCancel,
   NegativeButton,
@@ -16,56 +15,56 @@ import {
 
 import { today } from 'constants';
 import { useCountdown } from 'hooks';
+import { useRequests } from 'hooks/redux/useRequests';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const { isDelete, isPlaying } = useCountdown();
-  const dispatch = useDispatch();
+
+  const {
+    postDeleteRequest,
+    postNewRequest,
+    postUpdateRequest,
+  } = useRequests();
 
   const schema = yup.object({
     annualLeave: yup.boolean(),
     from: yup
       .date()
       .required('Required')
-      .when('annualLeave', (annualLeave, schema) =>
-        !update && annualLeave
-          ? schema.min(
+      .when('annualLeave', (_annualLeave, _schema) =>
+        !update && _annualLeave
+          ? _schema.min(
               plusTwoMonths(today),
               'Annual Leave must start two months in advance'
             )
-          : schema.min(today, 'Date cannot be in the past')
+          : _schema.min(today, 'Date cannot be in the past')
       ),
     until: yup
       .date()
       .required('Required')
-      .when('from', (from, schema) =>
-        schema.min(from, 'Date cannot be behind start')
+      .when('from', (_from, _schema) =>
+        _schema.min(_from, 'Date cannot be behind start')
       )
-      .when(['annualLeave', 'from'], (annualLeave, from, schema) =>
-        !annualLeave
-          ? schema.max(plusTwoDays(from), 'Maximum sick leave is two days')
-          : schema
+      .when(['annualLeave', 'from'], (_annualLeave, _from, _schema) =>
+        !_annualLeave
+          ? _schema.max(plusTwoDays(_from), 'Maximum sick leave is two days')
+          : _schema
       ),
   });
-  const ENDPOINT = update ? 'requests' : 'holidays';
+
   const updateData = { type: 'update', holidayId: id };
+
+  const onSubmit = (formData, { setStatus }) =>
+    isDelete
+      ? postDeleteRequest(id, setStatus)
+      : update
+      ? postUpdateRequest({ ...formData, ...updateData }, setStatus)
+      : postNewRequest(formData, setStatus);
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={async (data, { setStatus }) => {
-        try {
-          const response = isDelete
-            ? await axios.post('requests', { holidayId: id, type: 'delete' })
-            : await axios.post(
-                ENDPOINT,
-                update ? { ...data, ...updateData } : data
-              );
-
-          return response && (setStatus('Success'), dispatch(getHolidays()));
-        } catch (err) {
-          setStatus(`${err.response.statusText}: ${err.response.data.message}`);
-        }
-      }}
+      onSubmit={onSubmit}
       validateOnMount
       initialValues={{
         from,
@@ -144,12 +143,16 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               <CenteredSpinner />
             ) : isPlaying ? (
               <CountdownCancel />
-            ) : submitCount < 1 ? (
-              <>
-                <SuccessButton title="Submit" errors={errors} />
-                {id && <NegativeButton title="Delete Holiday" holidayId={id} />}
-              </>
-            ) : null}
+            ) : (
+              submitCount < 1 && (
+                <>
+                  <SuccessButton title="Submit" errors={errors} />
+                  {id && (
+                    <NegativeButton title="Delete Holiday" holidayId={id} />
+                  )}
+                </>
+              )
+            )}
           </Form.Row>
           {status && <Status status={status} />}
         </Form>
