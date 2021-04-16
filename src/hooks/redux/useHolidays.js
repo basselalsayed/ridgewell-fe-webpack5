@@ -22,7 +22,8 @@ const useHolidays = () => {
   }, [dispatch, loggedIn]);
 
   const events = useMemo(
-    () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],
+    () =>
+      holidays ? [...holidayEvents(holidays), ...requestEvents(holidays)] : [],
     [holidays]
   );
 

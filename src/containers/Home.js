@@ -1,41 +1,25 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { eventStyleGetter, holidayEvents, requestEvents } from 'helpers';
-import { getHolidays } from 'store/modules';
-import { Event } from 'components/home/event';
 
-import { EventModal } from 'components/home/event/components';
-import { useAuth } from 'hooks/useAuth';
+import { eventStyleGetter } from 'helpers';
+import { Event } from 'components/calendar/event';
+
+import { useHolidays } from 'hooks';
+
+import UniversalComponent from 'components/UniversalComponent';
 
 const localizer = momentLocalizer(moment);
 
 const Home = () => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
-  const handleShow = () => {
-    return setShow(!show, () => show && setDate(null));
-    // return show && setDate(null);
-  };
+  const handleShow = () => setShow(!show, () => show && setDate(null));
 
-  const {
-    holidays: { holidays, loaded, loading },
-  } = useSelector((state) => state.content, shallowEqual);
-  const dispatch = useDispatch();
-
-  const { loggedIn } = useAuth();
-  useEffect(() => {
-    if (loggedIn && !loading && !loaded) dispatch(getHolidays());
-  }, [dispatch, loggedIn]);
-
-  const events = useMemo(
-    () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],
-    [holidays]
-  );
+  const { events } = useHolidays();
 
   const handleSelect = ({ start, end }) => {
     setDate({ start, end });
@@ -57,7 +41,7 @@ const Home = () => {
         selectable
         popup
         localizer={localizer}
-        events={events || []}
+        events={events}
         style={{ height: 800 }}
         onSelectSlot={handleSelect}
         components={{
@@ -66,7 +50,13 @@ const Home = () => {
         eventPropGetter={eventStyleGetter}
         tooltipAccessor={null}
       />
-      {date && <EventModal {...modalProps} />}
+      {date && (
+        <UniversalComponent
+          page="components/calendar/event/components"
+          export="EventModal"
+          {...modalProps}
+        />
+      )}
     </div>
   );
 };
