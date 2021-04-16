@@ -7,10 +7,10 @@ import moment from 'moment';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { eventStyleGetter, holidayEvents, requestEvents } from 'helpers';
 import { getHolidays } from 'store/modules';
+import { useAuth } from 'hooks';
 import { Event } from './event';
 
 import { EventModal } from './event/components';
-import { useAuth } from 'hooks/useAuth';
 
 const localizer = momentLocalizer(moment);
 

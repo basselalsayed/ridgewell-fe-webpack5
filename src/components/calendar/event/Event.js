@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { hasEditAcces } from 'helpers';
-import { EventModal, RequestsTable } from './components';
 import { useAuth } from 'hooks';
+import { EventModal, RequestsTable } from './components';
 
 const Event = ({
   event: { annualLeave, end, holidayRequests, id, start, style, userId },

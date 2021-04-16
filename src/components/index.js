@@ -3,7 +3,7 @@ export * from './burger';
 export * from './forms';
 export * from './Header';
 export * from './holidays';
-export * from './home';
+export * from './calendar';
 export * from './notifications';
 export * from './requests';
 export * from './Spinner';

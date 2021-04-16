@@ -14,17 +14,12 @@ const EventModal = ({
   title,
   update,
 }) => {
-  const { endCountdown } = useCountdown();
+  const { isPlaying, endCountdown } = useCountdown();
+
+  const handleHide = () => (handleShow(), isPlaying && endCountdown());
 
   return (
-    <Modal
-      show={show}
-      onHide={() => {
-        handleShow();
-        endCountdown();
-      }}
-      centered
-    >
+    <Modal show={show} onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Row style={{ width: '80%' }}>
           <Col>
