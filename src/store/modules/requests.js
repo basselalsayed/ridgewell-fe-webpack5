@@ -1,0 +1,81 @@
+import axios from 'axios';
+import { parseError } from 'helpers';
+import produce from 'immer';
+
+import { decryptorInstance } from '../../services/axios';
+import { getHolidays } from './content';
+import { setError } from './response';
+
+const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
+const SET_REQUESTS_LOADING = 'CONTENT/SET_REQUESTS_LOADING';
+const SET_REQUESTS_LOADED = 'CONTENT/SET_REQUESTS_LOADED';
+const POST_DELETE_REQUEST = 'CONTENT/POST_DELETE_REQUEST';
+
+const initialState = {
+  loaded: null,
+  loading: null,
+  requests: [],
+};
+
+const requestsReducer = produce((state, { type, payload }) => {
+  switch (type) {
+    case SET_REQUESTS_LOADING:
+      state.requests.loading = true;
+      break;
+    case SET_REQUESTS_LOADED:
+      state.requests.loading = false;
+      state.requests.loaded = true;
+      state.requests.requests = payload;
+      break;
+    case SET_REQUESTS:
+      state.requests = payload;
+      break;
+    // no default
+  }
+}, initialState);
+
+const setContent = (type, payload, ...rest) => ({ type, payload, ...rest });
+
+const getRequests = (userId = null) => async (dispatch) => {
+  dispatch(setContent(SET_REQUESTS_LOADING));
+
+  await decryptorInstance
+    .get(userId ? `requests?userId=${userId}` : 'requests')
+    .then(({ data }) => dispatch(setContent(SET_REQUESTS_LOADED, data)))
+    .catch((error) => dispatch(setError(parseError(error))));
+};
+
+const postDeleteRequest = (id, setStatus) => async (dispatch) => {
+  try {
+    await axios.post('requests', { holidayId: id, type: 'delete' });
+    setStatus('Success');
+    return dispatch(getHolidays());
+  } catch (error) {
+    return setStatus(parseError(error));
+  }
+};
+
+const postNewRequest = (data, setStatus) => async (dispatch) => {
+  try {
+    await axios.post('holidays', data);
+    setStatus('Success');
+    return dispatch(getHolidays());
+  } catch (error) {
+    return setStatus(parseError(error));
+  }
+};
+
+const postUpdateRequest = (data, setStatus) => async (dispatch) => {
+  try {
+    const res = await axios.post('requests', data);
+    console.log('res', res);
+    setStatus('Success');
+    return dispatch(getHolidays());
+  } catch (error) {
+    return setStatus(parseError(error));
+  }
+};
+
+export { getRequests, postNewRequest, postUpdateRequest, postDeleteRequest };
+
+export default requestsReducer;
