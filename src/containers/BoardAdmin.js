@@ -25,25 +25,17 @@ const BoardAdmin = () => {
     <Row>
       <Col>
         <ListGroup horizontal>
-          <ListGroup.Item
-            action
-            className={tabBtn}
-            href="#requests"
-            children="Requests"
-          />
-          <ListGroup.Item
-            action
-            className={tabBtn}
-            href="#users"
-            children="Users"
-          />
+          <ListGroup.Item action className={tabBtn} href="#requests">
+            Requests
+          </ListGroup.Item>
 
-          <ListGroup.Item
-            action
-            className={tabBtn}
-            href="#holidays"
-            children="Holidays"
-          />
+          <ListGroup.Item action className={tabBtn} href="#users">
+            Users
+          </ListGroup.Item>
+
+          <ListGroup.Item action className={tabBtn} href="#holidays">
+            Holidays
+          </ListGroup.Item>
         </ListGroup>
       </Col>
     </Row>
@@ -52,31 +44,17 @@ const BoardAdmin = () => {
   const tabContent = (
     <Row>
       <Col>
-        {holidays && requests && users ? (
-          <Tab.Content>
-            <Tab.Pane eventKey="#requests">
-              <Requests requests={requests} />
-            </Tab.Pane>
-            <Tab.Pane eventKey="#users">
-              <Users users={users} />
-            </Tab.Pane>
-            <Tab.Pane eventKey="#holidays">
-              <Holidays holidays={holidays} />
-            </Tab.Pane>
-          </Tab.Content>
-        ) : (
-          <Spinner
-            style={{
-              position: 'inherit',
-              color: 'green',
-              left: '50%',
-              top: '50%',
-              marginLeft: '-1rem',
-              marginTop: '1rem',
-            }}
-            animation="border"
-          />
-        )}
+        <Tab.Content>
+          <Tab.Pane eventKey="#requests">
+            <Requests requests={requests} />
+          </Tab.Pane>
+          <Tab.Pane eventKey="#users">
+            <Users users={users} />
+          </Tab.Pane>
+          <Tab.Pane eventKey="#holidays">
+            <Holidays holidays={holidays} />
+          </Tab.Pane>
+        </Tab.Content>
       </Col>
     </Row>
   );
