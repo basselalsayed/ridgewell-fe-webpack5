@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getAll } from 'store/modules';
 import { Holidays, Requests, Users } from 'components';
