@@ -1,17 +1,16 @@
-import { Holiday } from './holiday';
+import UniversalComponent from 'components/UniversalComponent';
+import { useHolidays } from 'hooks';
 
-const Holidays = ({ holidays }) =>
-  holidays && (
-    <div
-      style={{
-        maxHeight: window.innerHeight - 150,
-        overflow: 'auto',
-      }}
-    >
-      {holidays.map((hol) => (
-        <Holiday key={hol.id} {...hol} />
-      ))}
-    </div>
+const Holidays = () => {
+  const { holidays, loading } = useHolidays();
+  return (
+    <UniversalComponent
+      export="BoardDisplay"
+      content={holidays}
+      componentExport="Holiday"
+      loading={loading}
+      emptyMessage="No holidays here"
+    />
   );
-
+};
 export { Holidays };
