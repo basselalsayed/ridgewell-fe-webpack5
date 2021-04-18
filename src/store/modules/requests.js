@@ -9,7 +9,6 @@ import { setError } from './response';
 const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
 const SET_REQUESTS_LOADING = 'CONTENT/SET_REQUESTS_LOADING';
 const SET_REQUESTS_LOADED = 'CONTENT/SET_REQUESTS_LOADED';
-const POST_DELETE_REQUEST = 'CONTENT/POST_DELETE_REQUEST';
 
 const initialState = {
   loaded: null,
@@ -20,12 +19,12 @@ const initialState = {
 const requestsReducer = produce((state, { type, payload }) => {
   switch (type) {
     case SET_REQUESTS_LOADING:
-      state.requests.loading = true;
+      state.loading = true;
       break;
     case SET_REQUESTS_LOADED:
-      state.requests.loading = false;
-      state.requests.loaded = true;
-      state.requests.requests = payload;
+      state.loading = false;
+      state.loaded = true;
+      state.requests = payload;
       break;
     case SET_REQUESTS:
       state.requests = payload;
