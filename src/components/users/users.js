@@ -1,17 +1,20 @@
-import { User } from './user';
+import UniversalComponent from 'components/UniversalComponent';
+import { shallowEqual, useSelector } from 'react-redux';
 
-const Users = ({ users }) =>
-  users && (
-    <div
-      style={{
-        maxHeight: window.innerHeight - 150,
-        overflow: 'auto',
-      }}
-    >
-      {users.map((user) => (
-        <User key={user.id} {...user} />
-      ))}
-    </div>
+const Users = () => {
+  const {
+    users: { loading, users },
+  } = useSelector((state) => state.content, shallowEqual);
+
+  return (
+    <UniversalComponent
+      export="BoardDisplay"
+      content={users}
+      componentExport="User"
+      loading={loading}
+      emptyMessage="No users to display"
+    />
   );
+};
 
 export { Users };
