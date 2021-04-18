@@ -1,19 +1,13 @@
 import { useEffect } from 'react';
 
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAll } from 'store/modules';
 import { Holidays, Requests, Users } from 'components';
 import { tabBtn } from 'components/index.module.css';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
-
-  const {
-    holidays: { holidays },
-    requests,
-    users,
-  } = useSelector((state) => state.content, shallowEqual);
 
   useEffect(() => {
     dispatch(getAll());
@@ -46,13 +40,13 @@ const BoardAdmin = () => {
       <Col>
         <Tab.Content>
           <Tab.Pane eventKey="#requests">
-            <Requests requests={requests} />
+            <Requests />
           </Tab.Pane>
           <Tab.Pane eventKey="#users">
-            <Users users={users} />
+            <Users />
           </Tab.Pane>
           <Tab.Pane eventKey="#holidays">
-            <Holidays holidays={holidays} />
+            <Holidays />
           </Tab.Pane>
         </Tab.Content>
       </Col>
