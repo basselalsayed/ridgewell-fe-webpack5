@@ -6,14 +6,18 @@ import { decryptorInstance, usersInstance } from '../../services/axios';
 import { getRequests } from './requests';
 import { setError, setSuccess } from './response';
 
-const SET_USERS = 'CONTENT/SET_USERS';
-const SET_HOLIDAYS = 'CONTENT/SET_HOLIDAYS';
 const SET_HOLIDAYS_LOADING = 'CONTENT/SET_HOLIDAYS_LOADING';
 const SET_HOLIDAYS_LOADED = 'CONTENT/SET_HOLIDAYS_LOADED';
+const SET_USERS_LOADING = 'CONTENT/SET_USERS_LOADING';
+const SET_USERS_LOADED = 'CONTENT/SET_USERS_LOADED';
 const SET_NOTIFICATIONS = 'CONTENT/SET_NOTIFICATIONS';
 
 const initialState = {
-  users: null,
+  users: {
+    loaded: null,
+    loading: null,
+    users: [],
+  },
   holidays: {
     loaded: null,
     loading: null,
@@ -24,11 +28,13 @@ const initialState = {
 
 const contentReducer = produce((state, { type, payload }) => {
   switch (type) {
-    case SET_USERS:
-      state.users = payload;
+    case SET_USERS_LOADING:
+      state.users.loading = true;
       break;
-    case SET_HOLIDAYS:
-      state.holidays.holidays = payload;
+    case SET_USERS_LOADED:
+      state.users.loading = false;
+      state.users.loaded = true;
+      state.users.users = payload;
       break;
     case SET_HOLIDAYS_LOADING:
       state.holidays.loading = true;
@@ -47,11 +53,14 @@ const contentReducer = produce((state, { type, payload }) => {
 
 const setContent = (type, payload, ...rest) => ({ type, payload, ...rest });
 
-const getUsers = () => (dispatch) =>
-  usersInstance
+const getUsers = () => async (dispatch) => {
+  dispatch(setContent(SET_USERS_LOADING));
+
+  await usersInstance
     .get()
-    .then(({ data }) => dispatch(setContent(SET_USERS, data)))
+    .then(({ data }) => dispatch(setContent(SET_USERS_LOADED, data)))
     .catch((error) => dispatch(setError(parseError(error))));
+};
 
 const getHolidays = (userId = null) => async (dispatch) => {
   dispatch(setContent(SET_HOLIDAYS_LOADING));
