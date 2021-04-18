@@ -24,9 +24,9 @@ const Requests = () => {
         overflow: 'auto',
       }}
     >
-      {requests.map((req) => (
-        <Request key={req.id} {...req} />
-      ))}
+      {requests.length === 0
+        ? 'No requests awaiting approval'
+        : requests.map((req) => <Request key={req.id} {...req} />)}
     </div>
   );
 };
