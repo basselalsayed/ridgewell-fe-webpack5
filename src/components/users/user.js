@@ -1,6 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { formatted } from 'helpers';
-import { RequestsTable } from '../../calendar/event/components';
+import { RequestsTable } from 'components/calendar/event/components';
 
 const User = ({ email, updatedAt, username, owner: requests }) => (
   <Card>
@@ -8,7 +8,11 @@ const User = ({ email, updatedAt, username, owner: requests }) => (
     <Card.Body>
       <p> Email: {email} </p>
       <p> Updated: {formatted(updatedAt, 'panelTime')} </p>
-      <RequestsTable requests={requests} />
+      {requests.length > 0 ? (
+        <RequestsTable requests={requests} />
+      ) : (
+        <p style={{ color: 'orange' }}>No pending requests</p>
+      )}
     </Card.Body>
   </Card>
 );
