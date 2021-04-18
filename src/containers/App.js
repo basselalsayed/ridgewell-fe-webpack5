@@ -1,4 +1,3 @@
-// import { BrowserRouter as Router } from 'react-router-dom';
 import { useEffect } from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './bootstrap.min.css';
@@ -7,7 +6,6 @@ import './App.css';
 import { Header, Alert } from 'components';
 import { renderRoutes } from 'react-router-config';
 import { useNetwork } from 'hooks/useNetwork';
-// import { renderRoutes } from '../Routes';
 
 const App = ({ route }) => {
   useEffect(() => {
