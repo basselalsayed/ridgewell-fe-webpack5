@@ -3,7 +3,7 @@ import { parseError } from 'helpers';
 import produce from 'immer';
 
 import { decryptorInstance } from '../../services/axios';
-import { getHolidays } from './content';
+import { getAll, getHolidays } from './content';
 import { setError } from './response';
 
 const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
@@ -66,8 +66,7 @@ const postNewRequest = (data, setStatus) => async (dispatch) => {
 
 const postUpdateRequest = (data, setStatus) => async (dispatch) => {
   try {
-    const res = await axios.post('requests', data);
-    console.log('res', res);
+    await axios.post('requests', data);
     setStatus('Success');
     return dispatch(getHolidays());
   } catch (error) {
@@ -75,6 +74,27 @@ const postUpdateRequest = (data, setStatus) => async (dispatch) => {
   }
 };
 
-export { getRequests, postNewRequest, postUpdateRequest, postDeleteRequest };
+const confirmRequest = (id, setStatus) => (dispatch) => {
+  axios
+    .put(`requests/${id}/confirm`)
+    .then((res) => (setStatus(res.data.message), dispatch(getAll())))
+    .catch((error) => setStatus(parseError(error)));
+};
+
+const denyRequest = (id, setStatus) => (dispatch) => {
+  axios
+    .put(`requests/${id}/deny`)
+    .then((res) => (setStatus(res.data.message), dispatch(getAll())))
+    .catch((error) => setStatus(parseError(error)));
+};
+
+export {
+  confirmRequest,
+  denyRequest,
+  getRequests,
+  postNewRequest,
+  postUpdateRequest,
+  postDeleteRequest,
+};
 
 export default requestsReducer;
