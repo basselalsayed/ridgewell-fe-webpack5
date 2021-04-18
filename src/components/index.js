@@ -1,4 +1,5 @@
 export * from './Alert';
+export * from './BoardDisplay';
 export * from './burger';
 export * from './forms';
 export * from './Header';
