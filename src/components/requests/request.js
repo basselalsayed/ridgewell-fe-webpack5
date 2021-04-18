@@ -11,8 +11,8 @@ import {
   NegativeButton,
   Status,
   SuccessButton,
-} from '../../forms';
-import { CenteredSpinner } from '../../Spinner';
+} from '../forms';
+import { CenteredSpinner } from '../Spinner';
 
 const FormBase = ({ id }) => {
   const { isDelete, isPlaying } = useCountdown();
