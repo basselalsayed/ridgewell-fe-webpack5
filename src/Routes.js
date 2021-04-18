@@ -1,55 +1,17 @@
-import React from 'react';
-// import _extends from '@babel/runtime/helpers/esm/extends';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { PrivateRoute } from 'components';
+import { AdminRoute, PrivateRoute } from 'components';
 import { App } from 'containers';
-// import UniversalComponent from 'components/UniversalComponent';
 import UniversalContainer from 'containers/UniversalContainer';
 import { asyncConnect } from 'redux-connect';
 import { getHolidays } from 'store/modules';
+import { isAdmin } from 'helpers';
 
-// export const renderRoutes = (routes, extraProps = {}, switchProps = {}) =>
-//   routes &&
-//   React.createElement(
-//     Switch,
-//     switchProps,
-//     routes.map((route, i) =>
-//       route.isPrivate
-//         ? React.createElement(PrivateRoute, {
-//             key: route.key || i,
-//             path: route.path,
-//             exact: route.exact,
-//             strict: route.strict,
-//             component: route.component,
-//           })
-//         : React.createElement(Route, {
-//             key: route.key || i,
-//             path: route.path,
-//             exact: route.exact,
-//             strict: route.strict,
-//             render: (props) =>
-//               route.render
-//                 ? route.render(
-//                     _extends({}, props, {}, extraProps, {
-//                       route,
-//                     })
-//                   )
-//                 : React.createElement(
-//                     route.component,
-//                     _extends({}, props, extraProps, {
-//                       route,
-//                     })
-//                   ),
-//           })
-//     )
-//   );
-
-const Login = () => <UniversalContainer name="Login" />;
-const HomeBase = (props) => <UniversalContainer name="Home" {...props} />;
-const Register = () => <UniversalContainer name="Register" />;
-const Profile = () => <UniversalContainer name="Profile" />;
-const BoardUser = () => <UniversalContainer name="BoardUser" />;
-const BoardAdmin = () => <UniversalContainer name="BoardAdmin" />;
+const Login = () => <UniversalContainer page="Login" />;
+const HomeBase = (props) => <UniversalContainer page="Home" {...props} />;
+const Register = () => <UniversalContainer page="Register" />;
+const Profile = () => <UniversalContainer page="Profile" />;
+const BoardUser = () => <UniversalContainer page="BoardUser" />;
+const BoardAdmin = () => <UniversalContainer page="BoardAdmin" />;
 
 const Home = asyncConnect([
   {
@@ -59,7 +21,7 @@ const Home = asyncConnect([
       console.log('Hi');
       if (!state.content.holidays.loaded && !state.content.holidays.loaded) {
         console.log('asyncconnect was loaded');
-        promises.push(dispatch(getHolidays()));
+        promises.push(dispatch(getHolidays(state.auth.user.id)));
       }
       console.log('promises', promises);
       return Promise.all(promises);
@@ -74,15 +36,24 @@ export const Routes = () => (
     <Route exact path="/register" component={Register} />
     <PrivateRoute exact path="/profile" component={Profile} />
     <PrivateRoute path="/user" component={BoardUser} />
-    <PrivateRoute path="/admin" component={BoardAdmin} />
+    <AdminRoute path="/admin" component={BoardAdmin} />
   </Switch>
 );
 
 export default (store) => {
   const isLoggedIn = () => !!store.getState().auth.user;
 
+  const getUser = () => store.getState().auth.user;
+
   const authRender = (Component) => (props) =>
     isLoggedIn() ? <Component {...props} /> : <Redirect to="/login" />;
+
+  const adminRender = (Component) => (props) =>
+    isLoggedIn() && isAdmin(getUser()) ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to="/home" />
+    );
 
   return [
     {
@@ -119,7 +90,7 @@ export default (store) => {
         {
           path: '/admin',
           exact: true,
-          render: authRender(BoardAdmin),
+          render: adminRender(BoardAdmin),
         },
       ],
     },
