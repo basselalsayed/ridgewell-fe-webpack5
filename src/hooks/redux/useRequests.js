@@ -14,11 +14,14 @@ const useRequests = () => {
     shallowEqual
   );
 
-  const { loggedIn } = useAuth();
+  const {
+    loggedIn,
+    user: { id },
+  } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (loggedIn && !loading && !loaded) _getRequests();
+    if (!loading && !loaded) _getRequests(loggedIn && id);
   }, [dispatch, loggedIn]);
 
   const getRequests = useCallback((userId) => dispatch(_getRequests(userId)), [
