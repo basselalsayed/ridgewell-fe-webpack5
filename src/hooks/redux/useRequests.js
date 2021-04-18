@@ -29,17 +29,18 @@ const useRequests = () => {
   ]);
 
   const postDeleteRequest = useCallback(
-    (id, setStatus) => dispatch(_postDeleteRequest(id, setStatus)),
+    (holidayId, setStatus) =>
+      dispatch(_postDeleteRequest(holidayId, setStatus)),
     [loggedIn]
   );
 
   const postNewRequest = useCallback(
-    (id, setStatus) => dispatch(_postNewRequest(id, setStatus)),
+    (formData, setStatus) => dispatch(_postNewRequest(formData, setStatus)),
     [loggedIn]
   );
 
   const postUpdateRequest = useCallback(
-    (id, setStatus) => dispatch(_postUpdateRequest(id, setStatus)),
+    (formData, setStatus) => dispatch(_postUpdateRequest(formData, setStatus)),
     [loggedIn]
   );
 
