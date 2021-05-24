@@ -3,3 +3,12 @@ export default function authHeader() {
 
   return user && user.accessToken ? { 'x-access-token': user.accessToken } : {};
 }
+
+export const authHeaderFromStore = (store) => {
+  const state = store.getState();
+  return state.auth.user && state.auth.user.accessToken
+    ? {
+        'x-access-token': state.auth.user.accessToken,
+      }
+    : {};
+};
