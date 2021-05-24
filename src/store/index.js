@@ -1,9 +1,10 @@
 import { routerMiddleware } from 'connected-react-router';
 import { createStore, compose, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+
 import { createBrowserHistory } from 'history';
 import createRootReducer from './reducers';
 import offlineMiddleware from './middleware/offlineQueue';
+import apiMiddleware from './middleware/api';
 
 const configureStore = () => {
   const composeEnhancer =
@@ -14,7 +15,11 @@ const configureStore = () => {
 
   const history = createBrowserHistory();
 
-  const middleware = [offlineMiddleware, thunk, routerMiddleware(history)];
+  const middleware = [
+    offlineMiddleware,
+    apiMiddleware,
+    routerMiddleware(history),
+  ];
 
   const store = createStore(
     createRootReducer(history),
