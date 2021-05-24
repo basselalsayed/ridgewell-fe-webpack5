@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { holidayEvents, requestEvents } from 'helpers';
 import { getHolidays as _getHolidays } from 'store/modules';
-import { useAuth } from './useAuth';
+
+import { useAdmin, useAuth } from 'hooks';
 
 const useHolidays = () => {
   const {
@@ -12,9 +13,11 @@ const useHolidays = () => {
   const { loggedIn } = useAuth();
   const dispatch = useDispatch();
 
+  const { defaultArgs } = useAdmin();
+
   const getHolidays = useCallback(
-    (userId = null) => dispatch(_getHolidays(userId)),
-    [loggedIn]
+    (userId = defaultArgs) => dispatch(_getHolidays(userId)),
+    [defaultArgs, loggedIn]
   );
 
   useEffect(() => {
@@ -29,6 +32,7 @@ const useHolidays = () => {
 
   return {
     events,
+    getHolidays,
     holidays,
     loaded,
     loading,
