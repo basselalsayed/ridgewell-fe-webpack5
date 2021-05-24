@@ -40,7 +40,7 @@ module.exports = [
     template: `${paths.src}/template.html`,
     filename: 'index.html',
   }),
-  // new WorkboxPlugin.GenerateSW(),
+  new WorkboxPlugin.GenerateSW(),
   // isProd &&
   //   new MiniCssExtractPlugin({
   //     filename: 'styles/[name].[contenthash].css',
