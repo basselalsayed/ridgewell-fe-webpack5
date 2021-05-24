@@ -1,5 +1,4 @@
-const API_URL = 'http://localhost:5000/';
-// const API_URL = 'https://ridgewell-backend.herokuapp.com/';
+const API_URL = process.env.API_URL;
 
 const colors = {
   hasDelete: 'salmon',
