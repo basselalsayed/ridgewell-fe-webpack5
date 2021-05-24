@@ -5,7 +5,7 @@
   "main": "src/client/index.js",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "start": "NODE_ENV=production npm run build && node src/server/index.js",
+    "start": "NODE_ENV=production node src/server/index.js",
     "dev": "NODE_ENV=development webpack serve --config webpack/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "storybook": "start-storybook -p 6006",
