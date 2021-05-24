@@ -1,11 +1,11 @@
 {
-  "name": "webpack-tutorial",
+  "name": "ridgewell-house-react-frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/client/index.js",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "start": "NODE_ENV=production npm run build && node src/server",
+    "start": "NODE_ENV=production npm run build && node src/server/index.js",
     "dev": "NODE_ENV=development webpack serve --config webpack/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "storybook": "start-storybook -p 6006",
@@ -130,5 +130,9 @@
     "style-loader": "^2.0.0",
     "dotenv-webpack": "^7.0.2",
     "sass": "^1.32.8"
+  },
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
   }
 }

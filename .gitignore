@@ -2,3 +2,10 @@ node_modules
 dist
 .env
 .vscode
+.storybook
+storybook
+*.stories.*
+stories
+src/server/addStore.js
+src/server/document.js
+src/server/serverRenderer.js
