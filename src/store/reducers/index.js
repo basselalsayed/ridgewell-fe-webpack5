@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxAsyncConnect } from 'redux-connect';
 import { connectRouter } from 'connected-react-router';
-import auth from './auth';
+import auth from '../modules/auth';
 import content from '../modules/content';
 import countdown from './countdown';
 import network from '../modules/network';
