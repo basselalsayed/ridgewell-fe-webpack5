@@ -1,8 +1,10 @@
 import UniversalComponent from 'components/UniversalComponent';
 import { useHolidays } from 'hooks';
+import { memo } from 'react';
 
-const Holidays = () => {
+const Holidays = memo(() => {
   const { holidays, loading } = useHolidays();
+
   return (
     <UniversalComponent
       export="BoardDisplay"
@@ -12,5 +14,6 @@ const Holidays = () => {
       emptyMessage="No holidays here"
     />
   );
-};
+});
+
 export { Holidays };

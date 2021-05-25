@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -14,12 +14,14 @@ import UniversalComponent from 'components/UniversalComponent';
 
 const localizer = momentLocalizer(moment);
 
-const Home = () => {
+const Home = memo(() => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show, () => show && setDate(null));
 
-  const { events } = useHolidays();
+  const { getHolidays, events } = useHolidays();
+
+  useEffect(getHolidays, []);
 
   const handleSelect = ({ start, end }) => {
     setDate({ start, end });
@@ -59,7 +61,7 @@ const Home = () => {
       )}
     </div>
   );
-};
+});
 // <header className='jumbotron'>
 // </header>
 

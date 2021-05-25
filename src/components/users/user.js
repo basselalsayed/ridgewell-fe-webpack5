@@ -1,8 +1,9 @@
 import { Card } from 'react-bootstrap';
 import { formatted } from 'helpers';
 import { RequestsTable } from 'components/calendar/event/components';
+import { memo } from 'react';
 
-const User = ({ email, updatedAt, username, owner: requests }) => (
+const User = memo(({ email, updatedAt, username, owner: requests }) => (
   <Card>
     <Card.Title>{username}</Card.Title>
     <Card.Body>
@@ -15,6 +16,6 @@ const User = ({ email, updatedAt, username, owner: requests }) => (
       )}
     </Card.Body>
   </Card>
-);
+));
 
 export { User };

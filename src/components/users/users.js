@@ -1,7 +1,8 @@
 import UniversalComponent from 'components/UniversalComponent';
+import { memo } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 
-const Users = () => {
+const Users = memo(() => {
   const {
     users: { loading, users },
   } = useSelector((state) => state.content, shallowEqual);
@@ -15,6 +16,6 @@ const Users = () => {
       emptyMessage="No users to display"
     />
   );
-};
+});
 
 export { Users };
