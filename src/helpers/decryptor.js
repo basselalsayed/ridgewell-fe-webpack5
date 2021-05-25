@@ -10,6 +10,8 @@ const [algorithm, hex, iv, key, utf8] = [
   'utf-8',
 ];
 
+console.log('iv, key', iv, key);
+
 const decrypt = (encrypted) => {
   const decipher = crypto.createDecipheriv(algorithm, key, iv);
 
