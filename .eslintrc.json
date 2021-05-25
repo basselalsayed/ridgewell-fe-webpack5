@@ -43,5 +43,8 @@
         "config": "./webpack/webpack.common.js"
       }
     }
+  },
+  "globals": {
+    "__CLIENT__": true
   }
 }
