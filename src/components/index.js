@@ -4,7 +4,7 @@ export * from './burger';
 export * from './forms';
 export * from './Header';
 export * from './holidays';
-export * from './calendar';
+export * from './event';
 export * from './notifications';
 export * from './requests';
 export * from './Spinner';

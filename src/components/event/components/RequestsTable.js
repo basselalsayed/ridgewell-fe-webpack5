@@ -1,16 +1,17 @@
+import { memo } from 'react';
 import { Table } from 'react-bootstrap';
 import { capitalize, formatted } from 'helpers';
 
-const RequestRow = ({ from, index, type, until }) => (
+const RequestRow = memo(({ from, index, type, until }) => (
   <tr>
     <td>{index + 1}</td>
     <td>{type && capitalize(type)}</td>
     <td>{from && formatted(from, 'popover')}</td>
     <td>{until && formatted(until, 'popover')}</td>
   </tr>
-);
+));
 
-const RequestsTable = ({ requests }) => {
+const RequestsTable = memo(({ requests }) => {
   const headerRow = (
     <thead>
       <tr>
@@ -34,6 +35,6 @@ const RequestsTable = ({ requests }) => {
       <tbody>{requestRows}</tbody>
     </Table>
   );
-};
+});
 
 export { RequestsTable };
