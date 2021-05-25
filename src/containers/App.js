@@ -17,6 +17,11 @@ const App = ({ route }) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(process.env);
+    console.log('process.env.API_URL', process.env.API_URL);
+  }, []);
+
   useNetwork();
 
   return (
