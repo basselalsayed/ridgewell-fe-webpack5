@@ -12,14 +12,27 @@ const paths = require('./paths');
 
 const isProd = process.env.NODE_ENV === 'production';
 
-console.log('paths.env', paths.env);
+if (isProd) {
+  // eslint-disable-next-line global-require
+  require('dotenv').config();
+}
 
 module.exports = [
   new WebpackBar({
     name: isProd ? 'Production' : 'Development',
     color: isProd ? 'blue' : 'orange',
   }),
-  !isProd && new Dotenv({ path: paths.env }),
+  isProd
+    ? new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+          PORT: JSON.stringify(process.env.PORT),
+          API_URL: JSON.stringify(process.env.API_URL),
+          MY_IV: JSON.stringify(process.env.MY_IV),
+          MY_SECRET_KEY: JSON.stringify(process.env.MY_SECRET_KEY),
+        },
+      })
+    : new Dotenv({ path: paths.env }),
   new webpack.ProvidePlugin({
     process: 'process/browser',
     Buffer: ['buffer', 'Buffer'],
