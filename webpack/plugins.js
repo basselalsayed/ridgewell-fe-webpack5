@@ -17,22 +17,38 @@ if (isProd) {
   require('dotenv').config();
 }
 
-module.exports = [
+const shared = [
   new WebpackBar({
     name: isProd ? 'Production' : 'Development',
     color: isProd ? 'blue' : 'orange',
   }),
   isProd
     ? new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          PORT: JSON.stringify(process.env.PORT),
-          API_URL: JSON.stringify(process.env.API_URL),
-          MY_IV: JSON.stringify(process.env.MY_IV),
-          MY_SECRET_KEY: JSON.stringify(process.env.MY_SECRET_KEY),
-        },
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.PORT': JSON.stringify(process.env.PORT),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+        'process.env.MY_IV': JSON.stringify(process.env.MY_IV),
+        'process.env.MY_SECRET_KEY': JSON.stringify(process.env.MY_SECRET_KEY),
       })
     : new Dotenv({ path: paths.env }),
+  new LoadablePlugin({ filename: 'stats.json', writeToDisk: true }),
+];
+
+// not implemented yet
+// eslint-disable-next-line no-unused-vars
+const server = [
+  ...shared,
+  new webpack.DefinePlugin({
+    __CLIENT__: JSON.stringify(false),
+    __SERVER__: JSON.stringify(true),
+  }),
+];
+
+module.exports = [
+  ...shared,
+  new webpack.DefinePlugin({
+    __CLIENT__: JSON.stringify(true),
+  }),
   new webpack.ProvidePlugin({
     process: 'process/browser',
     Buffer: ['buffer', 'Buffer'],
@@ -65,7 +81,6 @@ module.exports = [
     filename: !isProd ? '[name].css' : '[name].[contenthash].css',
     chunkFilename: !isProd ? '[id].css' : '[id].[chunkhash].css',
   }),
-  new LoadablePlugin({ filename: 'stats.json', writeToDisk: true }),
   !isProd &&
     (new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()),
 ].filter(Boolean);
