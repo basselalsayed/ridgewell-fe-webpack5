@@ -1,11 +1,9 @@
-import { Card, Row, Col, Form } from 'react-bootstrap';
-
+import { useCallback } from 'react';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import { Card, Row, Col, Form } from 'react-bootstrap';
 import { capitalize, formatted, isAdmin } from 'helpers';
-import { getAll } from 'store/modules';
 import { useAuth, useCountdown } from 'hooks';
+import { useRequests } from 'hooks/redux/useRequests';
 import {
   CountdownCancel,
   NegativeButton,
@@ -16,24 +14,17 @@ import { CenteredSpinner } from '../Spinner';
 
 const FormBase = ({ id }) => {
   const { isDelete, isPlaying } = useCountdown();
-  const dispatch = useDispatch();
+
+  const { confirmRequest, denyRequest } = useRequests();
+
+  const onSubmit = useCallback(
+    async (_, { setStatus }) =>
+      isDelete ? denyRequest(id, setStatus) : confirmRequest(id, setStatus),
+    []
+  );
 
   return (
-    <Formik
-      initialValues={{ null: null }}
-      onSubmit={(_, { setStatus }) =>
-        axios
-          .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
-          .then(
-            (res) => (res && setStatus(res.data.message), dispatch(getAll()))
-          )
-          .catch((err) =>
-            setStatus(
-              `${err.response.statusText}: ${err.response.data.message}`
-            )
-          )
-      }
-    >
+    <Formik initialValues={{ null: null }} onSubmit={onSubmit}>
       {({ handleSubmit, isSubmitting, status }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row}>
