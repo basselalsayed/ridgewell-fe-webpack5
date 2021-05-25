@@ -1,5 +1,6 @@
-const capitalize = (s) => {
-  if (typeof s !== 'string') s = s.toString();
+const capitalize = (string) => {
+  let s;
+  if (typeof string !== 'string') s = string.toString();
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
