@@ -17,11 +17,15 @@ const localizer = momentLocalizer(moment);
 const Home = memo(() => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show, () => show && setDate(null));
+  const handleShow = () => setShow((prevShow) => !prevShow);
 
   const { getHolidays, events } = useHolidays();
 
   useEffect(getHolidays, []);
+
+  useEffect(() => {
+    if (!show) setDate(null);
+  }, [show]);
 
   const handleSelect = ({ start, end }) => {
     setDate({ start, end });
