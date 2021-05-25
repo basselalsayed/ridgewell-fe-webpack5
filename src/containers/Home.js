@@ -54,7 +54,7 @@ const Home = memo(() => {
       />
       {date && (
         <UniversalComponent
-          page="components/calendar/event/components"
+          page="components/event/components"
           export="EventModal"
           {...modalProps}
         />
