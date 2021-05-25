@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 const API_URL = process.env.API_URL;
 
 const colors = {

@@ -12,12 +12,14 @@ const paths = require('./paths');
 
 const isProd = process.env.NODE_ENV === 'production';
 
+console.log('paths.env', paths.env);
+
 module.exports = [
   new WebpackBar({
     name: isProd ? 'Production' : 'Development',
     color: isProd ? 'blue' : 'orange',
   }),
-  new Dotenv({ path: paths.env, safe: true }),
+  !isProd && new Dotenv({ path: paths.env }),
   new webpack.ProvidePlugin({
     process: 'process/browser',
     Buffer: ['buffer', 'Buffer'],
