@@ -10,50 +10,51 @@ const decryptorInstance = axios.create({
 const decryptManagerId = (array) =>
   array.length > 0 ? array.map((managerObj) => decryptUser(managerObj)) : array;
 
-// function decryptNestedHolidays(obj) {
-//   for (const property in obj) {
-//     if (obj.hasOwnProperty(property)) {
-//       if (property === 'managerId') {
-//         obj[property] = decryptManagerId(obj[property]);
-//       }
-//       if (property === 'User') {
-//         obj[property] = decryptUser(obj[property]);
-//       }
-//       if (typeof obj[property] === 'object') {
-//         decryptNestedHolidays(obj[property]);
-//       }
-//     }
-//   }
-// }
 function decryptNestedHolidays(obj) {
-  let object;
-  // Object.keys(obj).forEach((key) => {})
-  const objectKeys = Object.keys(obj);
-
-  for (let i = 0; i < objectKeys.length; i++) {
-    const key = objectKeys[i];
-    if (key === 'managerId') {
-      object = {
-        ...obj,
-        managerId: decryptManagerId(obj.managerId),
-      };
-    }
-    if (key === 'User') {
-      object = {
-        ...object,
-        User: decryptManagerId(obj.User),
-      };
-    }
-    if (typeof obj[key] === 'object') {
-      decryptNestedHolidays(object[key]);
+  for (const property in obj) {
+    if (obj.hasOwnProperty(property)) {
+      if (property === 'managerId') {
+        obj[property] = decryptManagerId(obj[property]);
+      }
+      if (property === 'User') {
+        obj[property] = decryptUser(obj[property]);
+      }
+      if (typeof obj[property] === 'object') {
+        decryptNestedHolidays(obj[property]);
+      }
     }
   }
 }
+// function decryptNestedHolidays(obj) {
+//   let object;
+//   // Object.keys(obj).forEach((key) => {})
+//   const objectKeys = Object.keys(obj);
+
+//   for (let i = 0; i < objectKeys.length; i++) {
+//     const key = objectKeys[i];
+//     if (key === 'managerId') {
+//       object = {
+//         ...obj,
+//         managerId: decryptManagerId(obj.managerId),
+//       };
+//     }
+//     if (key === 'User') {
+//       object = {
+//         ...object,
+//         User: decryptManagerId(obj.User),
+//       };
+//     }
+//     if (typeof obj[key] === 'object') {
+//       decryptNestedHolidays(object[key]);
+//     }
+//   }
+// }
 
 decryptorInstance.interceptors.response.use((res) => {
   res.data.forEach((holiday) => {
     decryptNestedHolidays(holiday);
   });
+
   return res;
 });
 
