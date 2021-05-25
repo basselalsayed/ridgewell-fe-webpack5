@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { AdminRoute, PrivateRoute } from 'components';
 import { App } from 'containers';
@@ -5,6 +6,7 @@ import UniversalContainer from 'containers/UniversalContainer';
 import { asyncConnect } from 'redux-connect';
 import { getHolidays } from 'store/modules';
 import { isAdmin } from 'helpers';
+import { useAuth } from 'hooks';
 
 const Login = () => <UniversalContainer page="Login" />;
 const HomeBase = (props) => <UniversalContainer page="Home" {...props} />;
@@ -91,6 +93,14 @@ export default (store) => {
           path: '/admin',
           exact: true,
           render: adminRender(BoardAdmin),
+        },
+        {
+          path: '/logout',
+          exact: true,
+          component: () => {
+            useEffect(useAuth().logOut, []);
+            return null;
+          },
         },
       ],
     },
