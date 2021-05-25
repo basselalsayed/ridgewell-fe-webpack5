@@ -6,7 +6,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 
 import { eventStyleGetter } from 'helpers';
-import { Event } from 'components/calendar/event';
+import { Event } from 'components/event';
 
 import { useHolidays } from 'hooks';
 

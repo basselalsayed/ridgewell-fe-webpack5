@@ -1,6 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { formatted } from 'helpers';
-import { RequestsTable } from 'components/calendar/event/components';
+import { RequestsTable } from 'components/event/components';
 import { memo } from 'react';
 
 const User = memo(({ email, updatedAt, username, owner: requests }) => (
