@@ -74,19 +74,27 @@ const postUpdateRequest = (data, setStatus) => async (dispatch) => {
   }
 };
 
-const confirmRequest = (id, setStatus) => (dispatch) => {
+// const confirmRequest = (id, setStatus) => async (dispatch) => {
+//   try {
+//     const res = await axios.put(`requests/${id}/confirm`);
+//     setStatus(res.data.message);
+//     return dispatch(getAll());
+//   } catch (error) {
+//     return setStatus(parseError(error));
+//   }
+// };
+
+const confirmRequest = (id, setStatus) => (dispatch) =>
   axios
     .put(`requests/${id}/confirm`)
     .then((res) => (setStatus(res.data.message), dispatch(getAll())))
     .catch((error) => setStatus(parseError(error)));
-};
 
-const denyRequest = (id, setStatus) => (dispatch) => {
+const denyRequest = (id, setStatus) => (dispatch) =>
   axios
     .put(`requests/${id}/deny`)
     .then((res) => (setStatus(res.data.message), dispatch(getAll())))
     .catch((error) => setStatus(parseError(error)));
-};
 
 export {
   confirmRequest,
