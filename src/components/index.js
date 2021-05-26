@@ -7,6 +7,7 @@ export * from './holidays';
 export * from './event';
 export * from './notifications';
 export * from './requests';
+export * from './skeletons';
 export * from './Spinner';
 export * from './PrivateRoute';
 export * from './users';
