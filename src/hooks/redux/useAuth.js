@@ -1,3 +1,4 @@
+import { isAdmin as isAdminHelper } from 'helpers';
 import { useCallback, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -22,7 +23,8 @@ const useAuth = () => {
     dispatch,
   ]);
 
-  const isAdmin = useMemo(() => loggedIn && user.roles.includes('ROLE_ADMIN'), [
+  const isAdmin = useMemo(() => (loggedIn ? isAdminHelper(user) : false), [
+    loggedIn,
     user,
   ]);
 
