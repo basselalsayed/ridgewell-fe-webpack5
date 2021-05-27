@@ -30,6 +30,8 @@ const headers = authHeaderFromStore(store);
 // usersInstance.defaults.headers = authHeaderFromStore(store);
 axios.defaults.timeout = 10000;
 
+axios.get();
+
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
