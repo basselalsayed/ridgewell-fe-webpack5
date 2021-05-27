@@ -1,18 +1,11 @@
-import { useEffect } from 'react';
-
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { getAll } from 'store/modules';
 import { Holidays, Requests, Users } from 'components';
 import { tabBtn } from 'components/index.module.css';
 
+import UniversalComponent from 'components/UniversalComponent';
+import 'components/skeletons/skeleton.scss';
+
 const BoardAdmin = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAll());
-  }, [dispatch]);
-
   //  <div className='container'>
   // <header className='jumbotron'>
   const tabButtons = (
@@ -55,6 +48,7 @@ const BoardAdmin = () => {
 
   return (
     <Tab.Container id="admin-dash" defaultActiveKey="#requests">
+      <UniversalComponent export="SkeletonCard" />
       {tabButtons}
       {tabContent}
     </Tab.Container>
