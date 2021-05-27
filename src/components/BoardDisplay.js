@@ -1,19 +1,17 @@
-import { Spinner } from 'react-bootstrap';
+import { useLoadingDelay } from 'hooks';
 import UniversalComponent from './UniversalComponent';
 
-const BoardDisplay = ({ loading, content, emptyMessage, componentExport }) =>
-  loading ? (
-    <Spinner
-      style={{
-        position: 'absolute',
-        color: 'green',
-        left: '50%',
-        top: '50%',
-        marginLeft: '-1rem',
-        marginTop: '1rem',
-      }}
-      animation="border"
-    />
+const BoardDisplay = ({
+  loaded,
+  loading,
+  content,
+  emptyMessage,
+  componentExport,
+}) => {
+  const { showLoading } = useLoadingDelay({ loaded, loading, timeout: 500 });
+
+  return showLoading ? (
+    <UniversalComponent export="SkeletonsList" type="SkeletonCard" />
   ) : (
     <div
       style={{
@@ -32,5 +30,6 @@ const BoardDisplay = ({ loading, content, emptyMessage, componentExport }) =>
           ))}
     </div>
   );
+};
 
 export { BoardDisplay };
