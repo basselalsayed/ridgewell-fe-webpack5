@@ -2,7 +2,6 @@ import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { Holidays, Requests, Users } from 'components';
 import { tabBtn } from 'components/index.module.css';
 
-import UniversalComponent from 'components/UniversalComponent';
 import 'components/skeletons/skeleton.scss';
 
 const BoardAdmin = () => {
@@ -48,7 +47,6 @@ const BoardAdmin = () => {
 
   return (
     <Tab.Container id="admin-dash" defaultActiveKey="#requests">
-      <UniversalComponent export="SkeletonCard" />
       {tabButtons}
       {tabContent}
     </Tab.Container>
