@@ -4,7 +4,7 @@ import UniversalComponent from 'components/UniversalComponent';
 import { memo } from 'react';
 
 const Requests = memo(() => {
-  const { requests, loading } = useRequests();
+  const { requests, loaded, loading } = useRequests();
 
   return (
     <UniversalComponent
@@ -12,6 +12,7 @@ const Requests = memo(() => {
       content={requests}
       componentExport="Request"
       loading={loading}
+      loaded={loaded}
       emptyMessage="No requests awaiting approval"
     />
   );

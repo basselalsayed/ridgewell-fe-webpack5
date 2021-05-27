@@ -3,7 +3,7 @@ import { useHolidays } from 'hooks';
 import { memo } from 'react';
 
 const Holidays = memo(() => {
-  const { holidays, loading } = useHolidays();
+  const { holidays, loading, loaded } = useHolidays();
 
   return (
     <UniversalComponent
@@ -11,6 +11,7 @@ const Holidays = memo(() => {
       content={holidays}
       componentExport="Holiday"
       loading={loading}
+      loaded={loaded}
       emptyMessage="No holidays here"
     />
   );
