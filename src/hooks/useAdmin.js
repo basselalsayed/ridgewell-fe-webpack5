@@ -11,7 +11,7 @@ const useAdmin = () => {
 
   const defaultArgs = useMemo(
     () => (shouldFetchAll || !loggedIn ? null : user.id),
-    [loggedIn, shouldFetchAll]
+    [loggedIn, user, shouldFetchAll]
   );
 
   return {
