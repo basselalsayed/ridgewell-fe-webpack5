@@ -5,15 +5,14 @@ import { useAuth } from './redux';
 const useAdmin = () => {
   const { pathname } = useLocation();
 
-  const {
-    user: { id },
-  } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   const shouldFetchAll = useMemo(() => !/user/.test(pathname), [pathname]);
 
-  const defaultArgs = useMemo(() => (shouldFetchAll ? null : id), [
-    shouldFetchAll,
-  ]);
+  const defaultArgs = useMemo(
+    () => (shouldFetchAll || !loggedIn ? null : user.id),
+    [loggedIn, shouldFetchAll]
+  );
 
   return {
     defaultArgs,
