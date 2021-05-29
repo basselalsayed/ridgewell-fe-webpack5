@@ -13,8 +13,8 @@ const Users = memo(() => {
   const { loggedIn } = useAuth();
 
   useEffect(() => {
-    if (loggedIn && !loading && !loading) dispatch(getUsers());
-  }, [dispatch]);
+    if (loggedIn && !loading && !loaded) dispatch(getUsers());
+  }, [dispatch, loading, loaded]);
 
   return (
     <UniversalComponent
