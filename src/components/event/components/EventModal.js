@@ -3,7 +3,8 @@ import { useCountdown } from 'hooks';
 import { Modal, Col, Row } from 'react-bootstrap';
 
 import { formatted } from 'helpers';
-import { RequestForm } from 'components';
+
+import UniversalComponent from 'components/UniversalComponent';
 
 const EventModal = memo(
   ({ annualLeave, id, handleShow, show, start, end, title, update }) => {
@@ -21,7 +22,8 @@ const EventModal = memo(
           </Row>
         </Modal.Header>
         <Modal.Body>
-          <RequestForm
+          <UniversalComponent
+            export="RequestForm"
             annualLeave={annualLeave}
             id={id}
             from={formatted(start, 'form')}
