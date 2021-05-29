@@ -4,7 +4,7 @@ import { AdminRoute, PrivateRoute } from 'components';
 import { App } from 'containers';
 import UniversalContainer from 'containers/UniversalContainer';
 import { asyncConnect } from 'redux-connect';
-import { getHolidays } from 'store/modules';
+import { getAllHolidays } from 'store/modules';
 import { isAdmin } from 'helpers';
 import { useAuth } from 'hooks';
 
@@ -23,7 +23,7 @@ const Home = asyncConnect([
       console.log('Hi');
       if (!state.content.holidays.loaded && !state.content.holidays.loaded) {
         console.log('asyncconnect was loaded');
-        promises.push(dispatch(getHolidays(state.auth.user.id)));
+        promises.push(dispatch(getAllHolidays()));
       }
       console.log('promises', promises);
       return Promise.all(promises);
