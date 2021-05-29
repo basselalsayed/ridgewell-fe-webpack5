@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import './bootstrap.min.css';
 import './App.css';
 
-import { Header, Alert } from 'components';
 import { renderRoutes } from 'react-router-config';
 import { useNetwork } from 'hooks/useNetwork';
+import UniversalComponent from 'components/UniversalComponent';
 
 const App = ({ route }) => {
   useEffect(() => {
@@ -26,8 +26,8 @@ const App = ({ route }) => {
 
   return (
     <>
-      <Header />
-      <Alert />
+      <UniversalComponent export="Header" />
+      <UniversalComponent export="Alert" />
       <div>
         <div className="container mt-3">{renderRoutes(route.routes)}</div>
       </div>
