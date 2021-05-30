@@ -31,4 +31,9 @@ const configureStore = () => {
   return { history, store };
 };
 
+export const createAction = (type, payload) => ({
+  type,
+  payload,
+});
+
 export default configureStore;
