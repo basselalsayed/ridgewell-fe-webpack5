@@ -3,6 +3,7 @@ import { reducer as reduxAsyncConnect } from 'redux-connect';
 import { connectRouter } from 'connected-react-router';
 import auth from '../modules/auth';
 import content from '../modules/content';
+import entities from '../modules/entities';
 import countdown from './countdown';
 import network from '../modules/network';
 import response from '../modules/response';
@@ -14,6 +15,7 @@ export default (history) =>
     reduxAsyncConnect,
     auth,
     content,
+    entities,
     countdown,
     network,
     response,
