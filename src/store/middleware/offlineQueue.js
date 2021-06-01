@@ -1,5 +1,6 @@
 import { SET_OFFLINE, SET_ONLINE, SET_QUEUE } from 'store/modules/network';
 import { setError, setSuccess } from 'store/modules/response';
+import { API } from './api';
 
 const ASYNC_PAYLOAD_FIELDS = ['queueIfOffline'];
 
@@ -56,7 +57,7 @@ const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
         },
       };
 
-  if (!isFunction && action.meta.skipOptimist) {
+  if (!isFunction && action.meta && action.meta.skipOptimist) {
     // if it's a action which was in the queue already
     return next({
       type: SET_QUEUE,
@@ -69,12 +70,11 @@ const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
     payload: actionToQueue,
   });
 
-  if (result)
-    next(
-      setSuccess(
-        "Your change has been queued, we'll try synchronising once you're back online"
-      )
-    );
+  const message = (
+    placeholder = "Your change has been queued, we'll try synchronising once you're back online"
+  ) => (action.meta && action.meta.offlineMessage) || placeholder;
+
+  if (result) next(setSuccess(message()));
   else next(setError("You're change couldn't be queued, please try again"));
 
   const actionToDispatchNow = action;
@@ -84,8 +84,12 @@ const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
       delete actionToDispatchNow[field];
     });
 
-  return isFunction
-    ? Promise.resolve({ data: { message: 'Event was queued' } })
+  return isFunction || action.type === API
+    ? Promise.resolve({
+        data: {
+          message: message`Event was queued`,
+        },
+      })
     : next(actionToDispatchNow);
 };
 
