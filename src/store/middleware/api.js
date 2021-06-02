@@ -15,7 +15,7 @@ const createApiAction = ({
   method = 'GET',
   meta = {},
   data = null,
-  onSuccess = () => {},
+  onSuccess = null,
   onFailure = () => {},
   schema = null,
 }) => ({
@@ -52,7 +52,7 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => {
 
   const [SET_LOADING, SET_LOADED] = types;
 
-  dispatch(createAction(SET_LOADING));
+  dispatch(createAction(SET_LOADING, action.payload));
 
   const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
 
@@ -65,13 +65,18 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => {
       [dataOrParams]: data,
     })
     .then(({ data: resData }) => {
+      const handleRequestFinish = (_result, _resData) => {
+        if (onSuccess) return dispatch(onSuccess(_result));
+        return dispatch(createAction(SET_LOADED, _result || _resData));
+      };
       if (schema) {
         const { entities, result } = normalize(resData, schema);
 
         next(createAction(SET_ENTITIES, entities));
-        return dispatch(createAction(SET_LOADED, result)), onSuccess();
+
+        return handleRequestFinish(result);
       }
-      return dispatch(createAction(SET_LOADED, resData)), onSuccess();
+      return handleRequestFinish(null, resData);
     })
     .catch((error) => dispatch(setError(parseError(error)), onFailure()));
 };
