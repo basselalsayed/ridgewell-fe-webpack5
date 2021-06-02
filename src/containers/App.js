@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './bootstrap.min.css';
-import './App.css';
+import './App.scss';
 
 import { renderRoutes } from 'react-router-config';
 import { useNetwork } from 'hooks/useNetwork';
