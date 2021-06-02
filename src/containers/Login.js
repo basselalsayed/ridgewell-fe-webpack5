@@ -8,7 +8,7 @@ import { useAuth } from 'hooks';
 // import { Status } from 'components/forms';
 import { useHistory } from 'react-router-dom';
 import { Status, CenteredSpinner } from 'components';
-import { successBtn } from 'components/index.module.css';
+import { successBtn } from 'components/index.module.scss';
 
 const Login = () => {
   const { login } = useAuth();

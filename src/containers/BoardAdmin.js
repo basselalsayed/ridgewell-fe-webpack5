@@ -1,6 +1,6 @@
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { Holidays, Requests, Users } from 'components';
-import { tabBtn } from 'components/index.module.css';
+import { tabBtn } from 'components/index.module.scss';
 
 import 'components/skeletons/skeleton.scss';
 

@@ -1,7 +1,7 @@
 import { useCountdown } from 'hooks';
 import { Button } from 'react-bootstrap';
 
-import { dangerBtn, successBtn } from '../index.module.css';
+import { dangerBtn, successBtn } from '../index.module.scss';
 
 const SuccessButton = ({ errors, id, title }) => {
   const { startConfirmCountdown } = useCountdown();
