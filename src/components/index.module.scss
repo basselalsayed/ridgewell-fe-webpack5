@@ -1,7 +1,3 @@
-@import '~bootstrap/scss/_functions.scss';
-@import '~bootstrap/scss/_variables.scss';
-@import '~bootstrap/scss/_mixins.scss';
-
 .banner {
   display: flex;
   justify-content: center;
@@ -10,34 +6,6 @@
   background-color: turquoise;
 }
 
-.tabBtnContainer {
-  display: flex;
-  justify-content: space-evenly;
-  width: 90%;
-
-  .tabBtn {
-    font-weight: 500;
-    text-align: center;
-    padding: 1em 1em;
-    flex-basis: 33.33%;
-    border: 1px solid $primary;
-    border-radius: 2px;
-    &:hover {
-      cursor: pointer;
-    }
-    &:first-child {
-      border-radius: 5px 2px 2px 5px;
-    }
-    &:last-child {
-      border-radius: 2px 5px 5px 2px;
-    }
-    /* color: darkblue; */
-    &.active {
-      background-color: $primary;
-      color: white;
-    }
-  }
-}
 .dangerBtn {
   margin-top: 1rem;
   background-color: #f0b4b9;
@@ -45,11 +13,11 @@
   color: #721c24;
   cursor: pointer;
   width: 100%;
-}
 
-.dangerBtn:hover {
-  background-color: #f7949c;
-  border-color: #f7949c;
+  &:hover {
+    background-color: #f7949c;
+    border-color: #f7949c;
+  }
 }
 
 .successBtn {
@@ -69,22 +37,20 @@
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+  &:disabled {
+    cursor: default;
+    background-color: #d0edd7;
+    color: #2e5537;
+  }
 
-.successBtn:disabled {
-  cursor: default;
-  background-color: #d0edd7;
-  color: #2e5537;
-}
-
-.successBtn:not(:disabled):hover {
-  background-color: #7ee997;
-  border-color: #95eba9;
-  color: black;
-}
-
-.successBtn:active:focus {
-  background-color: #2cb34b;
-  border: 2px solid #2cb34b;
-  color: black;
+  &:not(:disabled):hover {
+    background-color: #7ee997;
+    border-color: #95eba9;
+    color: black;
+  }
+  &:active:focus {
+    background-color: #2cb34b;
+    border: 2px solid #2cb34b;
+    color: black;
+  }
 }
