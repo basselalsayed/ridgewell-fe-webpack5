@@ -7,11 +7,13 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   output: {
-    path: paths.build,
+    path: paths.buildClient,
     publicPath: '/',
-    filename: 'js/[name].[contenthash].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].bundle.js',
   },
   optimization: {
+    usedExports: true,
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), '...'],
     runtimeChunk: {
