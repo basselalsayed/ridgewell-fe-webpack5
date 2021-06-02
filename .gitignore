@@ -4,6 +4,7 @@ dist
 .vscode
 .storybook
 storybook
+storybook-static
 *.stories.*
 stories
 src/server/addStore.js
