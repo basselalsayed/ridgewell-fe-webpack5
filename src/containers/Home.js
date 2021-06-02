@@ -19,9 +19,7 @@ const Home = memo(() => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow((prevShow) => !prevShow);
 
-  const { getAllHolidays, events } = useHolidays();
-
-  useEffect(getAllHolidays, []);
+  const { events } = useHolidays();
 
   useEffect(() => {
     if (!show) setDate(null);
