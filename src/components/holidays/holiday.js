@@ -10,8 +10,11 @@ const Holiday = ({
   User: { email, username },
 }) => {
   const approvedBy =
-    HolidayRequests[0].managerId[0] && HolidayRequests[0].managerId[0].username;
+    HolidayRequests.length > 0 &&
+    HolidayRequests[0].managerId[0] &&
+    HolidayRequests[0].managerId[0].username;
   const approvedDate =
+    HolidayRequests.length > 0 &&
     HolidayRequests[0].managerId[0] &&
     HolidayRequests[0].managerId[0].ApprovedRequests.createdAt;
 
