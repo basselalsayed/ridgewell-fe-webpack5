@@ -6,48 +6,68 @@ import {
   getAllHolidays as _getAllHolidays,
 } from 'store/modules';
 
-import { useAdmin, useAuth } from 'hooks';
+import { useAdmin, useAuth, useEntities } from 'hooks';
+import { useLocation } from 'react-router';
 
 const useHolidays = () => {
   const {
     holidays: { holidays, loaded, loading },
   } = useSelector((state) => state.content, shallowEqual);
 
-  const { isAdmin, loggedIn } = useAuth();
+  const { pathname } = useLocation();
+
+  const { isOnUserPage, loggedIn } = useAuth();
+
   const dispatch = useDispatch();
 
   const { defaultArgs } = useAdmin();
-
-  const getHolidays = useCallback(
-    (userId = defaultArgs) => dispatch(_getHolidays(userId)),
-    [defaultArgs, loggedIn]
-  );
 
   const getUserHolidays = useCallback(
     (userId) => dispatch(_getUserHolidays(userId)),
     [defaultArgs, loggedIn]
   );
-  const getAllHolidays = useCallback(
-    () => isAdmin && dispatch(_getAllHolidays()),
-    [loggedIn, isAdmin]
-  );
+
+  const getAllHolidays = useCallback(() => dispatch(_getAllHolidays()));
 
   useEffect(() => {
-    return loggedIn && !loading && !loaded
-      ? defaultArgs
-        ? getUserHolidays(defaultArgs)
-        : getAllHolidays()
-      : null;
-  }, [dispatch, loggedIn]);
+    if (
+      loggedIn &&
+      !isOnUserPage &&
+      ['/', '/admin', '/home'].includes(pathname)
+    ) {
+      if (!loading && !loaded) getAllHolidays();
+    }
+  }, [loggedIn, isOnUserPage, pathname, loading, loaded]);
+
+  const { entities, getDenormalizedEntity } = useEntities();
+
+  const getHolidayEntities = useCallback((input) =>
+    getDenormalizedEntity('holidays', input)
+  );
+
+  const allHolidayIds = useMemo(() => Object.keys(entities.holidays), [
+    entities.holidays,
+  ]);
+
+  const allHolidayEntities = useMemo(() => getHolidayEntities(allHolidayIds), [
+    allHolidayIds,
+  ]);
 
   const events = useMemo(
     () =>
-      holidays ? [...holidayEvents(holidays), ...requestEvents(holidays)] : [],
-    [holidays]
+      allHolidayEntities
+        ? [
+            ...holidayEvents(allHolidayEntities),
+            ...requestEvents(allHolidayEntities),
+          ]
+        : [],
+    [allHolidayEntities]
   );
 
   return {
+    allHolidayEntities,
     events,
+    getHolidayEntities,
     getUserHolidays,
     getAllHolidays,
     holidays,
