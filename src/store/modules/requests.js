@@ -3,7 +3,7 @@ import { parseError } from 'helpers';
 import produce from 'immer';
 
 import { decryptorInstance } from '../../services/axios';
-import { getAll, getHolidays } from './content';
+import { getAll, getAllHolidays } from './content';
 import { setError } from './response';
 
 const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
@@ -48,7 +48,7 @@ const postDeleteRequest = (id, setStatus) => async (dispatch) => {
   try {
     await axios.post('requests', { holidayId: id, type: 'delete' });
     setStatus('Success');
-    return dispatch(getHolidays());
+    return dispatch(getAllHolidays());
   } catch (error) {
     return setStatus(parseError(error));
   }
@@ -58,7 +58,7 @@ const postNewRequest = (data, setStatus) => async (dispatch) => {
   try {
     await axios.post('holidays', data);
     setStatus('Success');
-    return dispatch(getHolidays());
+    return dispatch(getAllHolidays());
   } catch (error) {
     return setStatus(parseError(error));
   }
@@ -68,7 +68,7 @@ const postUpdateRequest = (data, setStatus) => async (dispatch) => {
   try {
     await axios.post('requests', data);
     setStatus('Success');
-    return dispatch(getHolidays());
+    return dispatch(getAllHolidays());
   } catch (error) {
     return setStatus(parseError(error));
   }
