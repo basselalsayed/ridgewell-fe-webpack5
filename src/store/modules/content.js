@@ -4,6 +4,7 @@ import produce from 'immer';
 import { createAction } from 'store';
 import { createApiAction } from 'store/middleware/api';
 import { holidaySchema } from 'store/schemas/holidaySchema';
+import { user } from 'store/schemas/userSchema';
 
 import { getRequests } from './requests';
 import { setError, setSuccess } from './response';
@@ -67,8 +68,6 @@ const contentReducer = produce((state, { type, payload }) => {
   }
 }, initialState);
 
-const setContent = (type, payload, ...rest) => ({ type, payload, ...rest });
-
 const getUsers = () =>
   createApiAction({
     types: [SET_USERS_LOADING, SET_USERS_LOADED],
@@ -79,6 +78,7 @@ const getUsers = () =>
       queueIfOffline: true,
       offlineMessage: syncString`Users`,
     },
+    schema: [user],
   });
 
 const getUserHolidays = (
