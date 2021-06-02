@@ -1,25 +1,21 @@
 import UniversalComponent from 'components/UniversalComponent';
-import { useAuth } from 'hooks';
+import { useAuth, useUsers } from 'hooks';
 import { memo, useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+
 import { getUsers } from 'store/modules';
 
 const Users = memo(() => {
-  const dispatch = useDispatch();
-  const {
-    users: { loading, loaded, users },
-  } = useSelector((state) => state.content, shallowEqual);
-
-  const { loggedIn } = useAuth();
+  const { loading, loaded, userEntities } = useUsers();
+  const { isAdmin, loggedIn } = useAuth();
 
   useEffect(() => {
-    if (loggedIn && !loading && !loaded) dispatch(getUsers());
-  }, [dispatch, loading, loaded]);
+    if (loggedIn && isAdmin && !loading && !loaded) getUsers();
+  }, [getUsers, isAdmin, loading, loaded]);
 
   return (
     <UniversalComponent
       export="BoardDisplay"
-      content={users}
+      content={userEntities}
       componentExport="User"
       loading={loading}
       loaded={loaded}
