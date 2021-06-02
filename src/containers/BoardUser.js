@@ -1,46 +1,52 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getAll } from 'store/modules';
-import { setError } from 'store/modules/response';
+import { shallowEqual, useSelector } from 'react-redux';
+
 import { Holidays, Notifications, Requests } from 'components';
-import { useAuth } from 'hooks';
-import { tabBtn } from 'components/index.module.css';
+import { useAuth, useHolidays } from 'hooks';
+
+import { useHistory, useLocation } from 'react-router';
+import './Board.scss';
+import 'components/skeletons/skeleton.scss';
 
 const BoardUser = memo(() => {
-  const { loggedIn, user } = useAuth();
-  const dispatch = useDispatch();
+  const { holidays, loadingHolidays, loadedHolidays } = useAuth();
 
-  useEffect(() => {
-    const getData = async () =>
-      loggedIn
-        ? dispatch(getAll(user.id))
-        : dispatch(setError('No User logged in'));
+  const history = useHistory();
+  const { hash } = useLocation();
 
-    getData();
-  }, [dispatch, loggedIn, user.id]);
-
+  const { getHolidayEntities } = useHolidays();
   const { notifications } = useSelector((state) => state.content, shallowEqual);
 
+  const ownHolidayEntities = useMemo(() => getHolidayEntities(holidays), [
+    holidays,
+  ]);
   //  <div className='container'>
   // <header className='jumbotron'>
   const tabButtons = (
-    <Row>
-      <Col>
-        <ListGroup horizontal>
-          <ListGroup.Item action className={tabBtn} href="#requests">
-            Requests
-          </ListGroup.Item>
+    <Row style={{ justifyContent: 'center' }}>
+      <ListGroup horizontal className="tabBtnContainer">
+        <div
+          className={`tabBtn ${hash === '#requests' ? 'active' : ''}`}
+          onClick={() => history.push('#requests')}
+        >
+          Requests
+        </div>
 
-          <ListGroup.Item action className={tabBtn} href="#holidays">
-            Holidays
-          </ListGroup.Item>
+        <div
+          className={`tabBtn ${hash === '#holidays' ? 'active' : ''}`}
+          onClick={() => history.push('#holidays')}
+        >
+          Holidays
+        </div>
 
-          <ListGroup.Item action className={tabBtn} href="#notifications">
-            Notifications
-          </ListGroup.Item>
-        </ListGroup>
-      </Col>
+        <div
+          className={`tabBtn ${hash === '#notifications' ? 'active' : ''}`}
+          onClick={() => history.push('#notifications')}
+        >
+          Notifications
+        </div>
+      </ListGroup>
     </Row>
   );
 
@@ -48,15 +54,17 @@ const BoardUser = memo(() => {
     <Row>
       <Col>
         <Tab.Content>
-          <Tab.Pane eventKey="#requests">
-            <Requests />
-          </Tab.Pane>
-          <Tab.Pane eventKey="#holidays">
-            <Holidays />
-          </Tab.Pane>
-          <Tab.Pane eventKey="#notifications">
+          {hash === '#requests' && <Requests />}
+          {hash === '#holidays' && (
+            <Holidays
+              allHolidayEntities={ownHolidayEntities}
+              loading={loadingHolidays}
+              loaded={loadedHolidays}
+            />
+          )}
+          {hash === '#notifications' && (
             <Notifications notifications={notifications} />
-          </Tab.Pane>
+          )}
         </Tab.Content>
       </Col>
     </Row>

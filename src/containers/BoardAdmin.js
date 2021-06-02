@@ -1,7 +1,7 @@
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { Holidays, Requests, Users } from 'components';
-import { tabBtn } from 'components/index.module.scss';
 
+import './Board.scss';
 import 'components/skeletons/skeleton.scss';
 
 const BoardAdmin = () => {
@@ -11,15 +11,15 @@ const BoardAdmin = () => {
     <Row>
       <Col>
         <ListGroup horizontal>
-          <ListGroup.Item action className={tabBtn} href="#requests">
+          <ListGroup.Item action className="tabBtn" href="#requests">
             Requests
           </ListGroup.Item>
 
-          <ListGroup.Item action className={tabBtn} href="#users">
+          <ListGroup.Item action className="tabBtn" href="#users">
             Users
           </ListGroup.Item>
 
-          <ListGroup.Item action className={tabBtn} href="#holidays">
+          <ListGroup.Item action className="tabBtn" href="#holidays">
             Holidays
           </ListGroup.Item>
         </ListGroup>
