@@ -8,16 +8,21 @@ import {
   signUp as _signUp,
   logOut as _logOut,
   getOwnHolidays as _getOwnHolidays,
+  getOwnRequests as _getOwnRequests,
 } from 'store/modules';
-import { useHolidays } from './useHolidays';
 
 const useAuth = () => {
   const dispatch = useDispatch();
 
-  const { user, loadingHolidays, loadedHolidays, holidays } = useSelector(
-    ({ auth }) => auth,
-    shallowEqual
-  );
+  const {
+    user,
+    loadingHolidays,
+    loadedHolidays,
+    holidays,
+    loadingRequests,
+    loadedRequests,
+    requests,
+  } = useSelector(({ auth }) => auth, shallowEqual);
 
   const loggedIn = useMemo(() => !!user, [user]);
 
@@ -33,11 +38,23 @@ const useAuth = () => {
 
   const getOwnHolidays = useCallback(() => dispatch(_getOwnHolidays(user.id)));
 
-  useEffect(() => {
-    if (loggedIn && isOnUserPage && !loadingHolidays && !loadedHolidays) {
-      getOwnHolidays();
-    }
-  }, [loggedIn, loadingHolidays, loadedHolidays, isOnUserPage]);
+  const getOwnRequests = useCallback(() => dispatch(_getOwnRequests(user.id)));
+
+  const useUserAutoEffect = ({ deps, condition, callback }) =>
+    useEffect(() => {
+      if (condition) callback();
+    }, deps);
+
+  useUserAutoEffect({
+    deps: [loggedIn, isOnUserPage, loadingHolidays, loadedHolidays],
+    condition: loggedIn && isOnUserPage && !loadingHolidays && !loadedHolidays,
+    callback: getOwnRequests,
+  });
+  useUserAutoEffect({
+    deps: [loggedIn, isOnUserPage, loadingRequests, loadedRequests],
+    condition: loggedIn && isOnUserPage && !loadingRequests && !loadedRequests,
+    callback: getOwnHolidays,
+  });
 
   const signUp = useCallback((userInfo) => dispatch(_signUp(userInfo)), [
     dispatch,
@@ -58,9 +75,12 @@ const useAuth = () => {
     isOnUserPage,
     loadingHolidays,
     loadedHolidays,
+    loadingRequests,
+    loadedRequests,
     login,
     logOut,
     loggedIn,
+    requests,
     signUp,
     user,
   };

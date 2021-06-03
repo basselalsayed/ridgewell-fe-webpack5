@@ -4,12 +4,14 @@ import produce from 'immer';
 import { decryptorInstance, usersInstance } from 'services/axios';
 import { API_URL } from 'constants';
 import { createAction } from 'store';
-import { getUserHolidays } from './content';
+import { getUserHolidays, getUserRequests } from './content';
 
 export const SET_USER = 'AUTH/SET_USER';
 export const LOG_OUT = 'AUTH/LOG_OUT';
 export const SET_OWN_HOLIDAYS_LOADING = 'AUTH/SET_OWN_HOLIDAYS_LOADING';
 export const SET_OWN_HOLIDAYS_LOADED = 'AUTH/SET_OWN_HOLIDAYS_LOADED';
+export const SET_OWN_REQUESTS_LOADING = 'AUTH/SET_OWN_REQUESTS_LOADING';
+export const SET_OWN_REQUESTS_LOADED = 'AUTH/SET_OWN_REQUESTS_LOADED';
 
 const initialState = {
   get user() {
@@ -25,6 +27,9 @@ const initialState = {
   loadingHolidays: false,
   loadedHolidays: false,
   holidays: [],
+  loadingRequests: false,
+  loadedRequests: false,
+  requests: [],
 };
 
 export default produce((state, { type, payload }) => {
@@ -46,6 +51,14 @@ export default produce((state, { type, payload }) => {
       state.loadingHolidays = false;
       state.loadedHolidays = true;
       state.holidays = payload.result;
+      break;
+    case SET_OWN_REQUESTS_LOADING:
+      state.loadingRequests = true;
+      break;
+    case SET_OWN_REQUESTS_LOADED:
+      state.loadingRequests = false;
+      state.loadedRequests = true;
+      state.requests = payload.result;
       break;
     // no default
   }
@@ -87,6 +100,12 @@ export const getOwnHolidays = (authUserId) =>
   getUserHolidays(authUserId, [
     SET_OWN_HOLIDAYS_LOADING,
     SET_OWN_HOLIDAYS_LOADED,
+  ]);
+
+export const getOwnRequests = (authUserId) =>
+  getUserRequests(authUserId, [
+    SET_OWN_REQUESTS_LOADING,
+    SET_OWN_REQUESTS_LOADED,
   ]);
 
 // export const autoLogin = () => dispatch => {
