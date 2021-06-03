@@ -16,16 +16,15 @@ import {
 import { useEntities } from './useEntities';
 
 const useRequests = () => {
+  const { requests, loaded, loading } = useSelector(
+    (state) => state.requests,
+    shallowEqual
+  );
   const { loggedIn } = useAuth();
 
   const dispatch = useDispatch();
 
   const { shouldFetchAll } = useAdmin();
-
-  const { requests, loaded, loading } = useSelector(
-    (state) => state.requests,
-    shallowEqual
-  );
 
   const getUserRequests = useCallback((userId) =>
     dispatch(_getUserRequests(userId))
