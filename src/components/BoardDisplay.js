@@ -8,7 +8,7 @@ const BoardDisplay = ({
   emptyMessage,
   componentExport,
 }) => {
-  const { showLoading } = useLoadingDelay({ loaded, loading, timeout: 500 });
+  const { showLoading } = useLoadingDelay({ loaded, loading, timeout: 1000 });
 
   return showLoading ? (
     <UniversalComponent export="SkeletonsList" type="SkeletonCard" />
