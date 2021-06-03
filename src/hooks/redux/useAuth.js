@@ -10,7 +10,9 @@ import {
   logOut as _logOut,
   getOwnHolidays as _getOwnHolidays,
   getOwnRequests as _getOwnRequests,
+  getNotifications as _getNotifications,
 } from 'store/modules';
+import { useEntities } from './useEntities';
 
 const useAuth = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,9 @@ const useAuth = () => {
     loadingRequests,
     loadedRequests,
     requests,
+    loadingNotifications,
+    loadedNotifications,
+    notifications,
   } = useSelector(({ auth }) => auth, shallowEqual);
 
   const loggedIn = useMemo(() => !!user, [user]);
@@ -41,6 +46,16 @@ const useAuth = () => {
 
   const getOwnRequests = useCallback(() => dispatch(_getOwnRequests(user.id)));
 
+  const getNotifications = useCallback(() =>
+    dispatch(_getNotifications(user.id))
+  );
+
+  useAutoEffect({
+    deps: [loggedIn, loadingNotifications, loadedNotifications],
+    condition: loggedIn && !loadingNotifications && !loadedNotifications,
+    callback: getNotifications,
+  });
+
   useAutoEffect({
     deps: [loggedIn, isOnUserPage, loadingHolidays, loadedHolidays],
     condition: loggedIn && isOnUserPage && !loadingHolidays && !loadedHolidays,
@@ -52,6 +67,16 @@ const useAuth = () => {
     condition: loggedIn && isOnUserPage && !loadingRequests && !loadedRequests,
     callback: getOwnHolidays,
   });
+
+  const { getDenormalizedEntity } = useEntities();
+
+  const notificationEntities = useMemo(
+    () =>
+      (loadedNotifications &&
+        getDenormalizedEntity('notifications', notifications)) ||
+      [],
+    [loadedNotifications, notifications]
+  );
 
   const signUp = useCallback((userInfo) => dispatch(_signUp(userInfo)), [
     dispatch,
@@ -74,9 +99,13 @@ const useAuth = () => {
     loadedHolidays,
     loadingRequests,
     loadedRequests,
+    loadingNotifications,
+    loadedNotifications,
     login,
     logOut,
     loggedIn,
+    notifications,
+    notificationEntities,
     requests,
     signUp,
     user,
