@@ -1,8 +1,12 @@
+import { capitalize } from 'helpers';
 import { SET_OFFLINE, SET_ONLINE, SET_QUEUE } from 'store/modules/network';
 import { setError, setSuccess } from 'store/modules/response';
 import { API } from './api';
 
 const ASYNC_PAYLOAD_FIELDS = ['queueIfOffline'];
+
+export const syncString = (content) =>
+  `${capitalize(content)} will synchronise when you're back online`;
 
 const offlineMiddleware = ({ getState, dispatch }) => (next) => (action) => {
   const handleAction = (_action, _next = false) =>
