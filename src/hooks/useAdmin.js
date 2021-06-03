@@ -7,7 +7,10 @@ const useAdmin = () => {
 
   const { loggedIn, user } = useAuth();
 
-  const shouldFetchAll = useMemo(() => !/user/.test(pathname), [pathname]);
+  const shouldFetchAll = useMemo(
+    () => ['/', '/admin', '/home'].includes(pathname),
+    [pathname]
+  );
 
   const defaultArgs = useMemo(
     () => (shouldFetchAll || !loggedIn ? null : user.id),
