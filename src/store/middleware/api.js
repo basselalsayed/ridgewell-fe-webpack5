@@ -65,9 +65,9 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => {
       [dataOrParams]: data,
     })
     .then((res) => {
-      const handleRequestFinish = (_result, _res) => {
-        if (onSuccess) return dispatch(onSuccess(_result));
-        return dispatch(createAction(SET_LOADED, _result || _res));
+      const handleRequestFinish = (result, _res) => {
+        if (onSuccess) return dispatch(onSuccess(result));
+        return dispatch(createAction(SET_LOADED, result ? { result } : _res));
       };
       if (schema) {
         const { entities, result } = normalize(res.data, schema);
