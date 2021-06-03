@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useAutoEffect = ({ deps, condition, callback }) =>
+const useAutoEffect = ({ condition, callback, deps }) =>
   useEffect(() => {
     if (condition) callback();
   }, deps);
