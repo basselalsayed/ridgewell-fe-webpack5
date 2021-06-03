@@ -19,7 +19,7 @@ const useUsers = () => {
   useEffect(() => {
     if (loggedIn && isAdmin && /admin/.test(pathname) && !loading && !loaded)
       getUsers();
-  }, [dispatch, isAdmin, loggedIn, pathname, loading, loaded]);
+  }, [isAdmin, loggedIn, pathname, loading, loaded]);
 
   const { entities, getDenormalizedEntity } = useEntities();
 
@@ -31,9 +31,10 @@ const useUsers = () => {
     entities.users,
   ]);
 
-  const allUserEntities = useMemo(() => getUserEntities(allUserIds), [
-    allUserIds,
-  ]);
+  const allUserEntities = useMemo(
+    () => (loaded && getUserEntities(allUserIds)) || [],
+    [allUserIds, loaded]
+  );
 
   return {
     getUsers,
