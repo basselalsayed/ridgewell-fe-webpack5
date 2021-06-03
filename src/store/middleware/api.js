@@ -64,21 +64,25 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => {
       method,
       [dataOrParams]: data,
     })
-    .then(({ data: resData }) => {
-      const handleRequestFinish = (_result, _resData) => {
+    .then((res) => {
+      const handleRequestFinish = (_result, _res) => {
         if (onSuccess) return dispatch(onSuccess(_result));
-        return dispatch(createAction(SET_LOADED, _result || _resData));
+        return dispatch(createAction(SET_LOADED, _result || _res));
       };
       if (schema) {
-        const { entities, result } = normalize(resData, schema);
+        const { entities, result } = normalize(res.data, schema);
 
         next(createAction(SET_ENTITIES, entities));
 
         return handleRequestFinish(result);
       }
-      return handleRequestFinish(null, resData);
+      return handleRequestFinish(null, res);
     })
-    .catch((error) => dispatch(setError(parseError(error)), onFailure()));
+    .catch((error) => {
+      console.trace(error);
+      console.error(error);
+      return dispatch(setError(parseError(error)), onFailure());
+    });
 };
 export { API, createApiAction };
 export default apiMiddleware;
