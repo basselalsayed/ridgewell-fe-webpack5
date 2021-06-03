@@ -78,6 +78,10 @@ const useRequests = () => {
     () => (loaded && getRequestEntities(allRequestIds)) || [],
     [allRequestIds, loaded]
   );
+  const unresolvedRequestEntities = useMemo(
+    () => allRequestEntities.filter(({ resolved }) => !resolved),
+    [allRequestEntities]
+  );
 
   return {
     allRequestEntities,
@@ -92,6 +96,7 @@ const useRequests = () => {
     postNewRequest,
     postUpdateRequest,
     requests,
+    unresolvedRequestEntities,
   };
 };
 
