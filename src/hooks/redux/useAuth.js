@@ -1,7 +1,8 @@
+import { useCallback, useMemo } from 'react';
 import { isAdmin as isAdminHelper } from 'helpers';
-import { useCallback, useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
+import { useAutoEffect } from 'hooks';
 
 import {
   login as _login,
@@ -40,17 +41,13 @@ const useAuth = () => {
 
   const getOwnRequests = useCallback(() => dispatch(_getOwnRequests(user.id)));
 
-  const useUserAutoEffect = ({ deps, condition, callback }) =>
-    useEffect(() => {
-      if (condition) callback();
-    }, deps);
-
-  useUserAutoEffect({
+  useAutoEffect({
     deps: [loggedIn, isOnUserPage, loadingHolidays, loadedHolidays],
     condition: loggedIn && isOnUserPage && !loadingHolidays && !loadedHolidays,
     callback: getOwnRequests,
   });
-  useUserAutoEffect({
+
+  useAutoEffect({
     deps: [loggedIn, isOnUserPage, loadingRequests, loadedRequests],
     condition: loggedIn && isOnUserPage && !loadingRequests && !loadedRequests,
     callback: getOwnHolidays,
