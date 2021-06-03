@@ -1,5 +1,6 @@
-import { useAdmin, useAuth } from 'hooks';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useAdmin, useAutoEffect, useAuth } from 'hooks';
+
+import { useCallback, useMemo } from 'react';
 
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
@@ -32,9 +33,11 @@ const useRequests = () => {
 
   const getAllRequests = useCallback(() => dispatch(_getAllRequests()));
 
-  useEffect(() => {
-    if (loggedIn && !loading && !loaded && shouldFetchAll) getAllRequests();
-  }, [loggedIn, loading, loaded, shouldFetchAll]);
+  useAutoEffect({
+    condition: loggedIn && shouldFetchAll && !loading && !loaded,
+    callback: getAllRequests,
+    deps: [loggedIn, shouldFetchAll, loading, loaded],
+  });
 
   const postDeleteRequest = useCallback(
     (holidayId, setStatus) =>
