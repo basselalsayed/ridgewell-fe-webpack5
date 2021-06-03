@@ -1,7 +1,11 @@
+import { memo } from 'react';
+import { useAuth } from 'hooks';
 import { Table } from 'react-bootstrap';
 import { Notification } from './notification';
 
-const Notifications = ({ notifications }) => {
+const Notifications = memo(() => {
+  const { notificationEntities: notifications } = useAuth();
+
   const headerRow = (
     <thead>
       <tr>
@@ -14,7 +18,7 @@ const Notifications = ({ notifications }) => {
   );
 
   const notificationRows =
-    notifications &&
+    notifications.length &&
     notifications.map((notification, idx) => (
       <Notification key={notification.id} {...notification} index={idx} />
     ));
@@ -33,6 +37,6 @@ const Notifications = ({ notifications }) => {
       </Table>
     </div>
   );
-};
+});
 
 export { Notifications };
