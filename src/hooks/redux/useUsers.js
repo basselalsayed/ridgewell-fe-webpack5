@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { getUsers as _getUsers } from 'store/modules';
 import { useAuth, useEntities } from 'hooks';
+import { useAutoEffect } from 'hooks';
 
 const useUsers = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,12 @@ const useUsers = () => {
 
   const getUsers = useCallback(() => dispatch(_getUsers()));
 
-  useEffect(() => {
-    if (loggedIn && isAdmin && /admin/.test(pathname) && !loading && !loaded)
-      getUsers();
-  }, [isAdmin, loggedIn, pathname, loading, loaded]);
+  useAutoEffect({
+    condition:
+      loggedIn && isAdmin && /admin/.test(pathname) && !loading && !loaded,
+    callback: getUsers,
+    deps: [isAdmin, loggedIn, pathname, loading, loaded],
+  });
 
   const { entities, getDenormalizedEntity } = useEntities();
 
