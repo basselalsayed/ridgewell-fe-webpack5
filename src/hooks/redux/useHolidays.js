@@ -1,26 +1,24 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { holidayEvents, requestEvents } from 'helpers';
+import { holidayEvents, requestHandler } from 'helpers';
 import {
   getUserHolidays as _getUserHolidays,
   getAllHolidays as _getAllHolidays,
 } from 'store/modules';
 
 import { useAdmin, useAuth, useEntities } from 'hooks';
-import { useLocation } from 'react-router';
+import { useRequests } from './useRequests';
 
 const useHolidays = () => {
   const {
     holidays: { holidays, loaded, loading },
   } = useSelector((state) => state.content, shallowEqual);
 
-  const { pathname } = useLocation();
-
-  const { isOnUserPage, loggedIn } = useAuth();
+  const { loggedIn } = useAuth();
 
   const dispatch = useDispatch();
 
-  const { defaultArgs } = useAdmin();
+  const { defaultArgs, shouldFetchAll } = useAdmin();
 
   const getUserHolidays = useCallback(
     (userId) => dispatch(_getUserHolidays(userId)),
@@ -30,14 +28,10 @@ const useHolidays = () => {
   const getAllHolidays = useCallback(() => dispatch(_getAllHolidays()));
 
   useEffect(() => {
-    if (
-      loggedIn &&
-      !isOnUserPage &&
-      ['/', '/admin', '/home'].includes(pathname)
-    ) {
+    if (loggedIn && shouldFetchAll) {
       if (!loading && !loaded) getAllHolidays();
     }
-  }, [loggedIn, isOnUserPage, pathname, loading, loaded]);
+  }, [loggedIn, shouldFetchAll, loading, loaded]);
 
   const { entities, getDenormalizedEntity } = useEntities();
 
@@ -49,19 +43,21 @@ const useHolidays = () => {
     entities.holidays,
   ]);
 
-  const allHolidayEntities = useMemo(() => getHolidayEntities(allHolidayIds), [
-    allHolidayIds,
-  ]);
+  const allHolidayEntities = useMemo(
+    () => (loaded ? getHolidayEntities(allHolidayIds) : []),
+    [allHolidayIds, loaded]
+  );
+
+  const { allRequestEntities } = useRequests();
 
   const events = useMemo(
     () =>
-      allHolidayEntities
-        ? [
-            ...holidayEvents(allHolidayEntities),
-            ...requestEvents(allHolidayEntities),
-          ]
-        : [],
-    [allHolidayEntities]
+      (allHolidayEntities.length > 0 &&
+        holidayEvents(allHolidayEntities).concat(
+          requestHandler(allRequestEntities)
+        )) ||
+      [],
+    [allHolidayEntities, allRequestEntities]
   );
 
   return {
