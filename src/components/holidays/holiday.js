@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap';
-import { formatted, capitalize } from 'helpers';
+import { formatted, capitalize, getNestedProperty } from 'helpers';
 
 const Holiday = ({
   confirmed,
@@ -9,14 +9,26 @@ const Holiday = ({
   HolidayRequests,
   User: { email, username },
 }) => {
-  const approvedBy =
-    HolidayRequests.length > 0 &&
-    HolidayRequests[0].managerId[0] &&
-    HolidayRequests[0].managerId[0].username;
-  const approvedDate =
-    HolidayRequests.length > 0 &&
-    HolidayRequests[0].managerId[0] &&
-    HolidayRequests[0].managerId[0].ApprovedRequests.createdAt;
+  const approvedBy = getNestedProperty(
+    HolidayRequests,
+    [0, 'managerId', 0, 'username'],
+    ''
+  );
+
+  // HolidayRequests.length > 0
+  // ? HolidayRequests[0].managerId[0] &&
+  // HolidayRequests[0].managerId[0].username
+  // : '';
+  const approvedDate = getNestedProperty(
+    HolidayRequests,
+    [0, 'managerId', 0, 'ApprovedRequests', 'createdAt'],
+    ''
+  );
+
+  // HolidayRequests.length > 0
+  //   ? HolidayRequests[0].managerId[0] &&
+  //     HolidayRequests[0].managerId[0].ApprovedRequests.createdAt
+  //   : '';
 
   return (
     <Card border={confirmed ? 'success' : 'warning'}>
