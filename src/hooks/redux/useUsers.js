@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { getUsers as _getUsers } from 'store/modules';
-import { useAuth, useEntities } from 'hooks';
-import { useAutoEffect } from 'hooks';
+import { useAuth, useAutoEffect, useEntities } from 'hooks';
 
 const useUsers = () => {
   const dispatch = useDispatch();
