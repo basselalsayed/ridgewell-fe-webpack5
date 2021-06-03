@@ -1,11 +1,19 @@
 import { schema } from 'normalizr';
-import { holidayRequestSchema } from './holidayRequestSchema';
-import { user } from './userSchema';
 
-// console.log('holidaySchemaold', holidaySchemaold);
+import { userSchema } from './userSchema';
 
-const _holidaySchema = {
+const holidaySchema = new schema.Entity('holidays');
+const holidayRequestSchema = new schema.Entity('holidayRequests');
+
+holidaySchema.define({
+  User: userSchema,
   HolidayRequests: [holidayRequestSchema],
-  User: user,
-};
-export const holidaySchema = new schema.Entity('holidays', _holidaySchema);
+});
+
+holidayRequestSchema.define({
+  User: userSchema,
+  managerId: [userSchema],
+  Holiday: holidaySchema,
+});
+// export const holidaysSchema = new schema.Array(holidaySchema);
+export { holidaySchema, holidayRequestSchema };
