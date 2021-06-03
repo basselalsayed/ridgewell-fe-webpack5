@@ -25,7 +25,7 @@ const BoardAdmin = () => {
     loaded: holidaysLoaded,
   } = useHolidays();
   const {
-    allRequestEntities,
+    unresolvedRequestEntities,
     loaded: requestsLoaded,
     loading: requestsLoading,
   } = useRequests();
@@ -68,7 +68,7 @@ const BoardAdmin = () => {
         <Tab.Content>
           {hash === '#requests' && (
             <Requests
-              requests={allRequestEntities}
+              requests={unresolvedRequestEntities}
               loading={requestsLoading}
               loaded={requestsLoaded}
             />
