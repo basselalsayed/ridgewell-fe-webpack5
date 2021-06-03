@@ -1,9 +1,7 @@
 import { denormalize } from 'normalizr';
 import { useCallback } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { holidayRequestSchema } from 'store/schemas/holidayRequestSchema';
-import { holidaySchema } from 'store/schemas/holidaySchema';
-import { user } from 'store/schemas/userSchema';
+import { holidayRequestSchema, holidaySchema, userSchema } from 'store/schemas';
 
 const getNestedProperty = (object, path, defaultResult = null) => {
   const result = path.reduce(
@@ -17,7 +15,7 @@ const getNestedProperty = (object, path, defaultResult = null) => {
 const schemaMap = {
   holidays: [holidaySchema],
   holidayRequests: [holidayRequestSchema],
-  users: [user],
+  users: [userSchema],
 };
 const useEntities = () => {
   const entities = useSelector((state) => state.entities, shallowEqual);
