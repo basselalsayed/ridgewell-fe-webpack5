@@ -9,7 +9,7 @@ const Header = () => {
   const showAdminBoard = user && isAdmin(user);
 
   const adminNavigation = (
-    <Nav.Link as={Link} to="/admin">
+    <Nav.Link as={Link} to="/admin#requests">
       Admin Board
     </Nav.Link>
   );
@@ -17,7 +17,7 @@ const Header = () => {
   const leftNavigation = user && (
     <>
       {showAdminBoard && adminNavigation}
-      <Nav.Link as={Link} to="/user">
+      <Nav.Link as={Link} to="/user#holidays">
         User
       </Nav.Link>
     </>
