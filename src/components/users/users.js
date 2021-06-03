@@ -1,16 +1,9 @@
+import { memo } from 'react';
 import UniversalComponent from 'components/UniversalComponent';
-import { useAuth, useUsers } from 'hooks';
-import { memo, useEffect } from 'react';
-
-import { getUsers } from 'store/modules';
+import { useUsers } from 'hooks';
 
 const Users = memo(() => {
   const { loading, loaded, userEntities } = useUsers();
-  const { isAdmin, loggedIn } = useAuth();
-
-  useEffect(() => {
-    if (loggedIn && isAdmin && !loading && !loaded) getUsers();
-  }, [getUsers, isAdmin, loading, loaded]);
 
   return (
     <UniversalComponent
