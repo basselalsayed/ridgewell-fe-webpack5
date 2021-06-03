@@ -1,20 +1,20 @@
 import { colors } from '../constants';
 
 const filterRequests = (type, reqs) =>
-  reqs ? reqs.filter((req) => req.type === type) : [];
+  reqs ? reqs.filter((req) => type.test(req.type)) : [];
 
 const hasPending = (type, reqs) => filterRequests(type, reqs).length > 0;
 
 const eventStyleGetter = (
-  { confirmed, holidayRequests },
+  { confirmed, HolidayRequests },
   start,
   end,
   isSelected
 ) => ({
   style: {
-    backgroundColor: hasPending('delete', holidayRequests)
+    backgroundColor: hasPending(/delete/, HolidayRequests)
       ? colors.hasDelete
-      : hasPending('update', holidayRequests)
+      : hasPending(/update/, HolidayRequests)
       ? colors.hasUpdate
       : confirmed
       ? colors.confirmed
@@ -28,7 +28,7 @@ const eventStyleGetter = (
 });
 
 const requestHandler = (holReqs) =>
-  filterRequests('update', holReqs).map(({ type, from, resolved, until }) => ({
+  filterRequests(/update/, holReqs).map(({ type, from, resolved, until }) => ({
     title: `${type}, Resolved: ${resolved}`,
     start: from && new Date(from),
     end: until && new Date(until),
@@ -48,7 +48,7 @@ const holidayEvents = (holidays) =>
     }) => ({
       annualLeave,
       confirmed,
-      holidayRequests: HolidayRequests,
+      HolidayRequests,
       id,
       userId,
       get title() {
@@ -62,7 +62,7 @@ const holidayEvents = (holidays) =>
     })
   );
 
-const requestEvents3 = (holidays) => {
+const requestEventsOld = (holidays) => {
   let array = [];
 
   holidays.forEach(
@@ -72,20 +72,11 @@ const requestEvents3 = (holidays) => {
   return array;
 };
 
-const requestEvents = (holidays) => {
-  const array = holidays.reduce(
-    (events, { holidayRequests }) =>
-      events.concat(requestHandler(holidayRequests)),
+const requestEvents = (holidays) =>
+  holidays.reduce(
+    (events, { HolidayRequests }) =>
+      events.concat(requestHandler(HolidayRequests)),
     []
   );
 
-  let array2 = [];
-  holidays.forEach(
-    ({ holidayRequests }) =>
-      (array2 = [...array2, ...requestHandler(holidayRequests)])
-  );
-
-  return array;
-};
-
-export { eventStyleGetter, holidayEvents, requestEvents };
+export { eventStyleGetter, holidayEvents, requestHandler, requestEvents };

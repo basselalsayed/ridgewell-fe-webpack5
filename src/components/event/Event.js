@@ -6,7 +6,7 @@ import { EventModal, RequestsTable } from './components';
 
 const Event = memo(
   ({
-    event: { annualLeave, end, holidayRequests, id, start, style, userId },
+    event: { annualLeave, end, HolidayRequests = [], id, start, style, userId },
     title,
   }) => {
     const [show, setShow] = useState(false);
@@ -47,7 +47,7 @@ const Event = memo(
               {hasEditAcces(user, userId) ? (
                 <>
                   <Popover.Title as="h3">Pending Requests</Popover.Title>
-                  <RequestsTable requests={holidayRequests} />
+                  <RequestsTable requests={HolidayRequests} />
                 </>
               ) : (
                 noAuthToolTip
@@ -62,7 +62,7 @@ const Event = memo(
 
     return (
       <>
-        {holidayRequests ? withTooltip : banner}
+        {HolidayRequests.length ? withTooltip : banner}
         <EventModal {...modalProps} />
       </>
     );
