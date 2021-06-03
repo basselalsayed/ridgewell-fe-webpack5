@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
-import { shallowEqual, useSelector } from 'react-redux';
 
 import { Holidays, Notifications, Requests } from 'components';
 import { useAuth, useAutoEffect, useHolidays, useRequests } from 'hooks';
@@ -30,7 +29,6 @@ const BoardUser = memo(() => {
 
   const { getHolidayEntities } = useHolidays();
   const { getRequestEntities } = useRequests();
-  const { notifications } = useSelector((state) => state.content, shallowEqual);
 
   const ownHolidayEntities = useMemo(
     () => (loadedHolidays && holidays && getHolidayEntities(holidays)) || [],
@@ -93,9 +91,7 @@ const BoardUser = memo(() => {
               loaded={loadedHolidays}
             />
           )}
-          {hash === '#notifications' && (
-            <Notifications notifications={notifications} />
-          )}
+          {hash === '#notifications' && <Notifications />}
         </Tab.Content>
       </Col>
     </Row>
