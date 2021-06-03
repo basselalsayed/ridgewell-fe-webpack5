@@ -1,44 +1,40 @@
 import { useAdmin, useAuth } from 'hooks';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import {
-  getRequests as _getRequests,
+  getAllRequests as _getAllRequests,
+  getUserRequests as _getUserRequests,
   postDeleteRequest as _postDeleteRequest,
   postNewRequest as _postNewRequest,
   postUpdateRequest as _postUpdateRequest,
   confirmRequest as _confirmRequest,
   denyRequest as _denyRequest,
 } from 'store/modules';
+import { useEntities } from './useEntities';
 
 const useRequests = () => {
   const { loggedIn } = useAuth();
 
   const dispatch = useDispatch();
 
-  const { defaultArgs } = useAdmin();
+  const { shouldFetchAll } = useAdmin();
 
   const { requests, loaded, loading } = useSelector(
     (state) => state.requests,
     shallowEqual
   );
 
-  const getRequests = useCallback(
-    (userId = defaultArgs) => dispatch(_getRequests(userId)),
-    [defaultArgs, loggedIn]
+  const getUserRequests = useCallback((userId) =>
+    dispatch(_getUserRequests(userId))
   );
 
-  // const getAllRequests = useCallback(() => dispatch(_getRequests()), []);
-
-  // const getUserRequests = useCallback(
-  //   (userId) => dispatch(_getRequests(userId)),
-  //   [defaultArgs, loggedIn]
-  // );
+  const getAllRequests = useCallback(() => dispatch(_getAllRequests()));
 
   useEffect(() => {
-    if (loggedIn && !loading && !loaded) getRequests();
-  }, [dispatch, loggedIn]);
+    if (loggedIn && !loading && !loaded && shouldFetchAll) getAllRequests();
+  }, [loggedIn, loading, loaded, shouldFetchAll]);
 
   const postDeleteRequest = useCallback(
     (holidayId, setStatus) =>
@@ -66,12 +62,28 @@ const useRequests = () => {
     [loggedIn]
   );
 
+  const { entities, getDenormalizedEntity } = useEntities();
+
+  const getRequestEntities = useCallback((input) =>
+    getDenormalizedEntity('holidayRequests', input)
+  );
+
+  const allRequestIds = useMemo(() => Object.keys(entities.holidayRequests), [
+    entities.holidayRequests,
+  ]);
+
+  const allRequestEntities = useMemo(
+    () => (loaded && getRequestEntities(allRequestIds)) || [],
+    [allRequestIds, loaded]
+  );
+
   return {
+    allRequestEntities,
     confirmRequest,
     denyRequest,
-    // getAllRequests,
-    getRequests,
-    // getUserRequests,
+    getRequestEntities,
+    getAllRequests,
+    getUserRequests,
     loaded,
     loading,
     postDeleteRequest,
