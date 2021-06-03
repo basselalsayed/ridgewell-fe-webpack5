@@ -9,6 +9,7 @@ import { holidaySchema, holidayRequestSchema, userSchema } from 'store/schemas';
 
 import { getAllRequests } from './requests';
 import { setError, setSuccess } from './response';
+import { getNotifications } from './auth';
 
 const SET_HOLIDAYS_LOADING = 'CONTENT/SET_HOLIDAYS_LOADING';
 const SET_HOLIDAYS_LOADED = 'CONTENT/SET_HOLIDAYS_LOADED';
@@ -19,8 +20,6 @@ const SET_USERS_LOADED = 'CONTENT/SET_USERS_LOADED';
 
 const SET_USER_REQUESTS_LOADING = 'CONTENT/SET_USER_REQUESTS_LOADING';
 const SET_USER_REQUESTS_LOADED = 'CONTENT/SET_USER_REQUESTS_LOADED';
-
-const SET_NOTIFICATIONS = 'CONTENT/SET_NOTIFICATIONS';
 
 const initialState = {
   users: {
@@ -33,7 +32,6 @@ const initialState = {
     loading: false,
     holidays: [],
   },
-  notifications: null,
 };
 
 const contentReducer = produce((state, { type, payload }) => {
@@ -140,18 +138,6 @@ const getUserRequests = (
     onSuccess: (result) => createAction(types[1], { data: { userId }, result }),
   });
 
-const getNotifications = () =>
-  createApiAction({
-    types: ['SET_NOTIFICATIONS_LOADING', SET_NOTIFICATIONS],
-    url: '/notifications',
-    method: 'GET',
-    client: 'decryptor',
-    meta: {
-      queueIfOffline: true,
-      offlineMessage: syncString`Notifications`,
-    },
-  });
-
 const getAll = (userId) => (dispatch) =>
   Promise.all(
     [
@@ -176,8 +162,6 @@ export {
   getAllHolidays,
   getUserHolidays,
   getUserRequests,
-  getNotifications,
-  updateNotification,
 };
 
 export default contentReducer;

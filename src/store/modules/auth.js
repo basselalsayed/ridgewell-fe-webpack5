@@ -4,6 +4,9 @@ import produce from 'immer';
 import { decryptorInstance, usersInstance } from 'services/axios';
 import { API_URL } from 'constants';
 import { createAction } from 'store';
+import { createApiAction } from 'store/middleware/api';
+import { syncString } from 'store/middleware/offlineQueue';
+import { notificationSchema } from 'store/schemas';
 import { getUserHolidays, getUserRequests } from './content';
 
 export const SET_USER = 'AUTH/SET_USER';
@@ -12,6 +15,10 @@ export const SET_OWN_HOLIDAYS_LOADING = 'AUTH/SET_OWN_HOLIDAYS_LOADING';
 export const SET_OWN_HOLIDAYS_LOADED = 'AUTH/SET_OWN_HOLIDAYS_LOADED';
 export const SET_OWN_REQUESTS_LOADING = 'AUTH/SET_OWN_REQUESTS_LOADING';
 export const SET_OWN_REQUESTS_LOADED = 'AUTH/SET_OWN_REQUESTS_LOADED';
+export const SET_NOTIFICATIONS_LOADING = 'AUTH/SET_NOTIFICATIONS_LOADING';
+export const SET_NOTIFICATIONS_LOADED = 'AUTH/SET_NOTIFICATIONS_LOADED';
+export const SET_NOTIFICATIONS_UPDATING = 'AUTH/SET_NOTIFICATIONS_UPDATING';
+export const SET_NOTIFICATIONS_UPDATED = 'AUTH/SET_NOTIFICATIONS_UPDATED';
 
 const initialState = {
   get user() {
@@ -30,6 +37,9 @@ const initialState = {
   loadingRequests: false,
   loadedRequests: false,
   requests: [],
+  loadedNotifications: false,
+  loadingNotifications: false,
+  notifications: [],
 };
 
 export default produce((state, { type, payload }) => {
@@ -60,6 +70,15 @@ export default produce((state, { type, payload }) => {
       state.loadedRequests = true;
       state.requests = payload.result;
       break;
+    case SET_NOTIFICATIONS_LOADING:
+      state.loadingNotifications = true;
+      break;
+    case SET_NOTIFICATIONS_LOADED:
+      state.loadingNotifications = false;
+      state.loadedNotifications = true;
+      state.notifications = payload.result;
+      break;
+
     // no default
   }
 }, initialState);
@@ -108,6 +127,36 @@ export const getOwnRequests = (authUserId) =>
     SET_OWN_REQUESTS_LOADED,
   ]);
 
+export const getNotifications = () =>
+  createApiAction({
+    types: [SET_NOTIFICATIONS_LOADING, SET_NOTIFICATIONS_LOADED],
+    url: '/notifications',
+    method: 'GET',
+    client: 'decryptor',
+    meta: {
+      queueIfOffline: true,
+      offlineMessage: syncString`Notifications`,
+    },
+    schema: [notificationSchema],
+  });
+
+// axios
+//   .put(`/notifications/${id}`, { read: !read })
+//   .then(({ data: { message } }) => dispatch(setSuccess(message)))
+//   .finally(() => dispatch(getNotifications()))
+//   .catch((error) => dispatch(setError(parseError(error))));
+
+export const updateNotification = (id, read) =>
+  createApiAction({
+    types: [SET_NOTIFICATIONS_UPDATING, SET_NOTIFICATIONS_UPDATED],
+    url: `/notifications/${id}`,
+    method: 'PUT',
+    data: { read },
+    meta: {
+      queueIfOffline: true,
+      offlineMessage: syncString`Notifications`,
+    },
+  });
 // export const autoLogin = () => dispatch => {
 //   fetch(`http://localhost:4000/auto_login`, {
 //     headers: {
