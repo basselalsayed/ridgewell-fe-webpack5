@@ -70,9 +70,6 @@ const contentReducer = produce((state, { type, payload }) => {
       state.holidays.loaded = true;
       state.holidays.holidays = payload;
       break;
-    case SET_NOTIFICATIONS:
-      state.notifications = payload;
-      break;
     // no default
   }
 }, initialState);
