@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { holidayEvents, requestHandler } from 'helpers';
 import {
@@ -6,7 +6,7 @@ import {
   getAllHolidays as _getAllHolidays,
 } from 'store/modules';
 
-import { useAdmin, useAuth, useEntities } from 'hooks';
+import { useAdmin, useAutoEffect, useAuth, useEntities } from 'hooks';
 import { useRequests } from './useRequests';
 
 const useHolidays = () => {
@@ -18,20 +18,19 @@ const useHolidays = () => {
 
   const dispatch = useDispatch();
 
-  const { defaultArgs, shouldFetchAll } = useAdmin();
+  const { shouldFetchAll } = useAdmin();
 
-  const getUserHolidays = useCallback(
-    (userId) => dispatch(_getUserHolidays(userId)),
-    [defaultArgs, loggedIn]
+  const getUserHolidays = useCallback((userId) =>
+    dispatch(_getUserHolidays(userId))
   );
 
   const getAllHolidays = useCallback(() => dispatch(_getAllHolidays()));
 
-  useEffect(() => {
-    if (loggedIn && shouldFetchAll) {
-      if (!loading && !loaded) getAllHolidays();
-    }
-  }, [loggedIn, shouldFetchAll, loading, loaded]);
+  useAutoEffect({
+    condition: loggedIn && shouldFetchAll && !loading && !loaded,
+    callback: getAllHolidays,
+    deps: [loggedIn, shouldFetchAll, loading, loaded],
+  });
 
   const { entities, getDenormalizedEntity } = useEntities();
 
