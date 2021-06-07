@@ -4,20 +4,15 @@ import { Button, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { updateNotification } from 'store/modules';
 
-const NotificationReadButton = memo(({ id, handleRead, read }) => {
+const NotificationReadButton = memo(({ id, read }) => {
   const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
     setSubmitting(true);
-
     dispatch(updateNotification(id, !read));
-    setTimeout(() => {
-      handleRead();
-
-      setSubmitting(false);
-    }, 200);
+    setSubmitting(false);
   }, [id, read]);
 
   return submitting ? (
