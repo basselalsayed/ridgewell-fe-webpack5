@@ -68,14 +68,17 @@ const useAuth = () => {
     callback: getOwnHolidays,
   });
 
-  const { getDenormalizedEntity } = useEntities();
+  const {
+    entities: { notifications: notificationEnts },
+    getDenormalizedEntity,
+  } = useEntities();
 
   const notificationEntities = useMemo(
     () =>
       (loadedNotifications &&
         getDenormalizedEntity('notifications', notifications)) ||
       [],
-    [loadedNotifications, notifications]
+    [loadedNotifications, notifications, notificationEnts]
   );
 
   const signUp = useCallback((userInfo) => dispatch(_signUp(userInfo)), [
