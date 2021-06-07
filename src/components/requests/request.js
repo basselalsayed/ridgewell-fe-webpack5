@@ -20,7 +20,7 @@ const FormBase = ({ id }) => {
   const onSubmit = useCallback(
     async (_, { setStatus }) =>
       isDelete ? denyRequest(id, setStatus) : confirmRequest(id, setStatus),
-    []
+    [isDelete]
   );
 
   return (
