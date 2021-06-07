@@ -58,31 +58,60 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => {
 
   const apiClient = clients[client] || axios;
 
-  apiClient
-    .request({
-      url,
-      method,
-      [dataOrParams]: data,
-    })
-    .then((res) => {
+  const asyncRequest = async () => {
+    try {
+      const response = await apiClient.request({
+        url,
+        method,
+        [dataOrParams]: data,
+      });
+
       const handleRequestFinish = (result, _res) => {
+        dispatch(createAction(SET_LOADED, result ? { result } : _res));
         if (onSuccess) return dispatch(onSuccess(result));
-        return dispatch(createAction(SET_LOADED, result ? { result } : _res));
       };
+
       if (schema) {
-        const { entities, result } = normalize(res.data, schema);
+        const { entities, result } = normalize(response.data, schema);
 
         next(createAction(SET_ENTITIES, entities));
 
         return handleRequestFinish(result);
       }
-      return handleRequestFinish(null, res);
-    })
-    .catch((error) => {
+      return handleRequestFinish(null, response);
+    } catch (error) {
       console.trace(error);
       console.error(error);
       return dispatch(setError(parseError(error)), onFailure());
-    });
+    }
+  };
+
+  // apiClient
+  //   .request({
+  //     url,
+  //     method,
+  //     [dataOrParams]: data,
+  //   })
+  //   .then((res) => {
+  //     const handleRequestFinish = (result, _res) => {
+  //       if (onSuccess) return dispatch(onSuccess(result));
+  //       return dispatch(createAction(SET_LOADED, result ? { result } : _res));
+  //     };
+  //     if (schema) {
+  //       const { entities, result } = normalize(res.data, schema);
+
+  //       next(createAction(SET_ENTITIES, entities));
+
+  //       return handleRequestFinish(result);
+  //     }
+  //     return handleRequestFinish(null, res);
+  //   })
+  //   .catch((error) => {
+  //     console.trace(error);
+  //     console.error(error);
+  //     return dispatch(setError(parseError(error)), onFailure());
+  //   });
+  return asyncRequest();
 };
 export { API, createApiAction };
 export default apiMiddleware;
