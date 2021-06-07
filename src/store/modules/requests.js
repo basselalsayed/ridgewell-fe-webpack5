@@ -1,14 +1,12 @@
 import axios from 'axios';
 import { parseError } from 'helpers';
 import produce from 'immer';
-import { createAction } from 'store';
+
 import { createApiAction } from 'store/middleware/api';
 import { syncString } from 'store/middleware/offlineQueue';
 import { holidayRequestSchema } from 'store/schemas';
 
-import { decryptorInstance } from '../../services/axios';
 import { getAll, getAllHolidays } from './content';
-import { setError } from './response';
 
 const SET_REQUESTS = 'CONTENT/SET_REQUESTS';
 const SET_REQUESTS_LOADING = 'CONTENT/SET_REQUESTS_LOADING';
@@ -37,15 +35,6 @@ const requestsReducer = produce((state, { type, payload }) => {
   }
 }, initialState);
 
-const getRequests = (userId = null) => async (dispatch) => {
-  dispatch(createAction(SET_REQUESTS_LOADING));
-
-  await decryptorInstance
-    .get(userId ? `requests?userId=${userId}` : 'requests')
-    .then(({ data }) => dispatch(createAction(SET_REQUESTS_LOADED, data)))
-    .catch((error) => dispatch(setError(parseError(error))));
-};
-
 const getAllRequests = () =>
   createApiAction({
     types: [SET_REQUESTS_LOADING, SET_REQUESTS_LOADED],
@@ -57,7 +46,6 @@ const getAllRequests = () =>
       offlineMessage: syncString`Requests`,
     },
     schema: [holidayRequestSchema],
-    onSuccess: (result) => createAction(SET_REQUESTS_LOADED, result),
   });
 
 const postDeleteRequest = (id, setStatus) => async (dispatch) => {
@@ -115,7 +103,6 @@ const denyRequest = (id, setStatus) => (dispatch) =>
 export {
   confirmRequest,
   denyRequest,
-  getRequests,
   getAllRequests,
   postNewRequest,
   postUpdateRequest,
