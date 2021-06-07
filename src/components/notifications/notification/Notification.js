@@ -1,5 +1,5 @@
-import { formatted } from 'helpers';
 import { memo } from 'react';
+import { formatDistance } from 'date-fns';
 import { NotificationReadButton } from '.';
 
 const Notification = memo(({ id, createdAt, message, read, index }) => (
@@ -11,7 +11,7 @@ const Notification = memo(({ id, createdAt, message, read, index }) => (
   >
     <td>{index + 1}</td>
     <td>{message}</td>
-    <td>{formatted(createdAt, 'panelTime')}</td>
+    <td>{formatDistance(new Date(createdAt), new Date())} ago</td>
     <td style={{ textAlign: 'center' }}>
       <NotificationReadButton id={id} read={read} />
     </td>
