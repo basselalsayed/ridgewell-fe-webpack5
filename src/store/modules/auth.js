@@ -6,8 +6,12 @@ import { API_URL } from 'constants';
 import { createAction } from 'store';
 import { createApiAction } from 'store/middleware/api';
 import { syncString } from 'store/middleware/offlineQueue';
-import { notificationSchema } from 'store/schemas';
-import { getUserHolidays, getUserRequests } from './content';
+import {
+  holidayRequestSchema,
+  holidaySchema,
+  notificationSchema,
+} from 'store/schemas';
+import { UPDATE_NOTIFICATION_ENTITY } from './entities';
 
 export const SET_USER = 'AUTH/SET_USER';
 export const LOG_OUT = 'AUTH/LOG_OUT';
@@ -39,6 +43,8 @@ const initialState = {
   requests: [],
   loadedNotifications: false,
   loadingNotifications: false,
+  updatingNotifications: false,
+  updatedNotifications: false,
   notifications: [],
 };
 
@@ -78,7 +84,13 @@ export default produce((state, { type, payload }) => {
       state.loadedNotifications = true;
       state.notifications = payload.result;
       break;
-
+    case SET_NOTIFICATIONS_UPDATING:
+      state.updatingNotifications = true;
+      break;
+    case SET_NOTIFICATIONS_UPDATED:
+      state.updatingNotifications = false;
+      state.updatedNotifications = true;
+      break;
     // no default
   }
 }, initialState);
@@ -115,17 +127,33 @@ export const login = (userInfo) => (dispatch) =>
     }
   });
 
-export const getOwnHolidays = (authUserId) =>
-  getUserHolidays(authUserId, [
-    SET_OWN_HOLIDAYS_LOADING,
-    SET_OWN_HOLIDAYS_LOADED,
-  ]);
+export const getOwnHolidays = (userId) =>
+  createApiAction({
+    types: [SET_OWN_HOLIDAYS_LOADING, SET_OWN_HOLIDAYS_LOADED],
+    client: 'decryptor',
+    method: 'GET',
+    url: `/holidays`,
+    data: { userId },
+    meta: {
+      queueIfOffline: true,
+      offlineMessage: syncString`Holidays`,
+    },
+    schema: [holidaySchema],
+  });
 
-export const getOwnRequests = (authUserId) =>
-  getUserRequests(authUserId, [
-    SET_OWN_REQUESTS_LOADING,
-    SET_OWN_REQUESTS_LOADED,
-  ]);
+export const getOwnRequests = (userId) =>
+  createApiAction({
+    types: [SET_OWN_REQUESTS_LOADING, SET_OWN_REQUESTS_LOADED],
+    client: 'decryptor',
+    method: 'GET',
+    url: `/requests`,
+    data: { userId },
+    meta: {
+      queueIfOffline: true,
+      offlineMessage: syncString`Requests`,
+    },
+    schema: [holidayRequestSchema],
+  });
 
 export const getNotifications = () =>
   createApiAction({
@@ -156,6 +184,8 @@ export const updateNotification = (id, read) =>
       queueIfOffline: true,
       offlineMessage: syncString`Notifications`,
     },
+    onSuccess: () =>
+      createAction(UPDATE_NOTIFICATION_ENTITY, { id, data: { read } }),
   });
 // export const autoLogin = () => dispatch => {
 //   fetch(`http://localhost:4000/auto_login`, {
