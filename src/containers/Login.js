@@ -5,9 +5,9 @@ import { Formik } from 'formik';
 
 import { parseError } from 'helpers';
 import { useAuth } from 'hooks';
-// import { Status } from 'components/forms';
+
 import { useHistory } from 'react-router-dom';
-import { Status, CenteredSpinner } from 'components';
+import { Status, Spinner } from 'components';
 import { successBtn } from 'components/index.module.scss';
 
 const Login = () => {
@@ -97,7 +97,7 @@ const Login = () => {
               </Form.Group>
               <Form.Row>
                 {isSubmitting ? (
-                  <CenteredSpinner />
+                  <Spinner />
                 ) : (
                   <button className={successBtn} type="submit">
                     Submit

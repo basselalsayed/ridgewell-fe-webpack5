@@ -5,7 +5,8 @@ import './App.scss';
 
 import { renderRoutes } from 'react-router-config';
 import { useNetwork } from 'hooks/useNetwork';
-import UniversalComponent from 'components/UniversalComponent';
+
+import { Alert, Header } from 'components';
 
 const App = ({ route }) => {
   useEffect(() => {
@@ -21,8 +22,9 @@ const App = ({ route }) => {
 
   return (
     <>
-      <UniversalComponent export="Header" />
-      <UniversalComponent export="Alert" />
+      <Header />
+
+      <Alert />
       <div>
         <div className="container mt-3">{renderRoutes(route.routes)}</div>
       </div>

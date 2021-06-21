@@ -6,11 +6,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 
 import { eventStyleGetter } from 'helpers';
-import { Event } from 'components/event';
 
 import { useHolidays } from 'hooks';
 
-import UniversalComponent from 'components/UniversalComponent';
+import { Event, EventModal } from 'components';
 
 const localizer = momentLocalizer(moment);
 
@@ -54,13 +53,14 @@ const Home = memo(() => {
         eventPropGetter={eventStyleGetter}
         tooltipAccessor={null}
       />
-      {date && (
+      {date && <EventModal {...modalProps} />}
+      {/* {date && (
         <UniversalComponent
           page="components/event/components"
           export="EventModal"
           {...modalProps}
         />
-      )}
+      )} */}
     </div>
   );
 });

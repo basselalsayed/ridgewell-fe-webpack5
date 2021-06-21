@@ -2,13 +2,8 @@ import { Card, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { parseError } from 'helpers';
-import {
-  CenteredSpinner,
-  CountdownCancel,
-  Status,
-  SuccessButton,
-} from 'components';
-// import { CenteredSpinner } from 'components/Spinner';
+import { Spinner, CountdownCancel, Status, SuccessButton } from 'components';
+
 import { useAuth, useCountdown } from 'hooks';
 
 const Register = ({ history }) => {
@@ -147,7 +142,7 @@ const Register = ({ history }) => {
               </Form.Group>
               <Form.Row>
                 {isSubmitting ? (
-                  <CenteredSpinner />
+                  <Spinner />
                 ) : isPlaying ? (
                   <CountdownCancel />
                 ) : (
