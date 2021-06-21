@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { AdminRoute, PrivateRoute } from 'components';
-import { App } from 'containers';
+import { App } from 'containers/App';
 import UniversalContainer from 'containers/UniversalContainer';
 import { asyncConnect } from 'redux-connect';
 import { getAllHolidays } from 'store/modules';
