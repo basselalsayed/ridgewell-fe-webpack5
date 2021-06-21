@@ -1,56 +1,7 @@
-import { useCallback } from 'react';
-import { Formik } from 'formik';
-import { Card, Row, Col, Form } from 'react-bootstrap';
+import { useAuth } from 'hooks';
+import { Card } from 'react-bootstrap';
 import { capitalize, formatted, isAdmin } from 'helpers';
-import { useAuth, useCountdown } from 'hooks';
-import { useRequests } from 'hooks/redux/useRequests';
-import {
-  CountdownCancel,
-  NegativeButton,
-  Status,
-  SuccessButton,
-} from '../forms';
-import { CenteredSpinner } from '../Spinner';
-
-const FormBase = ({ id }) => {
-  const { isDelete, isPlaying } = useCountdown();
-
-  const { confirmRequest, denyRequest } = useRequests();
-
-  const onSubmit = useCallback(
-    async (_, { setStatus }) =>
-      isDelete ? denyRequest(id, setStatus) : confirmRequest(id, setStatus),
-    [isDelete]
-  );
-
-  return (
-    <Formik initialValues={{ null: null }} onSubmit={onSubmit}>
-      {({ handleSubmit, isSubmitting, status }) => (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group as={Row}>
-            {isSubmitting ? (
-              <div style={{ width: '100%' }}>
-                <CenteredSpinner />
-              </div>
-            ) : isPlaying ? (
-              <CountdownCancel id={id} />
-            ) : (
-              <>
-                <Col>
-                  <NegativeButton id={id} title="Deny Request" />
-                </Col>
-                <Col>
-                  <SuccessButton id={id} title="Confirm Request" />
-                </Col>
-              </>
-            )}
-          </Form.Group>
-          {status && <Status {...{ status }} />}
-        </Form>
-      )}
-    </Formik>
-  );
-};
+import { RequestConfirmationForm } from 'components';
 
 const Request = ({
   createdAt,
@@ -89,10 +40,10 @@ const Request = ({
 
       {loggedIn && isAdmin(user) && (
         <Card.Footer>
-          <FormBase id={id} />
+          <RequestConfirmationForm id={id} />
         </Card.Footer>
       )}
     </Card>
   );
 };
-export { Request };
+export default Request;

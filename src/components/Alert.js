@@ -34,4 +34,4 @@ const Alert = () => {
   );
 };
 
-export { Alert };
+export default Alert;

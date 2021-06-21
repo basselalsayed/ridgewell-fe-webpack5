@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useAuth } from 'hooks';
 import { Table } from 'react-bootstrap';
-import { Notification } from './notification';
+import { Notification } from 'components';
 
 const Notifications = memo(() => {
   const { notificationEntities: notifications } = useAuth();
@@ -39,4 +39,4 @@ const Notifications = memo(() => {
   );
 });
 
-export { Notifications };
+export default Notifications;

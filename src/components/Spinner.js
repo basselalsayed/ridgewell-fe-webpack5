@@ -1,7 +1,7 @@
-import { Spinner } from 'react-bootstrap';
+import { Spinner as BSpinner } from 'react-bootstrap';
 
-const CenteredSpinner = () => (
-  <Spinner
+const Spinner = () => (
+  <BSpinner
     style={{
       position: 'relative',
       color: 'green',
@@ -14,4 +14,4 @@ const CenteredSpinner = () => (
   />
 );
 
-export { CenteredSpinner };
+export default Spinner;

@@ -38,4 +38,4 @@ const CountdownCancel = ({ id }) => {
   );
 };
 
-export { CountdownCancel };
+export default CountdownCancel;

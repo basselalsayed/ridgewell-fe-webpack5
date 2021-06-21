@@ -1,7 +1,7 @@
+import { memo } from 'react';
 import { Card } from 'react-bootstrap';
 import { formatted } from 'helpers';
-import { RequestsTable } from 'components/event/components';
-import { memo } from 'react';
+import { RequestsTable } from 'components';
 
 const User = memo(({ email, updatedAt, username, owner: requests }) => (
   <Card>
@@ -18,4 +18,4 @@ const User = memo(({ email, updatedAt, username, owner: requests }) => (
   </Card>
 ));
 
-export { User };
+export default User;

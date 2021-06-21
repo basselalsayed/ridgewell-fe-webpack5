@@ -10,14 +10,14 @@ import {
   NegativeButton,
   SuccessButton,
   Status,
-  CenteredSpinner,
+  Spinner,
 } from 'components';
 
 import { today } from 'constants';
 import { useCountdown } from 'hooks';
 import { useRequests } from 'hooks/redux/useRequests';
 
-const RequestForm = ({ annualLeave, id, from, until, update }) => {
+const NewRequestForm = ({ annualLeave, id, from, until, update }) => {
   const { isDelete, isPlaying } = useCountdown();
 
   const {
@@ -140,7 +140,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
 
           <Form.Row>
             {isSubmitting ? (
-              <CenteredSpinner />
+              <Spinner />
             ) : isPlaying ? (
               <CountdownCancel />
             ) : (
@@ -160,4 +160,4 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
     </Formik>
   );
 };
-export { RequestForm };
+export default NewRequestForm;

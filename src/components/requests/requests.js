@@ -1,15 +1,16 @@
-import UniversalComponent from 'components/UniversalComponent';
+import { BoardDisplay } from 'components';
+// import UniversalComponent from 'components/UniversalComponent';
 import { memo } from 'react';
 
 const Requests = memo(({ requests, loaded, loading }) => (
-  <UniversalComponent
-    export="BoardDisplay"
+  <BoardDisplay
+    // export="BoardDisplay"
     content={requests}
-    componentExport="Request"
+    componentPath="requests/request"
     loading={loading}
     loaded={loaded}
     emptyMessage="No requests awaiting approval"
   />
 ));
 
-export { Requests };
+export default Requests;

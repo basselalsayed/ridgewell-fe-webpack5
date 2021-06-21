@@ -1,3 +1,4 @@
+import { SkeletonsList } from 'components';
 import { useLoadingDelay } from 'hooks';
 import UniversalComponent from './UniversalComponent';
 
@@ -6,12 +7,12 @@ const BoardDisplay = ({
   loading,
   content,
   emptyMessage,
-  componentExport,
+  componentPath,
 }) => {
   const { showLoading } = useLoadingDelay({ loaded, loading, timeout: 1000 });
 
   return showLoading ? (
-    <UniversalComponent export="SkeletonsList" type="SkeletonCard" />
+    <SkeletonsList type="SkeletonCard" />
   ) : (
     <div
       style={{
@@ -22,14 +23,10 @@ const BoardDisplay = ({
       {content.length === 0
         ? emptyMessage
         : content.map((item) => (
-            <UniversalComponent
-              export={componentExport}
-              key={item.id}
-              {...item}
-            />
+            <UniversalComponent page={componentPath} key={item.id} {...item} />
           ))}
     </div>
   );
 };
 
-export { BoardDisplay };
+export default BoardDisplay;

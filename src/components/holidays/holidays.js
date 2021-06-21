@@ -1,16 +1,18 @@
-import UniversalComponent from 'components/UniversalComponent';
+import { BoardDisplay } from 'components';
+// import UniversalComponent from 'components/UniversalComponent';
 
 import { memo } from 'react';
 
 const Holidays = memo(({ holidays, loading, loaded }) => (
-  <UniversalComponent
-    export="BoardDisplay"
+  <BoardDisplay
+    // export="BoardDisplay"
     content={holidays}
     componentExport="Holiday"
+    componentPath="holidays/holiday"
     loading={loading}
     loaded={loaded}
     emptyMessage="No holidays here"
   />
 ));
 
-export { Holidays };
+export default Holidays;

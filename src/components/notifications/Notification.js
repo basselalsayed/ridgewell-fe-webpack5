@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { formatDistance } from 'date-fns';
-import { NotificationReadButton } from '.';
+import { NotificationReadButton } from 'components';
 
 const Notification = memo(({ id, createdAt, message, read, index }) => (
   <tr
@@ -18,4 +18,4 @@ const Notification = memo(({ id, createdAt, message, read, index }) => (
   </tr>
 ));
 
-export { Notification };
+export default Notification;

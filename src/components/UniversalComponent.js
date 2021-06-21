@@ -1,10 +1,7 @@
 import loadable from '@loadable/component';
 
-const UniversalComponent = loadable(
-  (props) => import(`${props.page || 'components'}`),
-  {
-    resolveComponent: (mod, props) => mod[props.export],
-  }
+const UniversalComponent = loadable((props) =>
+  import(`components/${props.page}`)
 );
 
 export default UniversalComponent;

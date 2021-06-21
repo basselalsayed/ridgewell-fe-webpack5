@@ -37,4 +37,4 @@ const RequestsTable = memo(({ requests }) => {
   );
 });
 
-export { RequestsTable };
+export default RequestsTable;

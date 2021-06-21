@@ -1,0 +1,62 @@
+.banner {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  height: 30px;
+  background-color: turquoise;
+}
+
+.tabBtn {
+  text-align: center;
+}
+
+.dangerBtn {
+  margin-top: 1rem;
+  background-color: #f0b4b9;
+  border-color: #f0b4b9;
+  color: #721c24;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dangerBtn:hover {
+  background-color: #f7949c;
+  border-color: #f7949c;
+}
+
+.successBtn {
+  margin-top: 1rem;
+  background-color: #bdeec9;
+  color: #155724;
+  cursor: pointer;
+  width: 100%;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #c3e6cb;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.successBtn:disabled {
+  cursor: default;
+  background-color: #d0edd7;
+  color: #2e5537;
+}
+
+.successBtn:not(:disabled):hover {
+  background-color: #7ee997;
+  border-color: #95eba9;
+  color: black;
+}
+
+.successBtn:active:focus {
+  background-color: #2cb34b;
+  border: 2px solid #2cb34b;
+  color: black;
+}

@@ -2,7 +2,7 @@ import UniversalComponent from 'components/UniversalComponent';
 
 const SkeletonsList = ({ type }) =>
   Array.from(Array(6).keys()).map((n) => (
-    <UniversalComponent key={n} export={type} />
+    <UniversalComponent key={n} page={`skeletons/${type}`} export={type} />
   ));
 
-export { SkeletonsList };
+export default SkeletonsList;

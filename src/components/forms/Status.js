@@ -11,4 +11,4 @@ const Status = ({ status }) => (
   </Form.Row>
 );
 
-export { Status };
+export default Status;

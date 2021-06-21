@@ -51,4 +51,4 @@ const Holiday = ({
   );
 };
 
-export { Holiday };
+export default Holiday;

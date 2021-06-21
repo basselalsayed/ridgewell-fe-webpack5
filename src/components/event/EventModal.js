@@ -4,7 +4,8 @@ import { Modal, Col, Row } from 'react-bootstrap';
 
 import { formatted } from 'helpers';
 
-import UniversalComponent from 'components/UniversalComponent';
+// import UniversalComponent from 'components/UniversalComponent';
+import { NewRequestForm } from 'components';
 
 const EventModal = memo(
   ({ annualLeave, id, handleShow, show, start, end, title, update }) => {
@@ -22,8 +23,8 @@ const EventModal = memo(
           </Row>
         </Modal.Header>
         <Modal.Body>
-          <UniversalComponent
-            export="RequestForm"
+          <NewRequestForm
+            // export="RequestForm"
             annualLeave={annualLeave}
             id={id}
             from={formatted(start, 'form')}
@@ -36,4 +37,4 @@ const EventModal = memo(
   }
 );
 
-export { EventModal };
+export default EventModal;

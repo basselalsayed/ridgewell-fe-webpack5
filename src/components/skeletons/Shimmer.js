@@ -4,4 +4,4 @@ const Shimmer = () => (
   </div>
 );
 
-export { Shimmer };
+export default Shimmer;

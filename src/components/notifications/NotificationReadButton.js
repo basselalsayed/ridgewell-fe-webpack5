@@ -31,4 +31,4 @@ const NotificationReadButton = memo(({ id, read }) => {
   );
 });
 
-export { NotificationReadButton };
+export default NotificationReadButton;

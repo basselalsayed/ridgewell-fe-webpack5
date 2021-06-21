@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { hasEditAcces } from 'helpers';
 import { useAuth } from 'hooks';
-import { EventModal, RequestsTable } from './components';
+import { EventModal, RequestsTable } from 'components';
 
 const Event = memo(
   ({
@@ -69,4 +69,4 @@ const Event = memo(
   }
 );
 
-export { Event };
+export default Event;
