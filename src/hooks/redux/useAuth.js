@@ -51,21 +51,21 @@ const useAuth = () => {
   );
 
   useAutoEffect({
-    deps: [loggedIn, loadingNotifications, loadedNotifications],
     condition: loggedIn && !loadingNotifications && !loadedNotifications,
     callback: getNotifications,
+    deps: [loggedIn, loadingNotifications, loadedNotifications],
   });
 
   useAutoEffect({
-    deps: [loggedIn, isOnUserPage, loadingHolidays, loadedHolidays],
     condition: loggedIn && isOnUserPage && !loadingHolidays && !loadedHolidays,
     callback: getOwnRequests,
+    deps: [loggedIn, isOnUserPage, loadingHolidays, loadedHolidays],
   });
 
   useAutoEffect({
-    deps: [loggedIn, isOnUserPage, loadingRequests, loadedRequests],
     condition: loggedIn && isOnUserPage && !loadingRequests && !loadedRequests,
     callback: getOwnHolidays,
+    deps: [loggedIn, isOnUserPage, loadingRequests, loadedRequests],
   });
 
   const {
