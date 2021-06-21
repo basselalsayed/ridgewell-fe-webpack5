@@ -8,6 +8,9 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+
 const paths = require('./paths');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -81,6 +84,12 @@ module.exports = [
     filename: !isProd ? '[name].css' : '[name].[contenthash].css',
     chunkFilename: !isProd ? '[id].css' : '[id].[chunkhash].css',
   }),
-  !isProd &&
-    (new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()),
+  new LodashModuleReplacementPlugin(),
+  ...(!isProd
+    ? [
+        new webpack.HotModuleReplacementPlugin(),
+        new ReactRefreshWebpackPlugin(),
+      ]
+    : []),
+  // new BundleAnalyzerPlugin(),
 ].filter(Boolean);
