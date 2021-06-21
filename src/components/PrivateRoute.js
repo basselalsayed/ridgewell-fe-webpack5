@@ -1,6 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
 import { useAuth } from 'hooks';
-import { isAdmin } from 'helpers';
 
 export const ProtectedRoute = ({
   condition,
@@ -28,10 +27,10 @@ export const PrivateRoute = ({ component, ...rest }) => {
 };
 
 export const AdminRoute = ({ component, ...rest }) => {
-  const { loggedIn, user } = useAuth();
+  const { loggedIn, isAdmin } = useAuth();
   return (
     <ProtectedRoute
-      condition={isAdmin(user)}
+      condition={isAdmin}
       redirect={loggedIn ? '/user' : '/login'}
       component={component}
       {...rest}
