@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import /* webpackPreload: true */ 'bootstrap/dist/css/bootstrap.min.css';
 // import './bootstrap.min.css';
-import './App.scss';
+import /* webpackPreload: true */ './App.scss';
 
 import { renderRoutes } from 'react-router-config';
 import { useNetwork } from 'hooks/useNetwork';
