@@ -18,7 +18,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const paths = require('./paths');
 const WaitPlugin = require('./plugins/WaitPlugin');
-const { clientOnly } = require('../scripts/utils');
+const { clientOnly, noStream } = require('../scripts/utils');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -43,6 +43,7 @@ const shared = [
   }),
   new webpack.DefinePlugin({
     __DISABLE_SSR__: JSON.stringify(clientOnly()),
+    __NO_STREAM__: JSON.stringify(noStream()),
   }),
   !isProd && new webpack.HotModuleReplacementPlugin(),
   // new WorkboxPlugin.GenerateSW(),
