@@ -1,7 +1,8 @@
+const path = require('path');
 const paths = require('./paths');
 
-const loaders = require('./loaders');
-const plugins = require('./plugins');
+const { client: loaders } = require('./loaders');
+const { client: plugins } = require('./plugins');
 
 module.exports = {
   // entry: {
@@ -9,6 +10,7 @@ module.exports = {
   //   index: `${paths.src}/index.js`,
   // },
   entry: `${paths.client}`,
+  target: 'web',
   // entry: {
   //   index: {
   //     import: `${paths.src}/index.js`,
@@ -21,16 +23,19 @@ module.exports = {
   //   shared: ['react', 'react-bootstrap'],
   // },
   output: {
-    path: paths.buildClient,
+    path: path.join(paths.buildClient, paths.public),
     filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
-    publicPath: '/',
+    chunkFilename: '[name].[contenthash].chunk.js',
+    publicPath: paths.public,
   },
   plugins,
   resolve: {
     modules: [paths.src, 'node_modules'],
     fallback: {
       stream: 'stream-browserify',
+    },
+    alias: {
+      components: path.join(paths.src, 'components'),
     },
   },
   module: {

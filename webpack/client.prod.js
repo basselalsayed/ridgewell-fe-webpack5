@@ -1,16 +1,14 @@
 const { merge } = require('webpack-merge');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const paths = require('./paths');
-const common = require('./webpack.common');
+const common = require('./client.common');
 
 module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   output: {
-    path: paths.buildClient,
-    publicPath: '/',
     filename: '[name].[contenthash].bundle.js',
-    chunkFilename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].chunk.js',
   },
   optimization: {
     usedExports: true,
