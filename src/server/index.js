@@ -17,7 +17,7 @@ app.use(addStore);
 app.use(paths.public, express.static(join(paths.buildClient, paths.public)));
 
 app.use(serverRenderer);
-app.set('port', 8085);
+app.set('port', process.env.PORT);
 
 const server = app.listen(app.get('port'), () => {
   console.log('listening on port ', server.address().port);
