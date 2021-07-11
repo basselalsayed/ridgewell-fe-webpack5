@@ -1,12 +1,12 @@
 import { routerMiddleware } from 'connected-react-router';
 import { createStore, compose, applyMiddleware } from 'redux';
 
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 import createRootReducer from './reducers';
 import offlineMiddleware from './middleware/offlineQueue';
 import apiMiddleware from './middleware/api';
 
-const configureStore = () => {
+const configureStore = (url = '/') => {
   const composeEnhancer =
     __CLIENT__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -15,7 +15,9 @@ const configureStore = () => {
         })
       : compose;
 
-  const history = createBrowserHistory();
+  const history = __CLIENT__
+    ? createBrowserHistory({ basename: url })
+    : createMemoryHistory({ initialEntries: [url] });
 
   const middleware = [
     offlineMiddleware,
