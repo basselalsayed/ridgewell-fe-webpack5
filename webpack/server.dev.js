@@ -10,7 +10,7 @@ const PORT =
     ? Number(process.env.PORT) + 1
     : 8080);
 
-const DEVSERVER_HOST = process.env.DEVSERVER_HOST || 'http://localhost';
+const DEVSERVER_HOST = process.env.DEVSERVER_HOST || '0.0.0.0';
 
 const publicPath = [`${DEVSERVER_HOST}:${PORT}`, paths.public]
   .join('/')
