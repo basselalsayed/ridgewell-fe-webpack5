@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate, render } from 'react-dom';
 
 import './index.css';
 // import { BrowserRouter as Router } from 'react-router-dom';
@@ -10,15 +10,21 @@ import { ReduxAsyncConnect } from 'redux-connect';
 import routes from 'Routes';
 // import * as serviceWorker from './serviceWorker';
 
+import { loadableReady } from '@loadable/component';
 import { enableAllPlugins } from 'immer';
 import configureStore from '../store';
 
-import { authHeaderFromStore } from '../services/auth-header';
 import { API_URL } from '../constants';
+import { authHeaderFromStore } from '../services/auth-header';
 import { decryptorInstance, usersInstance } from '../services/axios';
 
 enableAllPlugins();
-const { history, store } = configureStore();
+const { history, store: newStore } = configureStore();
+
+const store = window.store || newStore;
+
+delete window.store;
+
 axios.defaults.baseURL = API_URL;
 const headers = authHeaderFromStore(store);
 
@@ -30,17 +36,29 @@ const headers = authHeaderFromStore(store);
 // usersInstance.defaults.headers = authHeaderFromStore(store);
 axios.defaults.timeout = 10000;
 
-axios.get();
-
-ReactDOM.render(
+const app = (
   <StrictMode>
     <Provider store={store}>
       <Router store={store} history={history}>
         <ReduxAsyncConnect routes={routes(store)} />
       </Router>
     </Provider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
+const appRoot = document.getElementById('root');
 
-// serviceWorker.unregister();
+if (__DISABLE_SSR__) {
+  render(app, appRoot);
+} else {
+  loadableReady(() => hydrate(app, appRoot));
+}
+
+if (process.env.NODE_ENV === 'development') {
+  if (module.hot) {
+    module.hot.accept();
+  }
+
+  if (!window.store) {
+    window.store = store;
+  }
+}
