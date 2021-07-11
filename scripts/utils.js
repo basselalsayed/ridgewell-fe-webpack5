@@ -37,6 +37,8 @@ export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const clientOnly = () => process.argv.includes('--client-only');
 
+export const noStream = () => process.argv.includes('--no-stream');
+
 export default {
   clientOnly,
   compilerPromise,
