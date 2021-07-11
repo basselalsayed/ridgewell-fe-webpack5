@@ -6,7 +6,6 @@ const { server: plugins } = require('./plugins');
 
 module.exports = {
   entry: paths.server,
-  mode: 'production',
   target: 'node',
   node: {
     global: false,
@@ -16,7 +15,6 @@ module.exports = {
   output: {
     path: paths.buildServer,
     filename: 'server.js',
-    // chunkFilename: '[name].bundle.js',
     publicPath: path.join(paths.buildClient, paths.public),
   },
   plugins,
