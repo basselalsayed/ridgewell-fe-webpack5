@@ -24,6 +24,7 @@ const eventStyleGetter = (
     color: 'black',
     border: '0px',
     display: 'block',
+    padding: '1em',
   },
 });
 
