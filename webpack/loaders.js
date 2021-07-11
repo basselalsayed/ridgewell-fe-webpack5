@@ -5,20 +5,40 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const cssRegex = /\.(sa|sc|c)ss$/;
 const cssModuleRegex = /\.module.(sa|sc|c)ss$/;
-
-const babelLoader = {
+const cssModuleOptions = {
+  exportLocalsConvention: 'camelCaseOnly',
+  ...(isProd
+    ? { localIdentName: '[contenthash:base64:8]' }
+    : { getLocalIdent: getCSSModuleLocalIdent }),
+};
+const babelLoaderClient = {
   test: /\.js$/,
   exclude: /node_modules/,
   use: [
     {
       loader: 'babel-loader',
-      ...(!isProd
-        ? {
-            options: {
-              plugins: ['react-refresh/babel'],
-            },
-          }
-        : {}),
+      options: {
+        cacheDirectory: true,
+        cacheCompression: process.env.NODE_ENV === 'production',
+        compact: process.env.NODE_ENV === 'production',
+        ...(!isProd && {
+          plugins: ['react-refresh/babel'],
+        }),
+      },
+    },
+  ],
+};
+const babelLoaderServer = {
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: [
+    {
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: true,
+        cacheCompression: process.env.NODE_ENV === 'production',
+        compact: process.env.NODE_ENV === 'production',
+      },
     },
   ],
 };
@@ -86,7 +106,7 @@ const cssLoader = {
   sideEffects: true,
 };
 
-const cssModuleLoader = {
+const cssModuleLoaderClient = {
   test: cssRegex,
   // exclude: cssRegex,
   use: [
@@ -109,10 +129,7 @@ const cssModuleLoader = {
         modules: {
           auto: true,
           namedExport: true,
-          exportLocalsConvention: 'camelCaseOnly',
-          ...(isProd
-            ? { localIdentName: '[contenthash:base64:8]' }
-            : { getLocalIdent: getCSSModuleLocalIdent }),
+          ...cssModuleOptions,
         },
       },
     },
@@ -147,14 +164,86 @@ const cssModuleLoader = {
   ].filter(Boolean),
 };
 
-module.exports = [
-  {
-    oneOf: [
-      babelLoader,
-      assetResourceLoader,
-      assetInlineLoader,
-      // cssLoader,
-      cssModuleLoader,
-    ],
-  },
-];
+const cssModuleLoaderServer = {
+  test: cssModuleRegex,
+  use: [
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: !isProd,
+        importLoaders: 2,
+        esModule: true,
+        modules: {
+          auto: true,
+          namedExport: true,
+          ...cssModuleOptions,
+          exportOnlyLocals: true,
+        },
+      },
+    },
+    {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: !isProd,
+      },
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        sourceMap: !isProd,
+      },
+    },
+  ],
+};
+
+const cssLoaderServer = {
+  test: cssRegex,
+  exclude: cssModuleRegex,
+  use: [
+    MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: !isProd,
+        importLoaders: 2,
+      },
+    },
+    {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: !isProd,
+      },
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        sourceMap: !isProd,
+      },
+    },
+  ],
+};
+
+module.exports = {
+  client: [
+    {
+      oneOf: [
+        babelLoaderClient,
+        assetResourceLoader,
+        assetInlineLoader,
+        // cssLoader,
+        cssModuleLoaderClient,
+      ],
+    },
+  ],
+  server: [
+    {
+      oneOf: [
+        babelLoaderServer,
+        assetResourceLoader,
+        assetInlineLoader,
+        cssLoaderServer,
+        cssModuleLoaderServer,
+      ],
+    },
+  ],
+};

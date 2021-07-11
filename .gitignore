@@ -7,6 +7,3 @@ storybook
 storybook-static
 *.stories.*
 stories
-src/server/addStore.js
-src/server/document.js
-src/server/serverRenderer.js

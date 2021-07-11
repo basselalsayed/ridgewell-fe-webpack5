@@ -1,23 +1,23 @@
-require('dotenv').config();
-const { join } = require('path');
-const express = require('express');
-const compression = require('compression');
-const paths = require('../../webpack/paths');
+import 'dotenv/config';
+import { join } from 'path';
+import express from 'express';
+
+import compression from 'compression';
+import cors from 'cors';
+import paths from '../../webpack/paths';
+import serverRenderer from './serverRenderer';
+import coldStart from './coldStart';
+import addStore from './addStore';
 
 const app = express();
+app.use(coldStart);
 app.use(compression());
+app.use(cors());
+app.use(addStore);
+app.use(paths.public, express.static(join(paths.buildClient, paths.public)));
 
-app.use(express.static(paths.buildClient));
-
-app.get('/*', (req, res) => {
-  res.sendFile(join(paths.buildClient, 'index.html'), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
-
-app.set('port', process.env.PORT || 8080);
+app.use(serverRenderer);
+app.set('port', 8085);
 
 const server = app.listen(app.get('port'), () => {
   console.log('listening on port ', server.address().port);

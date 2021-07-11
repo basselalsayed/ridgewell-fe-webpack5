@@ -108,4 +108,4 @@ const BoardUser = memo(() => {
   );
 });
 
-export { BoardUser };
+export default BoardUser;

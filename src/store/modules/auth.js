@@ -26,10 +26,13 @@ export const SET_NOTIFICATIONS_UPDATED = 'AUTH/SET_NOTIFICATIONS_UPDATED';
 
 const initialState = {
   get user() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      axios.defaults.headers = { 'x-access-token': user.accessToken };
-      return decryptUser(user);
+    if (__CLIENT__) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        axios.defaults.headers = { 'x-access-token': user.accessToken };
+        return decryptUser(user);
+      }
+      return null;
     }
     return null;
   },

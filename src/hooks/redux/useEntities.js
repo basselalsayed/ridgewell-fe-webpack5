@@ -23,6 +23,7 @@ const schemaMap = {
   users: [userSchema],
   notifications: [notificationSchema],
 };
+
 const useEntities = () => {
   const entities = useSelector((state) => state.entities, shallowEqual);
   const getDenormalizedEntity = useCallback(

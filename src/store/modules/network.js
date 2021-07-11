@@ -3,7 +3,7 @@ export const SET_ONLINE = 'OFFLINE/SET_ONLINE';
 export const SET_OFFLINE = 'OFFLINE/SET_OFFLINE';
 
 const initialState = {
-  isOnline: window ? window.navigator.onLine : true,
+  isOnline: __CLIENT__ && window ? window.navigator.onLine : true,
   queue: [],
 };
 
