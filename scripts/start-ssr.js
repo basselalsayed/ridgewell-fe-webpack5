@@ -16,7 +16,7 @@ const PORT =
   process.env.PORT ||
   (!Number.isNaN(Number(process.env.PORT))
     ? Number(process.env.PORT) + 1
-    : 8080);
+    : 8081);
 
 const watchOptions = {
   ignored: /node_modules/,

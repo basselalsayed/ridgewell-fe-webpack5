@@ -3,7 +3,7 @@ const common = require('./server.common');
 
 module.exports = merge(common, {
   mode: 'production',
-  optimization: {
-    minimize: false,
-  },
+  // optimization: {
+  //   minimize: true,
+  // },
 });
