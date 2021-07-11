@@ -14,8 +14,7 @@ import {
 } from 'components';
 
 import { today } from 'constants';
-import { useCountdown } from 'hooks';
-import { useRequests } from 'hooks/redux/useRequests';
+import { useCountdown, useRequests } from 'hooks';
 
 const NewRequestForm = ({ annualLeave, id, from, until, update }) => {
   const { isDelete, isPlaying } = useCountdown();
@@ -160,4 +159,5 @@ const NewRequestForm = ({ annualLeave, id, from, until, update }) => {
     </Formik>
   );
 };
+
 export default NewRequestForm;
