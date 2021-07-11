@@ -4,9 +4,14 @@
   "description": "",
   "main": "src/client/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/server/index.js",
-    "dev": "NODE_ENV=development babel-node scripts/start-client.js",
-    "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
+    "start": "NODE_ENV=production node dist/server/server.js",
+    "start:client": "NODE_ENV=production node src/client/server.js",
+    "dev": "NODE_ENV=development babel-node scripts/start-ssr.js ",
+    "dev:client": "NODE_ENV=development babel-node scripts/start-client.js --client-only",
+    "build": "NODE_ENV=production babel-node scripts/build-ssr.js",
+    "build:client": "NODE_ENV=production babel-node scripts/build-client.js --client-only",
+    "build:client-webpack": "NODE_ENV=production webpack --config webpack/client.prod.js",
+    "build:server-webpack": "NODE_ENV=production webpack --config webpack/server.prod.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -16,6 +21,7 @@
   "dependencies": {
     "@babel/node": "^7.14.2",
     "@loadable/component": "^5.15.0",
+    "@loadable/server": "^5.15.0",
     "@loadable/webpack-plugin": "^5.15.0",
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@popperjs/core": "^2.9.2",
@@ -27,6 +33,7 @@
     "bootstrap": "^4.6.0",
     "compression": "^1.7.4",
     "connected-react-router": "^6.9.1",
+    "cors": "^2.8.5",
     "crypto-browserify": "^3.12.0",
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
@@ -57,6 +64,7 @@
     "yup": "^0.29.1"
   },
   "devDependencies": {
+    "before-build-webpack": "^0.2.11",
     "@babel/core": "^7.14.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.14.4",
@@ -91,6 +99,7 @@
     "html-webpack-plugin": "^5.3.1",
     "lodash-webpack-plugin": "^0.11.6",
     "mini-css-extract-plugin": "^1.4.0",
+    "nodemon": "^2.0.11",
     "postcss": "^8.3.0",
     "postcss-loader": "^5.2.0",
     "postcss-preset-env": "^6.7.0",
@@ -99,7 +108,7 @@
     "react-refresh": "^0.10.0",
     "sass-loader": "^12.0.0",
     "style-loader": "^2.0.0",
-    "webpack": "^5.32.0",
+    "webpack": "^5.44.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.0",
     "webpack-dev-middleware": "^5.0.0",
@@ -125,5 +134,8 @@
   "engines": {
     "node": "14.x",
     "npm": "6.x"
+  },
+  "optionalDependencies": {
+    "core-js": "^3.15.2"
   }
 }

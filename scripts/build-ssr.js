@@ -3,7 +3,7 @@ const rimraf = require('rimraf');
 const webpack = require('webpack');
 const paths = require('../webpack/paths');
 const clientConfig = require('../webpack/client.prod');
-const serverConfig = require('../webpack/server.common');
+const serverConfig = require('../webpack/server.prod');
 
 const { logMessage, compilerPromise } = require('./utils');
 
