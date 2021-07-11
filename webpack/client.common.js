@@ -9,7 +9,7 @@ module.exports = {
   //   // page: [`${paths.src}/index.js`, `${paths.src}/components/home/home.js`],
   //   index: `${paths.src}/index.js`,
   // },
-  entry: `${paths.client}`,
+  entry: { bundle: [paths.client] },
   target: 'web',
   // entry: {
   //   index: {
