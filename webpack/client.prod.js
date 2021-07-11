@@ -6,6 +6,7 @@ const common = require('./client.common');
 module.exports = merge(common, {
   mode: 'production',
   devtool: false,
+  entry: { bundle: [paths.client] },
   output: {
     filename: '[name].[contenthash].bundle.js',
     chunkFilename: '[name].[contenthash].chunk.js',
