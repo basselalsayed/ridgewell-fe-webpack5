@@ -1,8 +1,8 @@
-const { logMessage } = require('../../scripts/utils');
+import { logMessage } from '../../scripts/utils';
 
 const axios = require('axios');
 
-module.exports = async (_, __, next) => {
+export default async (_, __, next) => {
   try {
     await axios.get(`${process.env.API_URL}ping`);
   } catch (error) {
