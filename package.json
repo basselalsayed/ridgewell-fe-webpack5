@@ -4,12 +4,12 @@
   "description": "",
   "main": "src/client/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node dist/server/server.js",
+    "start": "npm run start:client",
     "start:client": "NODE_ENV=production node src/client/server.js",
     "start:server": "NODE_ENV=production node dist/server/server.js",
     "dev": "NODE_ENV=development babel-node scripts/start-ssr.js ",
     "dev:client": "NODE_ENV=development babel-node scripts/start-client.js --client-only",
-    "build": "NODE_ENV=production babel-node scripts/build-ssr.js",
+    "build": "npm run build:client",
     "build:client": "NODE_ENV=production babel-node scripts/build-client.js --client-only",
     "build:server": "NODE_ENV=production babel-node scripts/build-ssr.js",
     "build:client-webpack": "NODE_ENV=production webpack --config webpack/client.prod.js",
@@ -31,7 +31,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "assert-browserify": "^2.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "compression": "^1.7.4",
     "connected-react-router": "^6.9.1",
@@ -132,6 +132,10 @@
         }
       }
     ]
+  },
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
   },
   "optionalDependencies": {
     "core-js": "^3.15.2"
