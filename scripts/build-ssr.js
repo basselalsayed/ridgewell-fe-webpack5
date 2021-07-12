@@ -7,7 +7,7 @@ const serverConfig = require('../webpack/server.prod');
 
 const { logMessage, compilerPromise } = require('./utils');
 
-console.log('process.env build', process.env);
+console.log('process.env.PORT build', process.env.PORT);
 
 const build = async () => {
   rimraf.sync(paths.buildClient);

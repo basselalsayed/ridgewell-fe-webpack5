@@ -11,7 +11,7 @@ import addStore from './addStore';
 
 const app = express();
 
-console.log('process.env start', process.env);
+console.log('process.env.PORT start', process.env.PORT);
 
 app.use(coldStart);
 app.use(compression());
