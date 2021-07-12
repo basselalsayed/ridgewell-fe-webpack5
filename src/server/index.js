@@ -1,4 +1,5 @@
-import 'dotenv/config';
+require('dotenv').config();
+
 import { join } from 'path';
 import express from 'express';
 
@@ -22,6 +23,6 @@ app.use(paths.public, express.static(join(paths.buildClient, paths.public)));
 app.use(serverRenderer);
 app.set('port', process.env.PORT || 8080);
 
-const server = app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), '0.0.0.0', () => {
   console.log('listening on port ', server.address().port);
 });
