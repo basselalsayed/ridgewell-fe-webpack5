@@ -4,12 +4,12 @@ const express = require('express');
 
 const compression = require('compression');
 const paths = require('../../webpack/paths');
-const coldStart = require('../server/coldStart');
+// const coldStart = require('../server/coldStart');
 
 const app = express();
 app.use(compression());
-app.use(coldStart);
-
+// app.use(coldStart);
+console.log('process.env.PORT start', process.env.PORT);
 app.use(express.static(join(paths.buildClient)));
 
 app.get('/*', (_, res) => {
