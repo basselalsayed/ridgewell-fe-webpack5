@@ -34,6 +34,7 @@ const build = async () => {
         console.log(stats.toString(clientConfig.stats));
         return;
       }
+      console.log(stats.compilation.erorrs);
       logMessage((stats.compilation.errors, 'error'));
 
       serverCompiler.close((closeErr) => {
