@@ -10,6 +10,9 @@ import coldStart from './coldStart';
 import addStore from './addStore';
 
 const app = express();
+
+console.log('process.env start', process.env);
+
 app.use(coldStart);
 app.use(compression());
 app.use(cors());
