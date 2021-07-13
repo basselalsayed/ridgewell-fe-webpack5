@@ -1,12 +1,14 @@
+import axios from 'axios';
 import { logMessage } from '../../scripts/utils';
 
-const axios = require('axios');
-
-export default async (_, __, next) => {
-  try {
-    await axios.get(`${process.env.API_URL}ping`);
-  } catch (error) {
-    logMessage(error.message, 'error');
+export default async (req, __, next) => {
+  axios.defaults.timeout = 50;
+  if (!/static/.test(req.url)) {
+    try {
+      await axios.get(`${process.env.API_URL}ping`);
+    } catch (error) {
+      logMessage(error.message, 'error');
+    }
   }
   next();
 };
