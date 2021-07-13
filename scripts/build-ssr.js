@@ -5,9 +5,7 @@ const paths = require('../webpack/paths');
 const clientConfig = require('../webpack/client.prod');
 const serverConfig = require('../webpack/server.prod');
 
-const { logMessage, compilerPromise } = require('./utils');
-
-console.log('process.env.PORT build', process.env.PORT);
+const { logMessage, compilerPromise, webpackErrorHandler } = require('./utils');
 
 const build = async () => {
   rimraf.sync(paths.buildClient);
@@ -18,24 +16,14 @@ const build = async () => {
 
   try {
     clientCompiler.run((error, stats) => {
-      if (!error && !stats.hasErrors()) {
-        console.log(stats.toString(clientConfig.stats));
-        return;
-      }
-      console.log(stats.compilation.errors, 'error');
-
+      webpackErrorHandler(error, stats);
       clientCompiler.close((closeErr) => {
         if (closeErr) logMessage((closeErr, 'error'));
       });
     });
 
     serverCompiler.run((error, stats) => {
-      if (!error && !stats.hasErrors()) {
-        console.log(stats.toString(clientConfig.stats));
-        return;
-      }
-      console.log(stats.compilation.erorrs);
-      logMessage((stats.compilation.errors, 'error'));
+      webpackErrorHandler(error, stats);
 
       serverCompiler.close((closeErr) => {
         if (closeErr) logMessage(closeErr, 'error');

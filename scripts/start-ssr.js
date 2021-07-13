@@ -10,7 +10,7 @@ const nodemon = require('nodemon');
 const clientConfig = require('../webpack/client.dev');
 const serverConfig = require('../webpack/server.dev');
 const paths = require('../webpack/paths');
-const { logMessage, compilerPromise } = require('./utils');
+const { logMessage, compilerPromise, webpackErrorHandler } = require('./utils');
 
 const WEBPACK_PORT =
   process.env.PORT ||
@@ -66,22 +66,7 @@ const start = async () => {
 
   app.listen(WEBPACK_PORT);
 
-  serverCompiler.watch(watchOptions, (error, stats) => {
-    if (!error && !stats.hasErrors()) {
-      console.log(stats.toString(serverConfig.stats));
-      return;
-    }
-
-    if (error) {
-      logMessage(error, 'error');
-    }
-
-    if (stats.hasErrors()) {
-      const info = stats.toJson();
-      const errors = info.errors[0].split('\n');
-      // logMessage(errors, 'error');
-    }
-  });
+  serverCompiler.watch(watchOptions, webpackErrorHandler);
 
   try {
     await compilerPromise('client', clientCompiler);

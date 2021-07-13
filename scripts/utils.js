@@ -39,10 +39,31 @@ export const clientOnly = () => process.argv.includes('--client-only');
 
 export const noStream = () => process.argv.includes('--no-stream');
 
+export const webpackErrorHandler = (error, stats) => {
+  if (error) {
+    console.error(error.stack || error);
+    if (error.details) {
+      console.error(error.details);
+    }
+    return;
+  }
+
+  const info = stats.toJson();
+
+  if (stats.hasErrors()) {
+    console.error(info.errors);
+  }
+
+  if (stats.hasWarnings()) {
+    console.warn(info.warnings);
+  }
+};
+
 export default {
   clientOnly,
   compilerPromise,
   generateSourceMap,
   logMessage,
   sleep,
+  webpackErrorHandler,
 };

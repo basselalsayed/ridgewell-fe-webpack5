@@ -4,7 +4,7 @@ const rimraf = require('rimraf');
 const paths = require('../webpack/paths');
 const clientConfig = require('../webpack/client.prod');
 
-const { logMessage, compilerPromise } = require('./utils');
+const { logMessage, compilerPromise, webpackErrorHandler } = require('./utils');
 
 const build = async () => {
   rimraf.sync(paths.buildClient);
@@ -12,11 +12,7 @@ const build = async () => {
   const clientCompiler = webpack(clientConfig);
 
   clientCompiler.run((error, stats) => {
-    if (!error && !stats.hasErrors()) {
-      console.log(stats.toString(clientConfig.stats));
-      return;
-    }
-    logMessage((stats.compilation.errors, 'error'));
+    webpackErrorHandler(error, stats);
 
     clientCompiler.close((closeErr) => {
       if (closeErr) {
