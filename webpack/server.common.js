@@ -1,8 +1,9 @@
 const path = require('path');
 const paths = require('./paths');
 
-const { server: loaders } = require('./loaders');
 const { server: plugins } = require('./plugins');
+const resolve = require('./resolve');
+const { server: loaders } = require('./loaders');
 
 module.exports = {
   entry: paths.server,
@@ -18,15 +19,7 @@ module.exports = {
     publicPath: path.join(paths.buildClient, paths.public),
   },
   plugins,
-  resolve: {
-    modules: [paths.src, 'node_modules'],
-    fallback: {
-      stream: 'stream-browserify',
-    },
-    alias: {
-      components: path.join(paths.src, 'components'),
-    },
-  },
+  resolve,
   module: {
     rules: loaders,
   },
