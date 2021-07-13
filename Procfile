@@ -1,1 +1,1 @@
-web: node dist/server/server.js --port=$PORT
+web: node dist/server/main.server.js --port=$PORT
