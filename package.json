@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run start:server",
     "start:client": "NODE_ENV=production node src/client/server.js",
-    "start:server": "NODE_ENV=production node dist/server/server.js",
+    "start:server": "NODE_ENV=production node dist/server/main.server.js",
     "dev": "NODE_ENV=development babel-node scripts/start-ssr.js ",
     "dev:client": "NODE_ENV=development babel-node scripts/start-client.js --client-only",
     "postinstall": "babel-node scripts/build-ssr.js",
