@@ -22,10 +22,10 @@ const build = async () => {
         console.log(stats.toString(clientConfig.stats));
         return;
       }
-      logMessage((stats.compilation.errors, 'error'));
+      console.log(stats.compilation.errors, 'error');
 
       clientCompiler.close((closeErr) => {
-        logMessage((closeErr, 'error'));
+        if (closeErr) logMessage((closeErr, 'error'));
       });
     });
 
@@ -38,7 +38,7 @@ const build = async () => {
       logMessage((stats.compilation.errors, 'error'));
 
       serverCompiler.close((closeErr) => {
-        logMessage(closeErr, 'error');
+        if (closeErr) logMessage(closeErr, 'error');
       });
     });
 

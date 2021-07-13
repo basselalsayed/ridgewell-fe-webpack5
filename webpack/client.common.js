@@ -7,7 +7,9 @@ const { client: plugins } = require('./plugins');
 module.exports = {
   // entry: { bundle: [paths.client] },
   target: 'web',
-
+  entry: {
+    bundle: [paths.client],
+  },
   output: {
     path: path.join(paths.buildClient, paths.public),
     filename: '[name].bundle.js',

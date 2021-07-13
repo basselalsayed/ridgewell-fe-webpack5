@@ -6,39 +6,12 @@ const paths = require('./paths');
 const common = require('./client.common');
 require('dotenv/config');
 
-const PORT =
-  process.env.PORT ||
-  (!Number.isNaN(Number(process.env.PORT))
-    ? Number(process.env.PORT) + 1
-    : 8080);
-
-const DEVSERVER_HOST = process.env.DEVSERVER_HOST || '0.0.0.0';
-
-const publicPath = [`${DEVSERVER_HOST}:${PORT}`, paths.public]
-  .join('/')
-  .replace(/([^:+])\/+/g, '$1/');
-
-console.log('publicPath', publicPath);
-
 module.exports = merge(common, {
   mode: 'development',
 
   // Control how source maps are generated
   devtool: 'inline-source-map',
-  entry: {
-    bundle: [
-      `webpack-hot-middleware/client?path=${DEVSERVER_HOST}:${PORT}/__webpack_hmr`,
-      paths.client,
-    ],
-  },
 
-  output: {
-    publicPath: [`${DEVSERVER_HOST}:${PORT}`, paths.public]
-      .join('/')
-      .replace(/([^:+])\/+/g, '$1/'),
-    hotUpdateMainFilename: 'updates/[fullhash].hot-update.json',
-    hotUpdateChunkFilename: 'updates/[id].[fullhash].hot-update.js',
-  },
   // Spin up a server for quick development
   // devServer: {
   //   historyApiFallback: true,

@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     path: paths.buildServer,
-    filename: 'server.js',
+    filename: '[name].server.js',
     publicPath: path.join(paths.buildClient, paths.public),
   },
   plugins,

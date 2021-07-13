@@ -12,23 +12,43 @@ const serverConfig = require('../webpack/server.dev');
 const paths = require('../webpack/paths');
 const { logMessage, compilerPromise } = require('./utils');
 
-const PORT =
+const WEBPACK_PORT =
   process.env.PORT ||
   (!Number.isNaN(Number(process.env.PORT))
     ? Number(process.env.PORT) + 1
     : 8081);
+
+const DEVSERVER_HOST = process.env.DEVSERVER_HOST || '0.0.0.0';
+
+const devPublicPath = [`${DEVSERVER_HOST}:${WEBPACK_PORT}`, paths.public]
+  .join('/')
+  .replace(/([^:+])\/+/g, '$1/');
 
 const watchOptions = {
   ignored: /node_modules/,
   stats: clientConfig.stats,
 };
 
+const app = express();
+app.use(compression());
+app.use(cors());
+
 const start = async () => {
   rimraf.sync(paths.buildClient);
   rimraf.sync(paths.buildServer);
-  const app = express();
-  app.use(compression());
-  app.use(cors());
+
+  clientConfig.entry.bundle = [
+    `webpack-hot-middleware/client?path=${DEVSERVER_HOST}:${WEBPACK_PORT}/__webpack_hmr`,
+    ...clientConfig.entry.bundle,
+  ];
+
+  clientConfig.output.hotUpdateMainFilename =
+    'updates/[fullhash].hot-update.json';
+  clientConfig.output.hotUpdateChunkFilename =
+    'updates/[id].[fullhash].hot-update.js';
+
+  clientConfig.output.publicPath = devPublicPath;
+  serverConfig.output.publicPath = devPublicPath;
 
   const {
     compilers: [clientCompiler, serverCompiler],
@@ -44,7 +64,7 @@ const start = async () => {
 
   app.use(paths.public, express.static(paths.buildClient));
 
-  app.listen(PORT);
+  app.listen(WEBPACK_PORT);
 
   serverCompiler.watch(watchOptions, (error, stats) => {
     if (!error && !stats.hasErrors()) {
@@ -71,7 +91,7 @@ const start = async () => {
   }
 
   const script = nodemon({
-    script: `${paths.buildServer}/server.js`,
+    script: `${paths.buildServer}/main.server.js`,
     ignore: ['src', 'scripts', 'webpack', './*.*', 'dist/client', '**/tmp'],
     delay: 200,
   });
