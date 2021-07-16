@@ -73,6 +73,7 @@ const Register = ({ history }) => {
                 src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                 alt="profile-img"
                 className="profile-img-card"
+                loading="lazy"
               />
             </Card.Header>
 
