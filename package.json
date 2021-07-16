@@ -15,6 +15,9 @@
     "build:server:heroku": "PORT=$PORT babel-node scripts/build-ssr.js",
     "build:client:webpack": "NODE_ENV=production webpack --config webpack/client.prod.js",
     "build:server:webpack": "NODE_ENV=production webpack --config webpack/server.prod.js",
+    "postbuild": "npm run postbuild:server",
+    "postbuild:client": "npx purgecss --css dist/client/static/*.css --content dist/client/static/index.html dist/client/static/*.js --output dist/client/static",
+    "postbuild:server": "npm run postbuild:client && npx purgecss --css dist/server/*.css  --content dist/server/*.js --output dist/server",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
