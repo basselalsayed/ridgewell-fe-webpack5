@@ -56,13 +56,13 @@ export default async (req, res) => {
 
       const html = renderToString(jsx);
 
-      const scriptTags = extractor.getScriptTags(); // or extractor.getScriptElements();
+      const scriptTags = extractor.getScriptTags({ crossOrigin: '' }); // or extractor.getScriptElements();
 
       // You can also collect your "preload/prefetch" links
       // And you can even collect your style tags (if you use "mini-css-extract-plugin")
-      const linkTags = extractor.getLinkTags();
+      const linkTags = extractor.getLinkTags({ crossOrigin: '' });
 
-      const loadableStyles = extractor.getStyleTags(); // or extractor.getStyleElements();
+      const loadableStyles = extractor.getStyleTags({ crossOrigin: '' }); // or extractor.getStyleElements();
 
       const { pageStart, appStart } = startDocument({
         linkTags,
